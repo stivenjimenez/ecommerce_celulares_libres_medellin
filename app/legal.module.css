@@ -1,0 +1,70 @@
+.page {
+  min-height: 100dvh;
+  background: #f7f9fc;
+  color: #1f2937;
+  font-family: var(--font-body), "Segoe UI", sans-serif;
+}
+
+.container {
+  width: min(920px, 92vw);
+  margin: 0 auto;
+  padding: 44px 0 56px;
+}
+
+.backLink {
+  display: inline-block;
+  margin-bottom: 20px;
+  color: #334155;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 28px;
+}
+
+.card h1 {
+  margin: 0 0 10px;
+  font-size: clamp(1.8rem, 2.8vw, 2.3rem);
+  color: #0f172a;
+  font-family: var(--font-display), "Trebuchet MS", sans-serif;
+}
+
+.updatedAt {
+  margin: 0 0 24px;
+  color: #64748b;
+  font-size: 0.95rem;
+}
+
+.card h2 {
+  margin: 22px 0 10px;
+  font-size: 1.2rem;
+  color: #0f172a;
+  font-family: var(--font-display), "Trebuchet MS", sans-serif;
+}
+
+.card p {
+  margin: 0 0 12px;
+  line-height: 1.65;
+}
+
+.card ul {
+  margin: 0 0 14px;
+  padding-left: 20px;
+}
+
+.card li {
+  margin-bottom: 8px;
+  line-height: 1.55;
+}
+
+.note {
+  margin-top: 20px;
+  padding: 12px;
+  border-radius: 10px;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+}

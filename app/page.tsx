@@ -1,65 +1,278 @@
 import Image from "next/image";
+import Link from "next/link";
+import { Manrope, Sora } from "next/font/google";
+import { ArrowRight, Facebook, Instagram, Wrench } from "lucide-react";
+import styles from "./home.module.css";
+import { SearchModal } from "./components/search-modal";
+import { CartLink } from "./components/cart-link";
+import { loadCatalog } from "@/lib/server/catalog";
+import { formatCOP } from "@/lib/utils/format";
 
-export default function Home() {
+const sora = Sora({ subsets: ["latin"], variable: "--font-display" });
+const manrope = Manrope({ subsets: ["latin"], variable: "--font-body" });
+
+const navLinks = [
+  { label: "Tecnología", href: "/productos?categoria=tecnologia" },
+  { label: "Ropa", href: "/productos?categoria=ropa" },
+  { label: "Bicicletas", href: "/productos?categoria=bicicletas" },
+];
+
+const categories = [
+  {
+    title: "Tecnología",
+    description: "Hardware de última generación con estética depurada.",
+    image: "/category_tegnologia.png",
+    href: "/productos?categoria=tecnologia",
+  },
+  {
+    title: "Ropa",
+    description: "Esenciales de armario diseñados para durar años.",
+    image: "/category_ropa.png",
+    href: "/productos?categoria=ropa",
+  },
+  {
+    title: "Bicicletas",
+    description: "Movilidad urbana sostenible con el mejor diseño.",
+    image: "/category_bike.png",
+    href: "/productos?categoria=bicicletas",
+  },
+];
+
+export default async function Home() {
+  const products = await loadCatalog();
+  const featuredProducts = products.filter((product) => product.featured);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+    <main className={`${styles.page} ${sora.variable} ${manrope.variable}`}>
+      <header className={styles.header}>
+        <div className={styles.headerInner}>
+          <div className={styles.brand}>
             <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+              src="/brand/clm-logo.png"
+              alt="Logo Celulares Libres Medellin"
+              width={220}
+              height={92}
+              className={styles.brandLogo}
+              priority
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+          </div>
+
+          <nav className={styles.nav}>
+            {navLinks.map((link) => (
+              <Link key={link.label} href={link.href} className={styles.navLink}>
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+
+          <div className={styles.headerRight}>
+            <SearchModal />
+            <CartLink className={styles.iconButton} />
+          </div>
         </div>
-      </main>
-    </div>
+      </header>
+
+      <section className={styles.hero}>
+        <div className={styles.heroText}>
+          <span className={styles.kicker}>ROPA ORIGINAL, TECNOLOGÍA Y BIKE</span>
+          <h1>
+            Ropa original, tecnología
+            <br />
+            <span>y repuestos para bike.</span>
+          </h1>
+          <p>
+            En Celulares Libres Medellín encuentras productos confiables, estilo urbano y atención
+            cercana para comprar fácil y seguro.
+          </p>
+
+          <div className={styles.heroActions}>
+            <Link href="/productos" className={styles.primaryButton}>
+              Ver catálogo →
+            </Link>
+          </div>
+        </div>
+
+        <div className={styles.heroCard}>
+          <Image
+            src="/hero_image.png"
+            alt="Celular destacado en Celulares Libres Medellín"
+            fill
+            priority
+            sizes="(max-width: 900px) 100vw, 48vw"
+            className={styles.heroImage}
+          />
+          <div className={styles.sustainBadge}>
+            <span className={styles.sustainIcon}>
+              <Wrench />
+            </span>
+            <div>
+              <strong>TOP CATEGORÍAS</strong>
+              <p>Ropa original, tecnología y bike</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className={styles.categoriesSection}>
+        <div className={styles.sectionHeader}>
+          <div>
+            <h2>Categorías Principales</h2>
+            <p>Explora nuestro universo de productos</p>
+          </div>
+          <Link href="/productos">Ver todas ↗</Link>
+        </div>
+
+        <div className={styles.categoriesGrid}>
+          {categories.map((category) => (
+            <Link
+              key={category.title}
+              href={category.href}
+              className={styles.categoryCard}
+              aria-label={`Ir a ${category.title}`}
+            >
+              <Image
+                src={category.image}
+                alt={category.title}
+                fill
+                sizes="(max-width: 900px) 100vw, 33vw"
+                className={styles.categoryImage}
+              />
+              <div className={styles.categoryOverlay}>
+                <h3>{category.title}</h3>
+                <p>{category.description}</p>
+                <span className={styles.categoryCta} aria-hidden="true">
+                  <ArrowRight />
+                </span>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {featuredProducts.length > 0 && (
+        <section className={styles.featuredSection}>
+          <h2>Lo más buscado</h2>
+
+          <div className={styles.productsGrid}>
+            {featuredProducts.map((product) => {
+              const image = product.images[0] ?? "/brand/clm-logo.png";
+
+              return (
+                <Link key={product.id} href={`/productos/${product.slug}`} className={styles.productCard}>
+                  <div className={styles.productImageWrap}>
+                    <Image
+                      src={image}
+                      alt={product.name}
+                      fill
+                      sizes="(max-width: 900px) 100vw, 25vw"
+                      className={styles.productImage}
+                    />
+                  </div>
+                  <h3>{product.name}</h3>
+                  <p>{formatCOP(product.price)}</p>
+                </Link>
+              );
+            })}
+          </div>
+        </section>
+      )}
+
+      <section className={styles.ctaSection}>
+        <h2>¿Aún no decides? Empieza por aquí</h2>
+        <p>
+          Tenemos todo en un solo lugar. Haz clic y recorre el catálogo completo para encontrar
+          justo lo que estás buscando.
+        </p>
+        <Link href="/productos" className={styles.ctaButton}>
+          Quiero ver todo el catálogo
+        </Link>
+      </section>
+
+      <footer className={styles.footer}>
+        <div className={styles.footerInner}>
+          <div className={styles.footerGrid}>
+            <div>
+              <Link href="/" aria-label="Ir al inicio">
+                <Image
+                  src="/brand/clm-logo.png"
+                  alt="Celulares Libres Medellin"
+                  width={200}
+                  height={84}
+                />
+              </Link>
+              <p>
+                Celulares Libres Medellin: tecnologia, ropa original y repuestos bike con atencion
+                cercana en Medellin.
+              </p>
+            </div>
+
+            {/*
+            <div>
+              <h4>Explorar</h4>
+              <a href="#">Novedades</a>
+              <a href="#">Bestsellers</a>
+              <a href="#">Promociones</a>
+              <a href="#">Marcas</a>
+            </div>
+
+            <div>
+              <h4>Ayuda</h4>
+              <a href="#">Envíos</a>
+              <a href="#">Devoluciones</a>
+              <a href="#">Soporte 24/7</a>
+              <a href="#">FAQ</a>
+            </div>
+            */}
+
+            <div>
+              <h4>Contacto</h4>
+              <a href="mailto:meyox@hotmail.com">meyox@hotmail.com</a>
+              <a
+                href="https://wa.me/573004569938"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Escribir por WhatsApp al 3004569938"
+              >
+                300 456 9938
+              </a>
+            </div>
+
+            <div>
+              <h4>Redes sociales</h4>
+              <div className={styles.socialLinks}>
+                <a
+                  href="https://web.facebook.com/profile.php?id=100063552430929"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Facebook"
+                  title="Facebook"
+                  className={styles.socialLink}
+                >
+                  <Facebook size={18} />
+                </a>
+                <a
+                  href="https://www.instagram.com/celulares_libres_medellin_/?hl=en"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Instagram"
+                  title="Instagram"
+                  className={styles.socialLink}
+                >
+                  <Instagram size={18} />
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div className={styles.footerBottom}>
+            <p>© 2026 Celulares Libres Medellin. Todos los derechos reservados.</p>
+            <div>
+              <Link href="/privacidad">Privacidad</Link>
+              <Link href="/terminos">Términos</Link>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </main>
   );
 }

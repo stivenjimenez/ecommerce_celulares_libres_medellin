@@ -1,0 +1,343 @@
+.page {
+  --bg: #f2f3f5;
+  --surface: #ffffff;
+  --ink: #0f172a;
+  --muted: #6d7890;
+  --line: #dce2eb;
+  --green: #39db13;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body), "Segoe UI", sans-serif;
+}
+
+.page * {
+  box-sizing: border-box;
+}
+
+.header {
+  width: 100%;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+
+.headerInner,
+.catalog {
+  width: 100%;
+  max-width: 1220px;
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+
+.headerInner {
+  min-height: 84px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 26px;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+}
+
+.brandLogo {
+  width: auto;
+  height: 61px;
+}
+
+.search {
+  height: 54px;
+  border-radius: 14px;
+  border: 1px solid #a4ecb6;
+  background: #f9fffa;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 10px;
+}
+
+.search input {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  font: inherit;
+  color: #30425d;
+  font-size: 19px;
+  background: transparent;
+}
+
+.searchIcon {
+  width: 19px;
+  height: 19px;
+  color: #2fcb27;
+  flex-shrink: 0;
+}
+
+.headerIcons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.iconButton {
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--ink);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.iconButton svg {
+  width: 18px;
+  height: 18px;
+  stroke-width: 2;
+}
+
+.catalog {
+  padding-top: 54px;
+  padding-bottom: 72px;
+}
+
+.catalogTop {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.catalogTop h1 {
+  margin: 0;
+  font-family: var(--font-display), "Trebuchet MS", sans-serif;
+  letter-spacing: 0.08em;
+  font-size: 30px;
+  font-weight: 800;
+}
+
+.catalogTop p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 19px;
+}
+
+.state {
+  margin: 24px 0 10px;
+  color: var(--muted);
+  font-size: 18px;
+}
+
+.categorySections {
+  display: grid;
+  gap: 34px;
+}
+
+.categorySection {
+  display: grid;
+  gap: 14px;
+}
+
+.categoryTitle {
+  margin: 0;
+  font-family: var(--font-display), "Trebuchet MS", sans-serif;
+  letter-spacing: 0.05em;
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.card {
+  border-radius: 14px;
+  border: 1px solid #dfe5ec;
+  background: #fff;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 30px rgba(22, 35, 56, 0.09);
+}
+
+.card:focus-visible {
+  outline: 2px solid #5adf26;
+  outline-offset: 2px;
+  border-color: #b9ebc6;
+}
+
+.imageWrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: #f4f6f9;
+}
+
+.image {
+  object-fit: cover;
+}
+
+.cardBody {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 230px;
+}
+
+.cardBody h2 {
+  margin: 0;
+  font-family: var(--font-display), "Trebuchet MS", sans-serif;
+  font-size: 24px;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  min-height: calc(1.12em * 2);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.cardBody p {
+  margin: 0;
+  color: #66748c;
+  font-size: 16px;
+  line-height: 1.35;
+  min-height: calc(1.35em * 2);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.cardBottom {
+  display: grid;
+  gap: 10px;
+  margin-top: auto;
+}
+
+.cardBottom strong {
+  display: block;
+  color: #21cb16;
+  font-size: clamp(24px, 2vw, 30px);
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+
+.cardBottom button {
+  width: 100%;
+  min-height: 42px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid #c8f2d0;
+  background: #ecfff0;
+  color: #1ec015;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display), "Trebuchet MS", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+}
+
+@media (max-width: 1100px) {
+  .headerInner,
+  .catalog {
+    padding-inline: 14px;
+  }
+
+  .headerInner {
+    gap: 14px;
+  }
+
+  .brandLogo {
+    height: 54px;
+  }
+
+  .search input {
+    font-size: 17px;
+  }
+
+  .catalogTop h1 {
+    font-size: 26px;
+  }
+
+  .catalogTop p {
+    font-size: 17px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .cardBody h2 {
+    font-size: 21px;
+  }
+
+  .cardBody p {
+    font-size: 15px;
+  }
+
+  .cardBottom strong {
+    font-size: 24px;
+  }
+
+  .categoryTitle {
+    font-size: 21px;
+  }
+}
+
+@media (max-width: 760px) {
+  .headerInner {
+    grid-template-columns: 1fr;
+    padding-block: 12px;
+  }
+
+  .brand {
+    justify-content: center;
+  }
+
+  .headerIcons {
+    justify-content: center;
+  }
+
+  .catalogTop {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .cardBody h2 {
+    font-size: 19px;
+  }
+
+  .cardBottom strong {
+    font-size: 22px;
+  }
+
+  .categorySections {
+    gap: 24px;
+  }
+}
+
+@media (max-width: 520px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,1953 @@
+[
+  {
+    "id": "p_000001",
+    "slug": "adidas-essentials-crossbody-bag",
+    "name": "ADIDAS Essentials Crossbody bag",
+    "description": "Imported from productos.",
+    "price": 149000,
+    "images": [
+      "/products/adidas-essentials-crossbody-bag.webp"
+    ],
+    "category": "clothing",
+    "featured": false,
+    "variants": {
+      "size": [
+        "S",
+        "s",
+        "l"
+      ]
+    },
+    "attributes": {
+      "source_page": "productos",
+      "source_section": "productos"
+    }
+  },
+  {
+    "id": "p_000002",
+    "slug": "adidas-sweatshirt",
+    "name": "ADIDAS Sweatshirt",
+    "description": "M y L",
+    "price": 149000,
+    "images": [
+      "/products/adidas-sweatshirt.jpg"
+    ],
+    "category": "clothing",
+    "featured": false,
+    "variants": {
+      "size": [
+        "S",
+        "s",
+        "M",
+        "L"
+      ]
+    },
+    "attributes": {
+      "source_page": "productos",
+      "source_section": "productos"
+    }
+  },
+  {
+    "id": "p_000003",
+    "slug": "airpods-1-1",
+    "name": "Airpods 1:1",
+    "description": "Imported from tecnologia.",
+    "price": 99000,
+    "images": [
+      "/products/airpods-1-1.jpg"
+    ],
+    "category": "technology",
+    "featured": true,
+    "variants": {
+      "size": [
+        "s"
+      ]
+    },
+    "attributes": {
+      "source_page": "tecnologia",
+      "source_section": "tecnologia"
+    }
+  },
+  {
+    "id": "p_000004",
+    "slug": "apple-watch-serie-10-46mm",
+    "name": "Apple Watch Serie 10 46mm",
+    "description": "(Usado)",
+    "price": 1490000,
+    "images": [
+      "/products/apple-watch-serie-10-46mm.jpg"
+    ],
+    "category": "technology",
+    "featured": false,
+    "variants": {
+      "size": [
+        "l",
+        "S",
+        "m",
+        "s"
+      ]
+    },
+    "attributes": {
+      "source_page": "tecnologia",
+      "source_section": "tecnologia",
+      "condition": "used"
+    }
+  },
+  {
+    "id": "p_000005",
+    "slug": "apple-watch-ultra-2",
+    "name": "Apple Watch Ultra 2",
+    "description": "Imported from tecnologia.",
+    "price": 3650000,
+    "images": [
+      "/products/apple-watch-ultra-2.jpg"
+    ],
+    "category": "technology",
+    "featured": false,
+    "variants": {
+      "size": [
+        "l"
+      ]
+    },
+    "attributes": {
+      "source_page": "tecnologia",
+      "source_section": "tecnologia"
+    }
+  },
+  {
+    "id": "p_000006",
+    "slug": "bicicleta-stranger-piston-21",
+    "name": "Bicicleta Stranger Piston 21\"",
+    "description": "Imported from bmxmedellin.",
+    "price": 4500000,
+    "images": [
+      "/products/bicicleta-stranger-piston-21.jpg"
+    ],
+    "category": "bikes",
+    "featured": false,
+    "variants": {
+      "size": [
+        "l",
+        "S",
+        "s"
+      ]
+    },
+    "attributes": {
+      "source_page": "bmxmedellin",
+      "source_section": "bmxmedellin"
+    }
+  },
+  {
+    "id": "p_000007",
+    "slug": "bolso-adidas-terrex",
+    "name": "Bolso ADIDAS TERREX",
+    "description": "Imported from productos.",
+    "price": 450000,
+    "images": [
+      "/products/bolso-adidas-terrex.jpg"
+    ],
+    "category": "clothing",
+    "featured": false,
+    "variants": {
+      "size": [
+        "l",
+        "s",
+        "S"
+      ]
+    },
+    "attributes": {
+      "source_page": "productos",
+      "source_section": "productos"
+    }
+  },
+  {
+    "id": "p_000008",
+    "slug": "bolso-manos-libres-vans",
+    "name": "Bolso Manos Libres VANS",
+    "description": "Imported from productos.",
+    "price": 189000,
+    "images": [
+      "/products/bolso-manos-libres-vans.jpg"
+    ],
+    "category": "clothing",
+    "featured": true,
+    "variants": {
+      "size": [
+        "l",
+        "s",
+        "M",
+        "L",
+        "S"
+      ]
+    },
+    "attributes": {
+      "source_page": "productos",
+      "source_section": "productos"
+    }
+  },
+  {
+    "id": "p_000009",
+    "slug": "bolso-ogio-15",
+    "name": "Bolso OGIO 15\"",
+    "description": "Imported from productos.",
+    "price": 399000,
+    "images": [
+      "/products/bolso-ogio-15.jpg"
+    ],
+    "category": "clothing",
+    "featured": false,
+    "variants": {
+      "size": [
+        "l",
+        "s"
+      ]
+    },
+    "attributes": {
+      "source_page": "productos",
+      "source_section": "productos"
+    }
+  },
+  {
+    "id": "p_000010",
+    "slug": "bolso-vans-classic",
+    "name": "Bolso VANS Classic",
+    "description": "Imported from productos.",
+    "price": 199000,
+    "images": [
+      "/products/bolso-vans-classic.jpg"
+    ],
+    "category": "clothing",
+    "featured": true,
+    "variants": {
+      "size": [
+        "l",
+        "s",
+        "S"
+      ]
+    },
+    "attributes": {
+      "source_page": "productos",
+      "source_section": "productos"
+    }
+  },
+  {
+    "id": "p_000011",
+    "slug": "buso-vans-unisex",
+    "name": "Buso Vans Unisex",
+    "description": "Talla L",
+    "price": 169000,
+    "images": [
+      "/products/buso-vans-unisex.jpg"
+    ],
+    "category": "clothing",
+    "featured": false,
+    "variants": {
+      "size": [
+        "s",
+        "Talla L"
+      ]
+    },
+    "attributes": {
+      "source_page": "productos",
+      "source_section": "productos"
+    }
+  },
+  {
+    "id": "p_000012",
+    "slug": "cable-apple-c-a-c",
+    "name": "Cable Apple C a C",
+    "description": "Imported from tecnologia.",
+    "price": 89000,
+    "images": [
+      "/products/cable-apple-c-a-c.jpg"
+    ],
+    "category": "technology",
+    "featured": false,
+    "variants": {
+      "size": [
+        "l"
+      ]
+    },
+    "attributes": {
+      "source_page": "tecnologia",
+      "source_section": "tecnologia"
+    }
+  },
+  {
+    "id": "p_000013",
+    "slug": "cable-lineal-jet",
+    "name": "Cable Lineal JET",
+    "description": "Imported from bmxmedellin.",
+    "price": 29000,
+    "images": [
+      "/products/cable-lineal-jet.jpg"
+    ],
+    "category": "bikes",
+    "featured": false,
+    "variants": {
+      "size": [
+        "l",
+        "L"
+      ]
+    },
+    "attributes": {
+      "source_page": "bmxmedellin",
+      "source_section": "bmxmedellin"
+    }
+  },
+  {
+    "id": "p_000014",
+    "slug": "calcetines-vans-largo",
+    "name": "Calcetines Vans Largo",
+    "description": "Paquete x3",
+    "price": 110000,
+    "images": [
+      "/products/calcetines-vans-largo.jpg"
+    ],
+    "category": "clothing",
+    "featured": false,
+    "variants": {
+      "size": [
+        "l",
+        "s",
+        "L"
+      ]
+    },
+    "attributes": {
+      "source_page": "productos",
+      "source_section": "productos"
+    }
+  },
+  {
+    "id": "p_000015",
+    "slug": "camiseta-adidas",
+    "name": "Camiseta ADIDAS",
+    "description": "Talla L",
+    "price": 119000,
+    "images": [
+      "/products/camiseta-adidas.jpg"
+    ],
+    "category": "clothing",
+    "featured": false,
+    "variants": {
+      "size": [
+        "m",
+        "s",
+        "S",
+        "Talla L"
+      ]
+    },
+    "attributes": {
+      "source_page": "productos",
+      "source_section": "productos"
+    }
+  },
+  {
+    "id": "p_000016",
+    "slug": "camiseta-grey-adidas",
+    "name": "Camiseta Grey Adidas",
+    "description": "Talla L",
+    "price": 119000,
+    "images": [
+      "/products/camiseta-grey-adidas.jpg"
+    ],
+    "category": "clothing",
+    "featured": false,
+    "variants": {
+      "size": [
+        "m",
+        "s",
+        "Talla L"
+      ],
+      "color": [
+        "grey"
+      ]
+    },
+    "attributes": {
+      "source_page": "productos",
+      "source_section": "productos"
+    }
+  },
+  {
+    "id": "p_000017",
+    "slug": "camiseta-vans",
+    "name": "Camiseta Vans",
+    "description": "Talla M",
+    "price": 99000,
+    "images": [
+      "/products/camiseta-vans.jpg"
+    ],
+    "category": "clothing",
+    "featured": false,
+    "variants": {
+      "size": [
+        "m",
+        "s",
+        "Talla M"
+      ]
+    },
+    "attributes": {
+      "source_page": "productos",
+      "source_section": "productos"
+    }
+  },
+  {
+    "id": "p_000018",
+    "slug": "camiseta-white-adidas",
+    "name": "Camiseta White Adidas",
+    "description": "Talla L",
+    "price": 119000,
+    "images": [
+      "/products/camiseta-white-adidas.jpg"
+    ],
+    "category": "clothing",
+    "featured": false,
+    "variants": {
+      "size": [
+        "m",
+        "s",
+        "Talla L"
+      ],
+      "color": [
+        "white"
+      ]
+    },
+    "attributes": {
+      "source_page": "productos",
+      "source_section": "productos"
+    }
+  },
+  {
+    "id": "p_000019",
+    "slug": "cargador-30w-cable-c-a-c-1-5mt",
+    "name": "Cargador 30w + Cable C a C 1.5mt",
+    "description": "Certificado Google",
+    "price": 120000,
+    "images": [
+      "/products/cargador-30w-cable-c-a-c-1-5mt.jpg"
+    ],
+    "category": "technology",
+    "featured": false,
+    "variants": {
+      "size": [
+        "l",
+        "m"
+      ]
+    },
+    "attributes": {
+      "source_page": "tecnologia",
+      "source_section": "tecnologia"
+    }
+  },
+  {
+    "id": "p_000020",
+    "slug": "cargador-completo-20w-apple",
+    "name": "Cargador Completo 20w Apple",
+    "description": "Imported from tecnologia.",
+    "price": 169000,
+    "images": [
+      "/products/cargador-completo-20w-apple.jpg"
+    ],
+    "category": "technology",
+    "featured": false,
+    "variants": {
+      "size": [
+        "m",
+        "l"
+      ]
+    },
+    "attributes": {
+      "source_page": "tecnologia",
+      "source_section": "tecnologia"
+    }
+  },
+  {
+    "id": "p_000021",
+    "slug": "cartuchera-vans",
+    "name": "Cartuchera VANS",
+    "description": "Imported from productos.",
+    "price": 49000,
+    "images": [
+      "/products/cartuchera-vans.jpg"
+    ],
+    "category": "clothing",
+    "featured": false,
+    "variants": {
+      "size": [
+        "S"
+      ]
+    },
+    "attributes": {
+      "source_page": "productos",
+      "source_section": "productos"
+    }
+  },
+  {
+    "id": "p_000022",
+    "slug": "case-nillkin-para-samsung-galaxy-s23-ultra-nuevo",
+    "name": "Case NILLKIN Para Samsung Galaxy s23 Ultra NUEVO",
+    "description": "Imported from tecnologia.",
+    "price": 99000,
+    "images": [
+      "/products/case-nillkin-para-samsung-galaxy-s23-ultra-nuevo.jpg"
+    ],
+    "category": "technology",
+    "featured": false,
+    "variants": {
+      "size": [
+        "s",
+        "L",
+        "S",
+        "m",
+        "l"
+      ]
+    },
+    "attributes": {
+      "source_page": "tecnologia",
+      "source_section": "tecnologia"
+    }
+  },
+  {
+    "id": "p_000023",
+    "slug": "chompa-fox-x-kawasaki",
+    "name": "Chompa FOX x Kawasaki",
+    "description": "Talla M",
+    "price": 299000,
+    "images": [
+      "/products/chompa-fox-x-kawasaki.jpg"
+    ],
+    "category": "clothing",
+    "featured": false,
+    "variants": {
+      "size": [
+        "m",
+        "s",
+        "Talla M"
+      ]
+    },
+    "attributes": {
+      "source_page": "productos",
+      "source_section": "productos"
+    }
+  },
+  {
+    "id": "p_000024",
+    "slug": "chompa-troy-lee-designs",
+    "name": "Chompa Troy Lee Designs",
+    "description": "Talla M",
+    "price": 299000,
+    "images": [
+      "/products/chompa-troy-lee-designs.jpg"
+    ],
+    "category": "clothing",
+    "featured": false,
+    "variants": {
+      "size": [
+        "m",
+        "L",
+        "s",
+        "Talla M"
+      ]
+    },
+    "attributes": {
+      "source_page": "productos",
+      "source_section": "productos"
+    }
+  },
+  {
+    "id": "p_000025",
+    "slug": "craftsman",
+    "name": "CRAFTSMAN",
+    "description": "Compresor de Aire y Powerbank",
+    "price": 259000,
+    "images": [
+      "/products/craftsman.jpg"
+    ],
+    "category": "technology",
+    "featured": false,
+    "variants": {
+      "size": [
+        "S",
+        "M",
+        "m",
+        "s"
+      ]
+    },
+    "attributes": {
+      "source_page": "tecnologia",
+      "source_section": "tecnologia"
+    }
+  },
+  {
+    "id": "p_000026",
+    "slug": "craftsman-combo-20v-toolkit",
+    "name": "Craftsman Combo 20v Toolkit",
+    "description": "Imported from tecnologia.",
+    "price": 799000,
+    "images": [
+      "/products/craftsman-combo-20v-toolkit.jpg"
+    ],
+    "category": "technology",
+    "featured": false,
+    "variants": {
+      "size": [
+        "s",
+        "m",
+        "l"
+      ]
+    },
+    "attributes": {
+      "source_page": "tecnologia",
+      "source_section": "tecnologia"
+    }
+  },
+  {
+    "id": "p_000027",
+    "slug": "cubo-25w-samsung",
+    "name": "Cubo 25w Samsung",
+    "description": "Imported from tecnologia.",
+    "price": 79000,
+    "images": [
+      "/products/cubo-25w-samsung.jpg"
+    ],
+    "category": "technology",
+    "featured": false,
+    "variants": {
+      "size": [
+        "S",
+        "m",
+        "s"
+      ]
+    },
+    "attributes": {
+      "source_page": "tecnologia",
+      "source_section": "tecnologia"
+    }
+  },
+  {
+    "id": "p_000028",
+    "slug": "cubo-30w-google",
+    "name": "Cubo 30w Google",
+    "description": "Imported from tecnologia.",
+    "price": 169000,
+    "images": [
+      "/products/cubo-30w-google.jpg"
+    ],
+    "category": "technology",
+    "featured": false,
+    "variants": {
+      "size": [
+        "l"
+      ]
+    },
+    "attributes": {
+      "source_page": "tecnologia",
+      "source_section": "tecnologia"
+    }
+  },
+  {
+    "id": "p_000029",
+    "slug": "fly-racing",
+    "name": "Fly Racing",
+    "description": "Talla M",
+    "price": 390000,
+    "images": [
+      "/products/fly-racing.jpg"
+    ],
+    "category": "clothing",
+    "featured": false,
+    "variants": {
+      "size": [
+        "l",
+        "Talla M"
+      ]
+    },
+    "attributes": {
+      "source_page": "productos",
+      "source_section": "productos"
+    }
+  },
+  {
+    "id": "p_000030",
+    "slug": "gafas-vans-chick",
+    "name": "Gafas VANS chick",
+    "description": "Imported from productos.",
+    "price": 149000,
+    "images": [
+      "/products/gafas-vans-chick.jpg"
+    ],
+    "category": "clothing",
+    "featured": false,
+    "variants": {
+      "size": [
+        "s",
+        "S"
+      ]
+    },
+    "attributes": {
+      "source_page": "productos",
+      "source_section": "productos"
+    }
+  },
+  {
+    "id": "p_000031",
+    "slug": "google-pixel-10-10-pro-10-pro-xl",
+    "name": "Google Pixel 10, 10 PRO, 10 PRO XL",
+    "description": "PREVENTA",
+    "price": 3790000,
+    "images": [
+      "/products/google-pixel-10-10-pro-10-pro-xl.jpg"
+    ],
+    "category": "technology",
+    "featured": false,
+    "variants": {
+      "size": [
+        "l",
+        "XL"
+      ]
+    },
+    "attributes": {
+      "source_page": "tecnologia",
+      "source_section": "tecnologia",
+      "condition": "preorder"
+    }
+  },
+  {
+    "id": "p_000032",
+    "slug": "google-pixel-8-128gb",
+    "name": "Google Pixel 8 128gb",
+    "description": "Imported from tecnologia.",
+    "price": 2150000,
+    "images": [
+      "/products/google-pixel-8-128gb.jpg"
+    ],
+    "category": "technology",
+    "featured": false,
+    "variants": {
+      "size": [
+        "l"
+      ]
+    },
+    "attributes": {
+      "source_page": "tecnologia",
+      "source_section": "tecnologia"
+    }
+  },
+  {
+    "id": "p_000033",
+    "slug": "google-pixel-9-128gb",
+    "name": "GOOGLE Pixel 9 128gb",
+    "description": "Exhibición",
+    "price": 227300000,
+    "images": [
+      "/products/google-pixel-9-128gb.jpg"
+    ],
+    "category": "technology",
+    "featured": false,
+    "variants": {
+      "size": [
+        "L",
+        "l"
+      ]
+    },
+    "attributes": {
+      "source_page": "tecnologia",
+      "source_section": "tecnologia",
+      "condition": "display"
+    }
+  },
+  {
+    "id": "p_000034",
+    "slug": "google-pixel-9-pro",
+    "name": "Google Pixel 9 Pro",
+    "description": "Imported from tecnologia.",
+    "price": 39990000,
+    "images": [
+      "/products/google-pixel-9-pro.jpg"
+    ],
+    "category": "technology",
+    "featured": false,
+    "variants": {
+      "size": [
+        "l"
+      ]
+    },
+    "attributes": {
+      "source_page": "tecnologia",
+      "source_section": "tecnologia"
+    }
+  },
+  {
+    "id": "p_000035",
+    "slug": "google-pixel-9-pro-256gb",
+    "name": "Google Pixel 9 Pro 256gb",
+    "description": "Exhibición",
+    "price": 3400000,
+    "images": [
+      "/products/google-pixel-9-pro-256gb.jpg"
+    ],
+    "category": "technology",
+    "featured": false,
+    "variants": {
+      "size": [
+        "l"
+      ]
+    },
+    "attributes": {
+      "source_page": "tecnologia",
+      "source_section": "tecnologia",
+      "condition": "display"
+    }
+  },
+  {
+    "id": "p_000036",
+    "slug": "google-pixel-watch-lte-nuevo",
+    "name": "Google Pixel Watch LTE Nuevo",
+    "description": "Imported from tecnologia.",
+    "price": 499000,
+    "images": [
+      "/products/google-pixel-watch-lte-nuevo.jpg"
+    ],
+    "category": "technology",
+    "featured": false,
+    "variants": {
+      "size": [
+        "l",
+        "L"
+      ]
+    },
+    "attributes": {
+      "source_page": "tecnologia",
+      "source_section": "tecnologia"
+    }
+  },
+  {
+    "id": "p_000037",
+    "slug": "gorra-vans-brown",
+    "name": "Gorra VANS Brown",
+    "description": "Imported from productos.",
+    "price": 139000,
+    "images": [
+      "/products/gorra-vans-brown.jpg"
+    ],
+    "category": "clothing",
+    "featured": true,
+    "variants": {
+      "size": [
+        "S"
+      ],
+      "color": [
+        "brown"
+      ]
+    },
+    "attributes": {
+      "source_page": "productos",
+      "source_section": "productos"
+    }
+  },
+  {
+    "id": "p_000038",
+    "slug": "gorra-vans-icon-vt",
+    "name": "Gorra Vans Icon VT",
+    "description": "Imported from productos.",
+    "price": 139900,
+    "images": [
+      "/products/gorra-vans-icon-vt.jpg"
+    ],
+    "category": "clothing",
+    "featured": false,
+    "variants": {
+      "size": [
+        "s"
+      ]
+    },
+    "attributes": {
+      "source_page": "productos",
+      "source_section": "productos"
+    }
+  },
+  {
+    "id": "p_000039",
+    "slug": "gorra-vans-logo",
+    "name": "Gorra VANS logo",
+    "description": "Imported from productos.",
+    "price": 139000,
+    "images": [
+      "/products/gorra-vans-logo.jpg"
+    ],
+    "category": "clothing",
+    "featured": false,
+    "variants": {
+      "size": [
+        "S",
+        "l"
+      ]
+    },
+    "attributes": {
+      "source_page": "productos",
+      "source_section": "productos"
+    }
+  },
+  {
+    "id": "p_000040",
+    "slug": "gorra-vans-malla",
+    "name": "Gorra Vans Malla",
+    "description": "Imported from productos.",
+    "price": 139900,
+    "images": [
+      "/products/gorra-vans-malla.jpg"
+    ],
+    "category": "clothing",
+    "featured": false,
+    "variants": {
+      "size": [
+        "s",
+        "M",
+        "l"
+      ]
+    },
+    "attributes": {
+      "source_page": "productos",
+      "source_section": "productos"
+    }
+  },
+  {
+    "id": "p_000041",
+    "slug": "gorra-vans-reserve-jockey",
+    "name": "Gorra VANS Reserve Jockey",
+    "description": "Imported from productos.",
+    "price": 139000,
+    "images": [
+      "/products/gorra-vans-reserve-jockey.jpg"
+    ],
+    "category": "clothing",
+    "featured": false,
+    "variants": {
+      "size": [
+        "S",
+        "s"
+      ]
+    },
+    "attributes": {
+      "source_page": "productos",
+      "source_section": "productos"
+    }
+  },
+  {
+    "id": "p_000042",
+    "slug": "gorra-vans-tex",
+    "name": "Gorra Vans Tex",
+    "description": "Imported from productos.",
+    "price": 139900,
+    "images": [
+      "/products/gorra-vans-tex.jpg"
+    ],
+    "category": "clothing",
+    "featured": false,
+    "variants": {
+      "size": [
+        "s"
+      ]
+    },
+    "attributes": {
+      "source_page": "productos",
+      "source_section": "productos"
+    }
+  },
+  {
+    "id": "p_000043",
+    "slug": "gorro-vans-beige",
+    "name": "Gorro Vans Beige",
+    "description": "Imported from productos.",
+    "price": 120000,
+    "images": [
+      "/products/gorro-vans-beige.jpg"
+    ],
+    "category": "clothing",
+    "featured": false,
+    "variants": {
+      "size": [
+        "s"
+      ],
+      "color": [
+        "beige"
+      ]
+    },
+    "attributes": {
+      "source_page": "productos",
+      "source_section": "productos"
+    }
+  },
+  {
+    "id": "p_000044",
+    "slug": "gorro-vans-black",
+    "name": "Gorro Vans Black",
+    "description": "Imported from productos.",
+    "price": 120000,
+    "images": [
+      "/products/gorro-vans-black.jpg"
+    ],
+    "category": "clothing",
+    "featured": false,
+    "variants": {
+      "size": [
+        "s",
+        "l"
+      ],
+      "color": [
+        "black"
+      ]
+    },
+    "attributes": {
+      "source_page": "productos",
+      "source_section": "productos"
+    }
+  },
+  {
+    "id": "p_000045",
+    "slug": "gorro-vans-yellow",
+    "name": "Gorro Vans Yellow",
+    "description": "Imported from productos.",
+    "price": 120000,
+    "images": [
+      "/products/gorro-vans-yellow.jpg"
+    ],
+    "category": "clothing",
+    "featured": false,
+    "variants": {
+      "size": [
+        "s",
+        "l"
+      ],
+      "color": [
+        "yellow"
+      ]
+    },
+    "attributes": {
+      "source_page": "productos",
+      "source_section": "productos"
+    }
+  },
+  {
+    "id": "p_000046",
+    "slug": "grips-rant",
+    "name": "Grips RANT",
+    "description": "Imported from bmxmedellin.",
+    "price": 39000,
+    "images": [
+      "/products/grips-rant.jpg"
+    ],
+    "category": "bikes",
+    "featured": false,
+    "variants": {
+      "size": [
+        "s"
+      ]
+    },
+    "attributes": {
+      "source_page": "bmxmedellin",
+      "source_section": "bmxmedellin"
+    }
+  },
+  {
+    "id": "p_000047",
+    "slug": "gt-bikes-la-bomba-rin-26",
+    "name": "GT Bikes \"La Bomba\" RIn 26\"",
+    "description": "Talla M",
+    "price": 5900000,
+    "images": [
+      "/products/gt-bikes-la-bomba-rin-26.jpg"
+    ],
+    "category": "bikes",
+    "featured": false,
+    "variants": {
+      "size": [
+        "s",
+        "L",
+        "m",
+        "Talla M"
+      ]
+    },
+    "attributes": {
+      "source_page": "bmxmedellin",
+      "source_section": "bmxmedellin"
+    }
+  },
+  {
+    "id": "p_000048",
+    "slug": "guantes-fly-racing",
+    "name": "Guantes Fly Racing",
+    "description": "Talla M y L",
+    "price": 99000,
+    "images": [
+      "/products/guantes-fly-racing.jpg"
+    ],
+    "category": "bikes",
+    "featured": false,
+    "variants": {
+      "size": [
+        "s",
+        "l",
+        "Talla M y L"
+      ]
+    },
+    "attributes": {
+      "source_page": "bmxmedellin",
+      "source_section": "bmxmedellin"
+    }
+  },
+  {
+    "id": "p_000049",
+    "slug": "guantes-fly-racing-talla-m",
+    "name": "Guantes FLY RACING Talla M",
+    "description": "Imported from bmxmedellin.",
+    "price": 99000,
+    "images": [
+      "/products/guantes-fly-racing-talla-m.jpg"
+    ],
+    "category": "bikes",
+    "featured": false,
+    "variants": {
+      "size": [
+        "s",
+        "L",
+        "Talla M"
+      ]
+    },
+    "attributes": {
+      "source_page": "bmxmedellin",
+      "source_section": "bmxmedellin"
+    }
+  },
+  {
+    "id": "p_000050",
+    "slug": "guantes-mutanty-talla-m",
+    "name": "Guantes MUTANTY Talla M",
+    "description": "Imported from bmxmedellin.",
+    "price": 69000,
+    "images": [
+      "/products/guantes-mutanty-talla-m.jpg"
+    ],
+    "category": "bikes",
+    "featured": false,
+    "variants": {
+      "size": [
+        "s",
+        "M",
+        "Talla M"
+      ]
+    },
+    "attributes": {
+      "source_page": "bmxmedellin",
+      "source_section": "bmxmedellin"
+    }
+  },
+  {
+    "id": "p_000051",
+    "slug": "hoodie-fox-x-honda-zip",
+    "name": "Hoodie Fox x Honda Zip",
+    "description": "Talla M",
+    "price": 299000,
+    "images": [
+      "/products/hoodie-fox-x-honda-zip.jpg"
+    ],
+    "category": "clothing",
+    "featured": false,
+    "variants": {
+      "size": [
+        "Talla M"
+      ]
+    },
+    "attributes": {
+      "source_page": "productos",
+      "source_section": "productos"
+    }
+  },
+  {
+    "id": "p_000052",
+    "slug": "ipad-7th-gen-32gb-lte",
+    "name": "Ipad 7th Gen 32GB LTE",
+    "description": "(Like New)",
+    "price": 699000,
+    "images": [
+      "/products/ipad-7th-gen-32gb-lte.jpg"
+    ],
+    "category": "technology",
+    "featured": false,
+    "variants": {
+      "size": [
+        "L"
+      ]
+    },
+    "attributes": {
+      "source_page": "tecnologia",
+      "source_section": "tecnologia",
+      "condition": "like_new"
+    }
+  },
+  {
+    "id": "p_000053",
+    "slug": "ipad-8th-gen-128gb",
+    "name": "iPad 8th Gen 128gb",
+    "description": "Exhibición",
+    "price": 799000,
+    "images": [
+      "/products/ipad-8th-gen-128gb.jpg"
+    ],
+    "category": "technology",
+    "featured": false,
+    "attributes": {
+      "source_page": "tecnologia",
+      "source_section": "tecnologia",
+      "condition": "display"
+    }
+  },
+  {
+    "id": "p_000054",
+    "slug": "iphone-14-128gb",
+    "name": "iPhone 14 128gb",
+    "description": "Exhibición",
+    "price": 1799000,
+    "images": [
+      "/products/iphone-14-128gb.jpg"
+    ],
+    "category": "technology",
+    "featured": false,
+    "attributes": {
+      "source_page": "tecnologia",
+      "source_section": "tecnologia",
+      "condition": "display"
+    }
+  },
+  {
+    "id": "p_000055",
+    "slug": "iphone-14-pro-max-256gb",
+    "name": "IPhone 14 Pro Max 256GB",
+    "description": "(Open Box)",
+    "price": 3250000,
+    "images": [
+      "/products/iphone-14-pro-max-256gb.jpg"
+    ],
+    "category": "technology",
+    "featured": false,
+    "variants": {
+      "size": [
+        "M"
+      ]
+    },
+    "attributes": {
+      "source_page": "tecnologia",
+      "source_section": "tecnologia",
+      "condition": "open_box"
+    }
+  },
+  {
+    "id": "p_000056",
+    "slug": "iphone-16-pro-128gb",
+    "name": "IPhone 16 Pro 128GB",
+    "description": "Imported from tecnologia.",
+    "price": 4250000,
+    "images": [
+      "/products/iphone-16-pro-128gb.jpg"
+    ],
+    "category": "technology",
+    "featured": false,
+    "attributes": {
+      "source_page": "tecnologia",
+      "source_section": "tecnologia"
+    }
+  },
+  {
+    "id": "p_000057",
+    "slug": "iphone-16-pro-max-256gb",
+    "name": "IPhone 16 Pro Max 256GB",
+    "description": "Imported from tecnologia.",
+    "price": 4890000,
+    "images": [
+      "/products/iphone-16-pro-max-256gb.jpg"
+    ],
+    "category": "technology",
+    "featured": false,
+    "variants": {
+      "size": [
+        "M"
+      ]
+    },
+    "attributes": {
+      "source_page": "tecnologia",
+      "source_section": "tecnologia"
+    }
+  },
+  {
+    "id": "p_000058",
+    "slug": "jersey-100",
+    "name": "Jersey 100%",
+    "description": "Talla XS",
+    "price": 120000,
+    "images": [
+      "/products/jersey-100.jpg"
+    ],
+    "category": "clothing",
+    "featured": false,
+    "variants": {
+      "size": [
+        "s",
+        "Talla XS"
+      ]
+    },
+    "attributes": {
+      "source_page": "productos",
+      "source_section": "productos"
+    }
+  },
+  {
+    "id": "p_000059",
+    "slug": "llanta-colony-grip-lock-2-35-110psi",
+    "name": "Llanta COLONY Grip lock 2.35 110Psi",
+    "description": "Imported from bmxmedellin.",
+    "price": 149000,
+    "images": [
+      "/products/llanta-colony-grip-lock-2-35-110psi.jpg"
+    ],
+    "category": "bikes",
+    "featured": false,
+    "variants": {
+      "size": [
+        "L",
+        "l",
+        "s"
+      ]
+    },
+    "attributes": {
+      "source_page": "bmxmedellin",
+      "source_section": "bmxmedellin"
+    }
+  },
+  {
+    "id": "p_000060",
+    "slug": "maleta-de-viaje-americana",
+    "name": "Maleta de Viaje Americana",
+    "description": "55 libras",
+    "price": 390000,
+    "images": [
+      "/products/maleta-de-viaje-americana.jpg"
+    ],
+    "category": "clothing",
+    "featured": false,
+    "variants": {
+      "size": [
+        "M",
+        "l",
+        "m",
+        "s"
+      ]
+    },
+    "attributes": {
+      "source_page": "productos",
+      "source_section": "productos"
+    }
+  },
+  {
+    "id": "p_000061",
+    "slug": "marco-kink-cloud-20-75",
+    "name": "Marco KINK Cloud 20.75\"",
+    "description": "Imported from bmxmedellin.",
+    "price": 127490000,
+    "images": [
+      "/products/marco-kink-cloud-20-75.jpg"
+    ],
+    "category": "bikes",
+    "featured": false,
+    "variants": {
+      "size": [
+        "M",
+        "l"
+      ]
+    },
+    "attributes": {
+      "source_page": "bmxmedellin",
+      "source_section": "bmxmedellin"
+    }
+  },
+  {
+    "id": "p_000062",
+    "slug": "motorola-razr-flip-128gb",
+    "name": "Motorola Razr Flip 128gb",
+    "description": "Nuevo",
+    "price": 1999000,
+    "images": [
+      "/products/motorola-razr-flip-128gb.jpg"
+    ],
+    "category": "technology",
+    "featured": false,
+    "variants": {
+      "size": [
+        "M",
+        "l"
+      ]
+    },
+    "attributes": {
+      "source_page": "tecnologia",
+      "source_section": "tecnologia",
+      "condition": "new"
+    }
+  },
+  {
+    "id": "p_000063",
+    "slug": "olla-multifuncional-imusa-ref-lc-31255",
+    "name": "Olla Multifuncional IMUSA Ref LC 31255",
+    "description": "Imported from tecnologia.",
+    "price": 399000,
+    "images": [
+      "/products/olla-multifuncional-imusa-ref-lc-31255.png"
+    ],
+    "category": "technology",
+    "featured": false,
+    "variants": {
+      "size": [
+        "l",
+        "M",
+        "S",
+        "L"
+      ]
+    },
+    "attributes": {
+      "source_page": "tecnologia",
+      "source_section": "tecnologia"
+    }
+  },
+  {
+    "id": "p_000064",
+    "slug": "oneplus-12-16-512gb",
+    "name": "OnePlus 12 16/512gb",
+    "description": "Imported from tecnologia.",
+    "price": 2990000,
+    "images": [
+      "/products/oneplus-12-16-512gb.jpg"
+    ],
+    "category": "technology",
+    "featured": false,
+    "variants": {
+      "size": [
+        "l",
+        "us 12"
+      ]
+    },
+    "attributes": {
+      "source_page": "tecnologia",
+      "source_section": "tecnologia"
+    }
+  },
+  {
+    "id": "p_000065",
+    "slug": "parlante-jvc-boombox-70w",
+    "name": "Parlante JVC Boombox 70w",
+    "description": "Imported from tecnologia.",
+    "price": 499000,
+    "images": [
+      "/products/parlante-jvc-boombox-70w.png"
+    ],
+    "category": "technology",
+    "featured": false,
+    "variants": {
+      "size": [
+        "l",
+        "m"
+      ]
+    },
+    "attributes": {
+      "source_page": "tecnologia",
+      "source_section": "tecnologia"
+    }
+  },
+  {
+    "id": "p_000066",
+    "slug": "primo-pro-fork",
+    "name": "PRIMO Pro Fork",
+    "description": "28mm Off",
+    "price": 350000,
+    "images": [
+      "/products/primo-pro-fork.jpg"
+    ],
+    "category": "bikes",
+    "featured": false,
+    "variants": {
+      "size": [
+        "M",
+        "m"
+      ]
+    },
+    "attributes": {
+      "source_page": "bmxmedellin",
+      "source_section": "bmxmedellin"
+    }
+  },
+  {
+    "id": "p_000067",
+    "slug": "redmi-15c",
+    "name": "REDMI 15C",
+    "description": "Imported from tecnologia.",
+    "price": 599000,
+    "images": [
+      "/products/redmi-15c.jpg"
+    ],
+    "category": "technology",
+    "featured": false,
+    "variants": {
+      "size": [
+        "M"
+      ]
+    },
+    "attributes": {
+      "source_page": "tecnologia",
+      "source_section": "tecnologia"
+    }
+  },
+  {
+    "id": "p_000068",
+    "slug": "rodamientos-jet-bmx",
+    "name": "Rodamientos JET BMX",
+    "description": "Imported from bmxmedellin.",
+    "price": 89000,
+    "images": [
+      "/products/rodamientos-jet-bmx.jpg"
+    ],
+    "category": "bikes",
+    "featured": false,
+    "variants": {
+      "size": [
+        "m",
+        "s",
+        "M"
+      ]
+    },
+    "attributes": {
+      "source_page": "bmxmedellin",
+      "source_section": "bmxmedellin"
+    }
+  },
+  {
+    "id": "p_000069",
+    "slug": "samsung-galaxy-a36-256gb",
+    "name": "Samsung Galaxy a36 256gb",
+    "description": "Imported from tecnologia.",
+    "price": 1250000,
+    "images": [
+      "/products/samsung-galaxy-a36-256gb.jpg"
+    ],
+    "category": "technology",
+    "featured": false,
+    "variants": {
+      "size": [
+        "S",
+        "m",
+        "s",
+        "l"
+      ]
+    },
+    "attributes": {
+      "source_page": "tecnologia",
+      "source_section": "tecnologia"
+    }
+  },
+  {
+    "id": "p_000070",
+    "slug": "samsung-galaxy-s24-128gb",
+    "name": "SAMSUNG Galaxy s24 128gb",
+    "description": "Exhibición",
+    "price": 127799000,
+    "images": [
+      "/products/samsung-galaxy-s24-128gb.jpg"
+    ],
+    "category": "technology",
+    "featured": false,
+    "variants": {
+      "size": [
+        "S",
+        "M",
+        "l",
+        "s"
+      ]
+    },
+    "attributes": {
+      "source_page": "tecnologia",
+      "source_section": "tecnologia",
+      "condition": "display"
+    }
+  },
+  {
+    "id": "p_000071",
+    "slug": "samsung-galaxy-s24-ultra-256gb",
+    "name": "Samsung Galaxy s24 Ultra 256gb",
+    "description": "Exhibición",
+    "price": 327250000,
+    "images": [
+      "/products/samsung-galaxy-s24-ultra-256gb.jpg"
+    ],
+    "category": "technology",
+    "featured": false,
+    "variants": {
+      "size": [
+        "S",
+        "m",
+        "s",
+        "l"
+      ]
+    },
+    "attributes": {
+      "source_page": "tecnologia",
+      "source_section": "tecnologia",
+      "condition": "display"
+    }
+  },
+  {
+    "id": "p_000072",
+    "slug": "samsung-galaxy-s25-128gb",
+    "name": "Samsung Galaxy s25 128gb",
+    "description": "Exhibición",
+    "price": 227250000,
+    "images": [
+      "/products/samsung-galaxy-s25-128gb.jpg"
+    ],
+    "category": "technology",
+    "featured": false,
+    "variants": {
+      "size": [
+        "S",
+        "m",
+        "s",
+        "l"
+      ]
+    },
+    "attributes": {
+      "source_page": "tecnologia",
+      "source_section": "tecnologia",
+      "condition": "display"
+    }
+  },
+  {
+    "id": "p_000073",
+    "slug": "samsung-galaxy-tab-s9-ultra-12-256gb",
+    "name": "Samsung Galaxy Tab S9 Ultra 12/256gb",
+    "description": "Imported from tecnologia.",
+    "price": 327999000,
+    "images": [
+      "/products/samsung-galaxy-tab-s9-ultra-12-256gb.jpg"
+    ],
+    "category": "technology",
+    "featured": false,
+    "variants": {
+      "size": [
+        "S",
+        "m",
+        "s",
+        "l"
+      ]
+    },
+    "attributes": {
+      "source_page": "tecnologia",
+      "source_section": "tecnologia"
+    }
+  },
+  {
+    "id": "p_000074",
+    "slug": "silla-subrosa-pivotal",
+    "name": "Silla SUBROSA Pivotal",
+    "description": "Imported from bmxmedellin.",
+    "price": 149000,
+    "images": [
+      "/products/silla-subrosa-pivotal.jpg"
+    ],
+    "category": "bikes",
+    "featured": false,
+    "variants": {
+      "size": [
+        "S",
+        "l"
+      ]
+    },
+    "attributes": {
+      "source_page": "bmxmedellin",
+      "source_section": "bmxmedellin"
+    }
+  },
+  {
+    "id": "p_000075",
+    "slug": "sudadera-adidas",
+    "name": "Sudadera ADIDAS",
+    "description": "Talla L y XXL",
+    "price": 199000,
+    "images": [
+      "/products/sudadera-adidas.jpg"
+    ],
+    "category": "clothing",
+    "featured": false,
+    "variants": {
+      "size": [
+        "S",
+        "Talla L y XXL"
+      ]
+    },
+    "attributes": {
+      "source_page": "productos",
+      "source_section": "productos"
+    }
+  },
+  {
+    "id": "p_000076",
+    "slug": "vans-authentic",
+    "name": "VANS Authentic",
+    "description": "Us8 Us9",
+    "price": 220000,
+    "images": [
+      "/products/vans-authentic.jpg"
+    ],
+    "category": "shoes",
+    "featured": false,
+    "variants": {
+      "size": [
+        "S",
+        "Us8",
+        "Us9"
+      ]
+    },
+    "attributes": {
+      "source_page": "productos",
+      "source_section": "productos"
+    }
+  },
+  {
+    "id": "p_000077",
+    "slug": "vans-full-zip",
+    "name": "VANS Full Zip",
+    "description": "Tallas S y M",
+    "price": 299000,
+    "images": [
+      "/products/vans-full-zip.jpg"
+    ],
+    "category": "clothing",
+    "featured": false,
+    "variants": {
+      "size": [
+        "S",
+        "l",
+        "Tallas S y M"
+      ]
+    },
+    "attributes": {
+      "source_page": "productos",
+      "source_section": "productos"
+    }
+  },
+  {
+    "id": "p_000078",
+    "slug": "vans-halfcab",
+    "name": "Vans HalfCab",
+    "description": "Us8.5",
+    "price": 390000,
+    "images": [
+      "/products/vans-halfcab.jpg"
+    ],
+    "category": "clothing",
+    "featured": false,
+    "variants": {
+      "size": [
+        "s",
+        "l",
+        "Us8.5"
+      ]
+    },
+    "attributes": {
+      "source_page": "productos",
+      "source_section": "productos"
+    }
+  },
+  {
+    "id": "p_000079",
+    "slug": "vans-hylane",
+    "name": "VANS Hylane",
+    "description": "Us9.5",
+    "price": 350000,
+    "images": [
+      "/products/vans-hylane.jpg"
+    ],
+    "category": "clothing",
+    "featured": false,
+    "variants": {
+      "size": [
+        "S",
+        "l",
+        "Us9.5"
+      ]
+    },
+    "attributes": {
+      "source_page": "productos",
+      "source_section": "productos"
+    }
+  },
+  {
+    "id": "p_000080",
+    "slug": "vans-knu-mid",
+    "name": "Vans Knu Mid",
+    "description": "Us8.5",
+    "price": 350000,
+    "images": [
+      "/products/vans-knu-mid.jpg"
+    ],
+    "category": "clothing",
+    "featured": false,
+    "variants": {
+      "size": [
+        "s",
+        "M",
+        "Us8.5"
+      ]
+    },
+    "attributes": {
+      "source_page": "productos",
+      "source_section": "productos"
+    }
+  },
+  {
+    "id": "p_000081",
+    "slug": "vans-lowland-retro",
+    "name": "VANS Lowland Retro",
+    "description": "Us8.5",
+    "price": 350000,
+    "images": [
+      "/products/vans-lowland-retro.jpg"
+    ],
+    "category": "clothing",
+    "featured": false,
+    "variants": {
+      "size": [
+        "S",
+        "L",
+        "l",
+        "Us8.5"
+      ]
+    },
+    "attributes": {
+      "source_page": "productos",
+      "source_section": "productos"
+    }
+  },
+  {
+    "id": "p_000082",
+    "slug": "vans-old-skool-black",
+    "name": "VANS Old Skool Black",
+    "description": "Talla Us8",
+    "price": 299000,
+    "images": [
+      "/products/vans-old-skool-black.jpg"
+    ],
+    "category": "shoes",
+    "featured": false,
+    "variants": {
+      "size": [
+        "S",
+        "l",
+        "Talla Us8"
+      ],
+      "color": [
+        "black"
+      ]
+    },
+    "attributes": {
+      "source_page": "productos",
+      "source_section": "productos"
+    }
+  },
+  {
+    "id": "p_000083",
+    "slug": "vans-slip-on-classic",
+    "name": "VANS Slip-on Classic",
+    "description": "Us8",
+    "price": 299000,
+    "images": [
+      "/products/vans-slip-on-classic.jpg"
+    ],
+    "category": "clothing",
+    "featured": false,
+    "variants": {
+      "size": [
+        "S",
+        "l",
+        "s",
+        "Us8"
+      ]
+    },
+    "attributes": {
+      "source_page": "productos",
+      "source_section": "productos"
+    }
+  },
+  {
+    "id": "p_000084",
+    "slug": "vans-sport-low",
+    "name": "VANS Sport Low",
+    "description": "Us9",
+    "price": 299000,
+    "images": [
+      "/products/vans-sport-low.jpg"
+    ],
+    "category": "clothing",
+    "featured": false,
+    "variants": {
+      "size": [
+        "S",
+        "L",
+        "Us9"
+      ]
+    },
+    "attributes": {
+      "source_page": "productos",
+      "source_section": "productos"
+    }
+  },
+  {
+    "id": "p_000085",
+    "slug": "vans-zahba-leather",
+    "name": "VANS Zahba Leather",
+    "description": "Talla Us8.5",
+    "price": 390000,
+    "images": [
+      "/products/vans-zahba-leather.jpg"
+    ],
+    "category": "clothing",
+    "featured": false,
+    "variants": {
+      "size": [
+        "S",
+        "L",
+        "Talla Us8.5"
+      ]
+    },
+    "attributes": {
+      "source_page": "productos",
+      "source_section": "productos"
+    }
+  },
+  {
+    "id": "p_000086",
+    "slug": "xiaomi-mi-watch",
+    "name": "Xiaomi Mi Watch",
+    "description": "Nuevo",
+    "price": 399000,
+    "images": [
+      "/products/xiaomi-mi-watch.jpg"
+    ],
+    "category": "technology",
+    "featured": false,
+    "variants": {
+      "size": [
+        "m",
+        "M"
+      ]
+    },
+    "attributes": {
+      "source_page": "tecnologia",
+      "source_section": "tecnologia",
+      "condition": "new"
+    }
+  }
+]

@@ -1,0 +1,283 @@
+.page {
+  min-height: 100vh;
+  background: #f2f3f5;
+  color: #0f172a;
+  font-family: var(--font-body), "Segoe UI", sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+.page * {
+  box-sizing: border-box;
+}
+
+.cart {
+  width: 100%;
+  max-width: 1220px;
+  margin-inline: auto;
+  padding: 34px 24px 72px;
+  flex: 1;
+}
+
+.cartTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.cartTop h1 {
+  margin: 0;
+  font-size: clamp(34px, 5vw, 52px);
+  font-family: var(--font-display), "Trebuchet MS", sans-serif;
+  letter-spacing: -0.04em;
+}
+
+.clearButton {
+  border: 1px solid #d4dcea;
+  background: #fff;
+  color: #32435d;
+  border-radius: 10px;
+  height: 40px;
+  padding: 0 14px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.empty {
+  margin-top: 20px;
+  border: 1px solid #dce3ee;
+  border-radius: 16px;
+  background: #fff;
+  padding: 30px;
+  text-align: center;
+}
+
+.empty h2 {
+  margin: 0;
+  font-size: 28px;
+  font-family: var(--font-display), "Trebuchet MS", sans-serif;
+}
+
+.empty p {
+  margin: 10px 0 20px;
+  color: #5d6c84;
+}
+
+.grid {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 16px;
+  align-items: start;
+}
+
+.items {
+  display: grid;
+  gap: 12px;
+}
+
+.item {
+  border: 1px solid #dce3ee;
+  border-radius: 14px;
+  background: #fff;
+  padding: 12px;
+  display: grid;
+  grid-template-columns: 110px minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+}
+
+.itemImage {
+  position: relative;
+  width: 100%;
+  height: 96px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #f4f7fa;
+}
+
+.image {
+  object-fit: cover;
+}
+
+.itemBody {
+  min-width: 0;
+}
+
+.itemName {
+  color: #0f172a;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.itemPrice {
+  margin: 6px 0 10px;
+  color: #5d6c84;
+  font-size: 15px;
+}
+
+.itemActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.qtyBox {
+  height: 34px;
+  border: 1px solid #dce3ee;
+  border-radius: 999px;
+  background: #fff;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 0 4px;
+}
+
+.qtyBox button {
+  width: 26px;
+  height: 26px;
+  border: 0;
+  border-radius: 999px;
+  background: #eff4f8;
+  color: #21314a;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.qtyBox button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.qtyBox button svg {
+  width: 14px;
+  height: 14px;
+}
+
+.qtyBox span {
+  min-width: 24px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.removeButton {
+  border: 1px solid #efd1d1;
+  background: #fff;
+  color: #b53b3b;
+  border-radius: 999px;
+  height: 34px;
+  padding: 0 12px;
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.removeButton svg {
+  width: 14px;
+  height: 14px;
+}
+
+.itemTotal {
+  color: #15b117;
+  font-size: 22px;
+}
+
+.summary {
+  border: 1px solid #dce3ee;
+  border-radius: 14px;
+  background: #fff;
+  padding: 16px;
+  position: sticky;
+  top: 16px;
+}
+
+.summary h2 {
+  margin: 0 0 14px;
+  font-size: 24px;
+  font-family: var(--font-display), "Trebuchet MS", sans-serif;
+}
+
+.summary div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.summary span {
+  color: #556581;
+}
+
+.summary strong {
+  color: #12203b;
+}
+
+.totalRow {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #e0e6ef;
+}
+
+.primaryButton,
+.secondaryButton {
+  width: 100%;
+  height: 44px;
+  border-radius: 12px;
+  font-size: 15px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.primaryButton {
+  margin-top: 12px;
+  border: 0;
+  background: #43df14;
+  color: #07220d;
+  font-family: var(--font-display), "Trebuchet MS", sans-serif;
+}
+
+.secondaryButton {
+  margin-top: 8px;
+  border: 1px solid #dce3ee;
+  color: #23324d;
+  background: #fff;
+}
+
+@media (max-width: 1000px) {
+  .cart {
+    padding-inline: 14px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .summary {
+    position: static;
+  }
+}
+
+@media (max-width: 760px) {
+  .item {
+    grid-template-columns: 1fr;
+  }
+
+  .itemImage {
+    height: 220px;
+  }
+
+  .itemTotal {
+    font-size: 20px;
+  }
+}
