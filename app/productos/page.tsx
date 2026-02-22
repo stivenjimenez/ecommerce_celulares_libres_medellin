@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Manrope, Sora } from "next/font/google";
 import { Facebook, Instagram } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useMemo } from "react";
+import { Suspense, useMemo } from "react";
 
 import { type ProductCategory } from "@/lib/domain/product";
 import { useProducts } from "@/lib/services/products";
@@ -41,7 +41,7 @@ function truncate(text: string, max: number) {
   return text.length > max ? `${text.slice(0, max)}...` : text;
 }
 
-export default function ProductosPage() {
+function ProductosPageContent() {
   const { data: products = [], isLoading, error } = useProducts();
   const addItem = useCartStore((state) => state.addItem);
   const router = useRouter();
@@ -261,5 +261,13 @@ export default function ProductosPage() {
         </div>
       </footer>
     </main>
+  );
+}
+
+export default function ProductosPage() {
+  return (
+    <Suspense fallback={<main className={`${styles.page} ${sora.variable} ${manrope.variable}`} />}>
+      <ProductosPageContent />
+    </Suspense>
   );
 }
