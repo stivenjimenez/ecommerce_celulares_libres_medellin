@@ -39,7 +39,7 @@
 
 .header {
   min-height: 76px;
-  background: var(--surface);
+  background: #edf0f5;
   border-bottom: 1px solid var(--line);
 }
 
@@ -130,7 +130,7 @@
   display: grid;
   grid-template-columns: 1fr 1.05fr;
   gap: 48px;
-  padding: 72px 0 64px;
+  padding: 44px 0;
 }
 
 .heroText {
@@ -256,7 +256,7 @@
 }
 
 .categoriesSection {
-  padding: 56px 0;
+  padding: 44px 0;
 }
 
 .sectionHeader {
@@ -358,7 +358,7 @@
 }
 
 .featuredSection {
-  padding: 42px 0;
+  padding: 44px 0;
 }
 
 .featuredSection h2 {
@@ -425,11 +425,11 @@
 }
 
 .ctaSection {
-  margin: 20px auto 70px;
+  margin: 44px auto;
   border-radius: 30px;
   background: var(--green);
   text-align: center;
-  padding: 72px 16px;
+  padding: 56px 16px;
 }
 
 .ctaSection p {
@@ -552,7 +552,7 @@
   .hero {
     grid-template-columns: 1fr;
     gap: 26px;
-    padding-top: 40px;
+    padding-block: 34px;
   }
 
   .heroCard {
@@ -576,9 +576,12 @@
 @media (max-width: 760px) {
   .headerInner {
     grid-template-columns: auto minmax(0, 1fr) auto;
-    grid-template-areas: "brand nav actions";
+    grid-template-areas:
+      "brand . actions"
+      "nav nav nav";
     padding-block: 10px;
     column-gap: 10px;
+    row-gap: 8px;
     align-items: center;
   }
 
@@ -593,12 +596,12 @@
 
   .nav {
     grid-area: nav;
-    width: auto;
-    justify-content: center;
+    width: 100%;
+    justify-content: flex-start;
     overflow-x: auto;
-    padding-bottom: 4px;
+    padding-bottom: 2px;
     gap: 16px;
-    justify-self: center;
+    justify-self: start;
   }
 
   .headerRight {
@@ -608,6 +611,12 @@
     display: flex;
     align-items: center;
     gap: 8px;
+  }
+
+  .hero,
+  .categoriesSection,
+  .featuredSection {
+    padding-block: 24px;
   }
 
   .heroText p {
@@ -670,7 +679,8 @@
   }
 
   .ctaSection {
-    padding: 40px 14px;
+    margin: 24px auto;
+    padding: 30px 14px;
     border-radius: 20px;
   }
 

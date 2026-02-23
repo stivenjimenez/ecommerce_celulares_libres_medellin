@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Manrope, Sora } from "next/font/google";
-import { Facebook, Instagram } from "lucide-react";
+import { Facebook, Instagram, ShoppingCart } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useMemo } from "react";
 
@@ -110,6 +110,7 @@ function ProductosPageContent() {
                 addItem(product);
               }}
             >
+              <ShoppingCart />
               Agregar al carrito
             </button>
           </div>
