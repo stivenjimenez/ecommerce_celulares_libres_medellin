@@ -5,9 +5,9 @@ import Link from "next/link";
 import { Manrope, Sora } from "next/font/google";
 import { Facebook, Instagram, ShoppingCart } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Suspense, useMemo } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 
-import { type ProductCategory } from "@/lib/domain/product";
+import { type Product, type ProductCategory } from "@/lib/domain/product";
 import { useProducts } from "@/lib/services/products";
 import { useCartStore } from "@/lib/store/cart-store";
 import { formatCOP } from "@/lib/utils/format";
@@ -41,14 +41,69 @@ function truncate(text: string, max: number) {
   return text.length > max ? `${text.slice(0, max)}...` : text;
 }
 
+function useRevealOnView<T extends HTMLElement>() {
+  const ref = useRef<T | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    if (isVisible) return;
+    if (typeof IntersectionObserver === "undefined") {
+      setIsVisible(true);
+      return;
+    }
+
+    const element = ref.current;
+    if (!element) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      {
+        threshold: 0.08,
+        rootMargin: "0px 0px -10% 0px",
+      },
+    );
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [isVisible]);
+
+  return { ref, isVisible };
+}
+
+function getColumnsForViewport(width: number) {
+  if (width <= 390) return 1;
+  if (width <= 760) return 2;
+  if (width <= 1100) return 3;
+  return 4;
+}
+
+function getRevealDelay(index: number, columns: number) {
+  const row = Math.floor(index / columns);
+  const col = index % columns;
+  return row * 90 + col * 42;
+}
+
 function ProductosPageContent() {
   const { data: products = [], isLoading, error } = useProducts();
   const addItem = useCartStore((state) => state.addItem);
   const router = useRouter();
   const searchParams = useSearchParams();
+  const [columns, setColumns] = useState(4);
   const categoryParam = searchParams.get("categoria")?.toLowerCase() ?? "";
   const activeCategories = categoryFilters[categoryParam] ?? null;
   const sectionTitle = categoryTitles[categoryParam] ?? "Catálogo completo";
+
+  useEffect(() => {
+    const syncColumns = () => setColumns(getColumnsForViewport(window.innerWidth));
+    syncColumns();
+    window.addEventListener("resize", syncColumns);
+    return () => window.removeEventListener("resize", syncColumns);
+  }, []);
 
   const filteredProducts = useMemo(() => {
     return products.filter((product) => {
@@ -70,13 +125,22 @@ function ProductosPageContent() {
       .filter((section) => section.products.length > 0);
   }, [activeCategories, filteredProducts]);
 
-  function renderProductCard(product: (typeof filteredProducts)[number]) {
+  function ProductCard({
+    product,
+    delayMs,
+    isVisible,
+  }: {
+    product: Product;
+    delayMs: number;
+    isVisible: boolean;
+  }) {
     const image = product.images[0] ?? "/brand/clm-logo.png";
+    const cardStyle = { "--reveal-delay": `${delayMs}ms` } as CSSProperties;
 
     return (
       <article
-        key={product.id}
-        className={styles.card}
+        className={`${styles.card} ${styles.cardReveal} ${isVisible ? styles.cardVisible : ""}`}
+        style={cardStyle}
         role="link"
         tabIndex={0}
         onClick={() => router.push(`/productos/${product.slug}`)}
@@ -116,6 +180,23 @@ function ProductosPageContent() {
           </div>
         </div>
       </article>
+    );
+  }
+
+  function ProductGrid({ items }: { items: Product[] }) {
+    const { ref, isVisible } = useRevealOnView<HTMLDivElement>();
+
+    return (
+      <div ref={ref} className={styles.grid}>
+        {items.map((product, index) => (
+          <ProductCard
+            key={product.id}
+            product={product}
+            delayMs={getRevealDelay(index, columns)}
+            isVisible={isVisible}
+          />
+        ))}
+      </div>
     );
   }
 
@@ -161,7 +242,7 @@ function ProductosPageContent() {
         )}
 
         {!error && filteredProducts.length > 0 && activeCategories && (
-          <div className={styles.grid}>{filteredProducts.map(renderProductCard)}</div>
+          <ProductGrid items={filteredProducts} />
         )}
 
         {!error && filteredProducts.length > 0 && !activeCategories && (
@@ -169,7 +250,7 @@ function ProductosPageContent() {
             {groupedSections.map((section) => (
               <div key={section.key} className={styles.categorySection}>
                 <h2 className={styles.categoryTitle}>{section.title}</h2>
-                <div className={styles.grid}>{section.products.map(renderProductCard)}</div>
+                <ProductGrid items={section.products} />
               </div>
             ))}
           </div>

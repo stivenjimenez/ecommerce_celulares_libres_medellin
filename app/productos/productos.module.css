@@ -165,6 +165,29 @@
   transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
 }
 
+.cardReveal {
+  opacity: 0;
+  transform: translateY(18px);
+  will-change: opacity, transform;
+  transition: box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.cardVisible {
+  animation: cardFadeUp 0.48s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--reveal-delay, 0ms);
+}
+
+@keyframes cardFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .card:hover {
   transform: translateY(-2px);
   box-shadow: 0 16px 30px rgba(22, 35, 56, 0.09);
@@ -383,5 +406,13 @@
 @media (max-width: 390px) {
   .grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cardReveal {
+    opacity: 1;
+    transform: none;
+    transition: box-shadow 0.18s ease, border-color 0.18s ease;
   }
 }
