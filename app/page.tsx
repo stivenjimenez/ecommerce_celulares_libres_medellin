@@ -20,19 +20,19 @@ const navLinks = [
 const categories = [
   {
     title: "Tecnología",
-    description: "Hardware de última generación con estética depurada.",
+    description: "Celulares, audio y gadgets con garantía y entrega rápida en Medellín.",
     image: "/category_tegnologia.png",
     href: "/productos?categoria=tecnologia",
   },
   {
     title: "Ropa",
-    description: "Esenciales de armario diseñados para durar años.",
+    description: "Streetwear original: gorras, hoodies y camisetas para todos los días.",
     image: "/category_ropa.png",
     href: "/productos?categoria=ropa",
   },
   {
     title: "Bicicletas",
-    description: "Movilidad urbana sostenible con el mejor diseño.",
+    description: "BMX, repuestos y accesorios para armar, mejorar y rodar con confianza.",
     image: "/category_bike.png",
     href: "/productos?categoria=bicicletas",
   },
