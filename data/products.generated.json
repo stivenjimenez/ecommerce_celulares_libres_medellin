@@ -1,5 +1,22 @@
 [
   {
+    "id": "8550c336-c074-47f7-a8a7-750025a6d7c3",
+    "slug": "vans-old-skool-pro-us10-5",
+    "name": "VANS Old Skool Pro Us10.5 Nuevo",
+    "description": "Nuevo \nOriginal traído de tienda Vans Florida \nTalla Us10.5\nEntrega en Medellín",
+    "price": 359000,
+    "images": [
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771958849/Skate-Old-Skool-Shoe-VANS-Black-Grey-ALT1_o7urp5.avif",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771958848/Skate-Old-Skool-Shoe-VANS-ALT2_ajdr9l.avif",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771958851/Skate-Old-Skool-Shoe-VANS-Black-Grey-ALT3_lerdtg.avif",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771958850/Skate-Old-Skool-Shoe-VANS-Black-Grey-HERO_q1hm8n.avif",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771958849/Skate-Old-Skool-Shoe-VANS-ALT4_lnqdn2.avif",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771958852/Skate-Old-Skool-Shoe-VANS-ALT5_enqsbf.avif"
+    ],
+    "category": "shoes",
+    "featured": false
+  },
+  {
     "id": "b4ac0fca-70fe-4699-99b7-7917abf9a519",
     "slug": "samsung-galaxy-s24-fe-256gb-open-box",
     "name": "Samsung Galaxy s24 FE 256gb Open Box",
