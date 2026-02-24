@@ -1,5 +1,20 @@
 [
   {
+    "id": "a92b7f16-f527-4bc7-8bd5-50822439b345",
+    "slug": "tenedor-primo-bmx-nuevo",
+    "name": "Tenedor PRIMO Bmx Nuevo",
+    "description": "Tenedor PRIMO Bmx Nuevo 🇺🇲\nEntrega inmediata en Medellín \nEnvios Nacionales ",
+    "price": 359000,
+    "images": [
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771971353/641250106_1255618226712546_8770425035799903345_n_pz1uuo.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771971353/637260137_2315575088920975_4129993100545815909_n_tmpmt9.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771971353/640288294_1181825420694003_5010472417178698522_n_cyuwfq.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771971353/638531557_1237185821844717_8945562976756160514_n_p0iwfn.jpg"
+    ],
+    "category": "bikes",
+    "featured": false
+  },
+  {
     "id": "3853cd72-90d4-45d3-83f8-ed6d3ade3d5f",
     "slug": "vans-slip-on-pro-us8-5",
     "name": "VANS Slip On Pro Us8.5",
