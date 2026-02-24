@@ -5,6 +5,19 @@
   --muted: #6c7488;
   --green: #5bf110;
   --line: #e4e8f0;
+  --fs-display: clamp(28px, 2.8vw, 40px);
+  --fs-section-subtitle: clamp(15px, 1.2vw, 18px);
+  --fs-card-title: clamp(28px, 2.3vw, 36px);
+  --fs-card-body: clamp(15px, 1.2vw, 17px);
+  --fs-product-title: 15px;
+  --fs-product-price: clamp(15px, 1.1vw, 18px);
+  --fs-cta-body: clamp(16px, 1.3vw, 19px);
+  --fs-footer-title: 20px;
+  --fs-footer-body: 15px;
+  --fs-caption: 14px;
+  --lh-tight: 1.02;
+  --lh-title: 1.1;
+  --lh-body: 1.35;
   background: var(--bg);
   color: var(--ink);
   font-family: var(--font-body), "Segoe UI", sans-serif;
@@ -271,28 +284,30 @@
 .ctaSection h2 {
   margin: 0;
   font-family: var(--font-display), "Trebuchet MS", sans-serif;
-  font-size: clamp(34px, 4vw, 54px);
+  font-size: var(--fs-display);
+  line-height: var(--lh-tight);
   letter-spacing: -0.04em;
 }
 
 .sectionHeader p {
-  margin: 7px 0 0;
+  margin: 10px 0 0;
   color: var(--muted);
-  font-size: 21px;
+  font-size: var(--fs-section-subtitle);
+  line-height: var(--lh-body);
 }
 
 .sectionHeader a {
   color: #44b510;
   text-decoration: none;
-  font-size: 17px;
+  font-size: var(--fs-section-subtitle);
   font-weight: 600;
 }
 
 .categoriesGrid {
-  margin-top: 28px;
+  margin-top: 22px;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 20px;
+  gap: 16px;
 }
 
 .categoryCard {
@@ -312,7 +327,7 @@
   position: absolute;
   inset: 0;
   color: #fff;
-  padding: 26px;
+  padding: 24px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -329,15 +344,16 @@
 .categoryOverlay h3 {
   margin: 0;
   font-family: var(--font-display), "Trebuchet MS", sans-serif;
-  font-size: 42px;
-  line-height: 1;
+  font-size: var(--fs-card-title);
+  line-height: 1.02;
   text-shadow: 0 3px 18px rgba(0, 0, 0, 0.6);
 }
 
 .categoryOverlay p {
-  margin: 8px 0 14px;
+  margin: 10px 0 16px;
   color: #eef3fb;
-  font-size: 18px;
+  font-size: var(--fs-card-body);
+  line-height: var(--lh-body);
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
 }
 
@@ -376,7 +392,7 @@
 }
 
 .productsGrid {
-  margin-top: 14px;
+  margin-top: 18px;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 12px;
@@ -405,9 +421,9 @@
 }
 
 .productCard h3 {
-  margin: 9px 0 4px;
-  font-size: 14px;
-  line-height: 1.2;
+  margin: 10px 0 6px;
+  font-size: var(--fs-product-title);
+  line-height: var(--lh-title);
   letter-spacing: -0.01em;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -419,9 +435,9 @@
 .productCard p {
   margin: 0;
   color: #47be10;
-  font-size: clamp(18px, 1.4vw, 24px);
+  font-size: var(--fs-product-price);
   font-weight: 700;
-  line-height: 1.1;
+  line-height: var(--lh-title);
 }
 
 .ctaSection {
@@ -436,7 +452,8 @@
   max-width: 760px;
   margin: 16px auto 26px;
   color: rgba(17, 24, 39, 0.78);
-  font-size: 24px;
+  font-size: var(--fs-cta-body);
+  line-height: var(--lh-body);
 }
 
 .ctaSection button {
@@ -474,11 +491,12 @@
 .footer h4 {
   margin: 0 0 14px;
   font-family: var(--font-display), "Trebuchet MS", sans-serif;
-  font-size: 34px;
+  font-size: var(--fs-footer-title);
+  line-height: var(--lh-title);
 }
 
 .footer h4 {
-  font-size: 22px;
+  font-size: var(--fs-footer-title);
 }
 
 .footer p,
@@ -487,7 +505,8 @@
   margin: 0 0 9px;
   color: #647087;
   text-decoration: none;
-  font-size: 16px;
+  font-size: var(--fs-footer-body);
+  line-height: var(--lh-body);
 }
 
 .socialLinks {
@@ -528,7 +547,7 @@
 
 .footerBottom a,
 .footerBottom p {
-  font-size: 14px;
+  font-size: var(--fs-caption);
   margin: 0;
 }
 
@@ -574,6 +593,19 @@
 }
 
 @media (max-width: 760px) {
+  .page {
+    --fs-display: 30px;
+    --fs-section-subtitle: 15px;
+    --fs-card-title: 28px;
+    --fs-card-body: 15px;
+    --fs-product-title: 13px;
+    --fs-product-price: 16px;
+    --fs-cta-body: 16px;
+    --fs-footer-title: 18px;
+    --fs-footer-body: 14px;
+    --fs-caption: 13px;
+  }
+
   .headerInner {
     grid-template-columns: auto minmax(0, 1fr) auto;
     grid-template-areas:
@@ -639,10 +671,6 @@
     align-items: flex-start;
   }
 
-  .sectionHeader p {
-    font-size: 18px;
-  }
-
   .categoriesGrid,
   .footerGrid {
     grid-template-columns: 1fr;
@@ -662,7 +690,6 @@
   }
 
   .productCard h3 {
-    font-size: 13px;
     margin-top: 7px;
   }
 
@@ -670,22 +697,10 @@
     min-height: 340px;
   }
 
-  .categoryOverlay h3 {
-    font-size: 35px;
-  }
-
-  .productCard p {
-    font-size: 17px;
-  }
-
   .ctaSection {
     margin: 24px auto;
     padding: 30px 14px;
     border-radius: 20px;
-  }
-
-  .ctaSection p {
-    font-size: 18px;
   }
 
   .footerBottom {

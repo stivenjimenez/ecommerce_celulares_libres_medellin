@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Manrope, Sora } from "next/font/google";
-import { ArrowRight, Facebook, Instagram, Wrench } from "lucide-react";
+import { ArrowRight, Facebook, Instagram } from "lucide-react";
 import styles from "./home.module.css";
 import { SearchModal } from "./components/search-modal";
 import { CartLink } from "./components/cart-link";
@@ -72,51 +72,10 @@ export default async function Home() {
         </div>
       </header>
 
-      <section className={styles.hero}>
-        <div className={styles.heroText}>
-          <span className={styles.kicker}>ROPA ORIGINAL, TECNOLOGÍA Y BIKE</span>
-          <h1>
-            Ropa original, tecnología
-            <br />
-            <span>y repuestos para bike.</span>
-          </h1>
-          <p>
-            En Celulares Libres Medellín encuentras productos confiables, estilo urbano y atención
-            cercana para comprar fácil y seguro.
-          </p>
-
-          <div className={styles.heroActions}>
-            <Link href="/productos" className={styles.primaryButton}>
-              Ver catálogo →
-            </Link>
-          </div>
-        </div>
-
-        <div className={styles.heroCard}>
-          <Image
-            src="/hero_image.png"
-            alt="Celular destacado en Celulares Libres Medellín"
-            fill
-            priority
-            sizes="(max-width: 900px) 100vw, 48vw"
-            className={styles.heroImage}
-          />
-          <div className={styles.sustainBadge}>
-            <span className={styles.sustainIcon}>
-              <Wrench />
-            </span>
-            <div>
-              <strong>TOP CATEGORÍAS</strong>
-              <p>Ropa original, tecnología y bike</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       <section className={styles.categoriesSection}>
         <div className={styles.sectionHeader}>
           <div>
-            <h2>Categorías Principales</h2>
+            <h2>Categorías</h2>
             <p>Explora nuestro universo de productos</p>
           </div>
           <Link href="/productos">Ver todas ↗</Link>
