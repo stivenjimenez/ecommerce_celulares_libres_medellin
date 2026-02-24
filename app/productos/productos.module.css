@@ -212,6 +212,24 @@
 .image {
   object-fit: cover;
   object-position: center;
+  transition: opacity 260ms ease;
+}
+
+.imagePrimary,
+.imageSecondary {
+  opacity: 1;
+}
+
+.imageSecondary {
+  opacity: 0;
+}
+
+.imageHidden {
+  opacity: 0;
+}
+
+.imageVisible {
+  opacity: 1;
 }
 
 .cardBody {
@@ -415,6 +433,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .image {
+    transition: none;
+  }
+
   .cardReveal {
     opacity: 1;
     transform: none;

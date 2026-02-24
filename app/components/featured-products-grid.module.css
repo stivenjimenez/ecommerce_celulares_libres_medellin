@@ -11,12 +11,6 @@
   background: transparent;
   overflow: hidden;
   cursor: pointer;
-  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
-}
-
-.card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 16px 30px rgba(22, 35, 56, 0.09);
 }
 
 .card:focus-visible {
@@ -102,15 +96,11 @@
   padding: 0 10px;
   white-space: nowrap;
   cursor: pointer;
-  transition: border-color 0.14s ease, transform 0.14s ease;
+  transition: border-color 0.14s ease;
 }
 
 .cardBottom button:hover {
   border-color: #5adf26;
-}
-
-.cardBottom button:active {
-  transform: scale(0.98);
 }
 
 .cardBottom button svg {

@@ -139,7 +139,6 @@ function ProductosPageContent() {
       product.images[0] ?? "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771952540/clm-logo_fyqsex.png";
     const secondaryImage = product.images[1];
     const hasSecondaryImage = Boolean(secondaryImage);
-    const image = hasSecondaryImage && showSecondImage ? secondaryImage : primaryImage;
     const cardStyle = { "--reveal-delay": `${delayMs}ms` } as CSSProperties;
 
     return (
@@ -158,19 +157,37 @@ function ProductosPageContent() {
       >
         <div
           className={styles.imageWrap}
-          onMouseEnter={() => hasSecondaryImage && setShowSecondImage(true)}
-          onMouseLeave={() => setShowSecondImage(false)}
-          onPointerDown={() => hasSecondaryImage && setShowSecondImage(true)}
-          onPointerUp={() => setShowSecondImage(false)}
-          onPointerCancel={() => setShowSecondImage(false)}
+          onPointerEnter={(event) => {
+            if (hasSecondaryImage && event.pointerType === "mouse") {
+              setShowSecondImage(true);
+            }
+          }}
+          onPointerLeave={(event) => {
+            if (event.pointerType === "mouse") {
+              setShowSecondImage(false);
+            }
+          }}
         >
           <Image
-            src={image}
+            src={primaryImage}
             alt={product.name}
             fill
             sizes="(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 25vw"
-            className={styles.image}
+            className={`${styles.image} ${styles.imagePrimary} ${
+              hasSecondaryImage && showSecondImage ? styles.imageHidden : ""
+            }`}
           />
+          {hasSecondaryImage && secondaryImage ? (
+            <Image
+              src={secondaryImage}
+              alt=""
+              fill
+              sizes="(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 25vw"
+              className={`${styles.image} ${styles.imageSecondary} ${
+                showSecondImage ? styles.imageVisible : ""
+              }`}
+            />
+          ) : null}
         </div>
 
         <div className={styles.cardBody}>

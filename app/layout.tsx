@@ -24,7 +24,7 @@ export default function RootLayout({
       <body>
         {children}
         <WhatsAppFloat />
-        <Toaster position="bottom-left" richColors closeButton />
+        <Toaster position="top-center" richColors closeButton />
       </body>
     </html>
   );

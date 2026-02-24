@@ -1,5 +1,36 @@
 [
   {
+    "id": "3853cd72-90d4-45d3-83f8-ed6d3ade3d5f",
+    "slug": "vans-slip-on-pro-us8-5",
+    "name": "VANS Slip On Pro Us8.5",
+    "description": "Nuevo\nOriginal traído de tienda Vans Florida \nTalla Us8.5\nEntrega en Medellín ",
+    "price": 299000,
+    "images": [
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771970789/Skate-SlipOn-Shoe-VANS-ALT1_yr2hwx.avif",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771970789/Skate-SlipOn-Shoe-VANS-ALT2_dovaau.avif",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771970789/Skate-SlipOn-Shoe-VANS-ALT3_x9v8ir.avif",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771970790/Skate-SlipOn-Shoe-VANS-HERO_u9jk2o.avif",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771970789/Skate-SlipOn-Shoe-VANS-ALT4_iilpj6.avif",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771970789/Skate-SlipOn-Shoe-VANS-ALT5_w5vc4f.avif"
+    ],
+    "category": "shoes",
+    "featured": false
+  },
+  {
+    "id": "a4e54bad-ac52-4d7d-8100-b2c68ac58d6b",
+    "slug": "estuche-pixel-9-9-pro-10-10-pro-magsafe-vidrio-templado",
+    "name": "Estuche Pixel 9, 9 Pro, 10, 10 Pro Magsafe + Vidrio Templado",
+    "description": "Estuche Pixel 9, 9 Pro, 10, 10 Pro \nMagsafe⚡+ Vidrio Templado \nEstuche Rígido \nMagnético Para Carga Inalámbrica \nVidrio Templado Incluido \nEntrega en Medellín ",
+    "price": 79900,
+    "images": [
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771970388/641280777_4294928414168123_758557752403612603_n_ygrwzy.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771970388/638396748_1329042398982464_4625286250630724300_n_uup9ar.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771970388/637328926_919772537418033_4222774143030052842_n_qbjrra.jpg"
+    ],
+    "category": "technology",
+    "featured": false
+  },
+  {
     "id": "8550c336-c074-47f7-a8a7-750025a6d7c3",
     "slug": "vans-old-skool-pro-us10-5",
     "name": "VANS Old Skool Pro Us10.5 Nuevo",
@@ -14,7 +45,7 @@
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771958852/Skate-Old-Skool-Shoe-VANS-ALT5_enqsbf.avif"
     ],
     "category": "shoes",
-    "featured": false
+    "featured": true
   },
   {
     "id": "b4ac0fca-70fe-4699-99b7-7917abf9a519",
