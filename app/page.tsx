@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Manrope, Sora } from "next/font/google";
-import { ArrowRight, Facebook, Instagram } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Facebook, Instagram } from "lucide-react";
 import styles from "./home.module.css";
 import { SearchModal } from "./components/search-modal";
 import { CartLink } from "./components/cart-link";
@@ -78,7 +78,9 @@ export default async function Home() {
             <h2>Categorías</h2>
             <p>Explora nuestro universo de productos</p>
           </div>
-          <Link href="/productos">Ver todas ↗</Link>
+          <Link href="/productos">
+            Ver todas <ArrowUpRight />
+          </Link>
         </div>
 
         <div className={styles.categoriesGrid}>
@@ -179,7 +181,7 @@ export default async function Home() {
               <h4>Redes sociales</h4>
               <div className={styles.socialLinks}>
                 <a
-                  href="https://web.facebook.com/profile.php?id=100063552430929"
+                  href="https://www.facebook.com/marketplace/profile/678380352/?ref=permalink&mibextid=dXMIcH"
                   target="_blank"
                   rel="noreferrer"
                   aria-label="Facebook"

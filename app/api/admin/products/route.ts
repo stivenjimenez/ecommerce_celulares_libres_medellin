@@ -4,6 +4,7 @@ import {
   createProduct,
   deleteProduct,
   getEditableCatalog,
+  SlugConflictError,
   updateProduct,
 } from "@/lib/server/catalog-admin";
 
@@ -17,7 +18,11 @@ export async function POST(request: Request) {
     const body = (await request.json()) as Record<string, unknown>;
     const product = await createProduct(body);
     return NextResponse.json(product, { status: 201 });
-  } catch {
+  } catch (error) {
+    if (error instanceof SlugConflictError) {
+      return NextResponse.json({ message: error.message }, { status: 409 });
+    }
+
     return NextResponse.json({ message: "No se pudo crear el producto." }, { status: 400 });
   }
 }
@@ -32,7 +37,11 @@ export async function PUT(request: Request) {
     }
 
     return NextResponse.json(product);
-  } catch {
+  } catch (error) {
+    if (error instanceof SlugConflictError) {
+      return NextResponse.json({ message: error.message }, { status: 409 });
+    }
+
     return NextResponse.json({ message: "No se pudo actualizar el producto." }, { status: 400 });
   }
 }

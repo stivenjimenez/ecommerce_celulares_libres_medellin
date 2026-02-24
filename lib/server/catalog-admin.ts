@@ -9,6 +9,13 @@ const DEFAULT_PATH = resolve(process.cwd(), "data/products.json");
 
 type ProductInput = Partial<Product>;
 
+export class SlugConflictError extends Error {
+  constructor(message = "Ya existe un producto con ese slug.") {
+    super(message);
+    this.name = "SlugConflictError";
+  }
+}
+
 function isProductCategory(value: string): value is ProductCategory {
   return (productCategories as readonly string[]).includes(value);
 }
@@ -78,7 +85,8 @@ function normalizeProduct(input: ProductInput, existing?: Product): Product {
   const category = isProductCategory(categorySource)
     ? categorySource
     : (existing?.category ?? "technology");
-  const slugCandidate = safeString(input.slug) || slugify(name) || safeString(existing?.slug);
+  const providedSlug = safeString(input.slug);
+  const slugCandidate = slugify(providedSlug || name) || safeString(existing?.slug);
   const description = safeText(input.description) ?? existing?.description ?? "";
 
   return {
@@ -139,7 +147,7 @@ export async function createProduct(input: ProductInput): Promise<Product> {
   }
 
   if (products.some((item) => item.slug === product.slug)) {
-    product.slug = `${product.slug}-${Date.now()}`;
+    throw new SlugConflictError();
   }
 
   const next = [product, ...products];
@@ -160,7 +168,7 @@ export async function updateProduct(input: ProductInput): Promise<Product | null
 
   const hasSlugCollision = products.some((item) => item.id !== id && item.slug === updated.slug);
   if (hasSlugCollision) {
-    updated.slug = `${updated.slug}-${Date.now()}`;
+    throw new SlugConflictError();
   }
 
   const next = [...products];

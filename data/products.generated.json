@@ -1,7 +1,22 @@
 [
   {
+    "id": "b4ac0fca-70fe-4699-99b7-7917abf9a519",
+    "slug": "samsung-galaxy-s24-fe-256gb-open-box",
+    "name": "Samsung Galaxy s24 FE 256gb Open Box",
+    "description": "Como nuevo \nEn caja Completo \n256gb\nLibre todo Operador \nEntrega en Medellín ",
+    "price": 1499000,
+    "images": [
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771957800/641384203_26175935322002637_560011150214594029_n_ydx2qr.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771957800/638291416_1412686463661089_8105667784860535607_n_xfs9nm.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771957800/638954245_946493881397973_6857251272934151259_n_q2osvg.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771957800/638341067_1126932982821840_5874620320629905293_n_esvwmf.jpg"
+    ],
+    "category": "technology",
+    "featured": false
+  },
+  {
     "id": "587f7684-af04-4fc4-adf1-af82aa1d9880",
-    "slug": "VANS-Zahba-Leather",
+    "slug": "vans-zahba-leather",
     "name": "VANS Zahba Leather Us8.5",
     "description": "Nuevos \nOriginal traídos de Florida 🇺🇲 \nEntrega inmediata en Medellín \nEnvios Nacionales \n",
     "price": 399000,
@@ -22,7 +37,7 @@
   },
   {
     "id": "d2b7211b-b8a3-4bd0-858c-1cff46be33a7",
-    "slug": "Morral-ADIDAS-McCartney-x-Terrex",
+    "slug": "morral-adidas-mccartney-x-terrex",
     "name": "Morral ADIDAS McCartney x Terrex",
     "description": "Nuevo\nOriginal \nTraído de Florida 🇺🇲\nEntrega inmediata en Medellín \nEnvios Nacionales \nDimensions: 17 cm x 26 cm x 5 cm\nVolume: 29.25 L\nOuter:100% polyurethane; Inner:100% polyester (recycled)\nWater-repellent with pack-away rain cover\nZip main compartment and front zip pocket\nSide compression straps, plus hiking stick and ice axe holder",
     "price": 490000,
@@ -35,11 +50,11 @@
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771954298/IW1614_05_hover_standard_audhsr.avif"
     ],
     "category": "clothing",
-    "featured": false
+    "featured": true
   },
   {
     "id": "47e66695-96c9-4527-b957-0dff9be14373",
-    "slug": "Morral-Manos-Libres-VANS",
+    "slug": "morral-manos-libres-vans",
     "name": "Morral Manos Libres VANS",
     "description": "Nuevo\nOriginal traída de Florida \nEntrega inmediata en Medellín \nEnvios Nacionales",
     "price": 199000,

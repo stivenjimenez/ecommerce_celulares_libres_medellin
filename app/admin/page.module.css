@@ -4,6 +4,7 @@
   min-height: 100vh;
   background: #f5f7fa;
   color: #101828;
+  font-family: var(--font-body), "Segoe UI", sans-serif;
 }
 
 .sidebar {
@@ -23,6 +24,7 @@
 .sidebarHeader h1 {
   margin: 0;
   font-size: 1.1rem;
+  font-family: var(--font-display), "Trebuchet MS", sans-serif;
 }
 
 .sidebarHeader button,
@@ -91,6 +93,7 @@
 
 .topRow h2 {
   margin: 0;
+  font-family: var(--font-display), "Trebuchet MS", sans-serif;
 }
 
 .actions {

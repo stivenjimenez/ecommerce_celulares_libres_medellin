@@ -322,7 +322,7 @@ function ProductosPageContent() {
               <h4>Redes sociales</h4>
               <div className={homeStyles.socialLinks}>
                 <a
-                  href="https://web.facebook.com/profile.php?id=100063552430929"
+                  href="https://www.facebook.com/marketplace/profile/678380352/?ref=permalink&mibextid=dXMIcH"
                   target="_blank"
                   rel="noreferrer"
                   aria-label="Facebook"

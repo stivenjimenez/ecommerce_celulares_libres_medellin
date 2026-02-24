@@ -302,6 +302,15 @@
   text-decoration: none;
   font-size: var(--fs-section-subtitle);
   font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sectionHeader a svg {
+  width: 16px;
+  height: 16px;
+  stroke-width: 2.3;
 }
 
 .categoriesGrid {
@@ -630,11 +639,11 @@
   .nav {
     grid-area: nav;
     width: 100%;
-    justify-content: flex-start;
+    justify-content: center;
     overflow-x: auto;
     padding-bottom: 2px;
     gap: 16px;
-    justify-self: start;
+    justify-self: center;
   }
 
   .headerRight {

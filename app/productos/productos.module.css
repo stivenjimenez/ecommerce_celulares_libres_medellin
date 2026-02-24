@@ -371,8 +371,8 @@
 
   .cardBody p {
     font-size: 12px;
-    min-height: 0;
-    -webkit-line-clamp: 1;
+    min-height: calc(1.28em * 2);
+    -webkit-line-clamp: 2;
   }
 
   .cardBottom strong {

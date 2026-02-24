@@ -1,10 +1,14 @@
 "use client";
 
+import { Manrope, Sora } from "next/font/google";
 import { FormEvent, useEffect, useMemo, useState } from "react";
 
 import { productCategories, type Product, type ProductCategory } from "@/lib/domain/product";
 
 import styles from "./page.module.css";
+
+const sora = Sora({ subsets: ["latin"], variable: "--font-display" });
+const manrope = Manrope({ subsets: ["latin"], variable: "--font-body" });
 
 type ProductForm = {
   id: string;
@@ -31,6 +35,15 @@ const initialForm: ProductForm = {
   variantsJson: "",
   attributesJson: "",
 };
+
+function slugify(value: string): string {
+  return value
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
 
 function prettyJson(value: unknown): string {
   if (!value) return "";
@@ -94,6 +107,7 @@ export default function AdminPage() {
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState<string>("");
   const [error, setError] = useState<string>("");
+  const [slugEdited, setSlugEdited] = useState(false);
 
   const selectedProduct = useMemo(
     () => products.find((product) => product.id === selectedId) ?? null,
@@ -124,6 +138,7 @@ export default function AdminPage() {
   function handleSelect(product: Product) {
     setSelectedId(product.id);
     setForm(toForm(product));
+    setSlugEdited(true);
     setMessage("");
     setError("");
   }
@@ -131,6 +146,7 @@ export default function AdminPage() {
   function handleNew() {
     setSelectedId("");
     setForm(initialForm);
+    setSlugEdited(false);
     setMessage("");
     setError("");
   }
@@ -163,10 +179,27 @@ export default function AdminPage() {
     try {
       const variants = parseOptionalJson<Product["variants"]>(form.variantsJson);
       const attributes = parseOptionalJson<Product["attributes"]>(form.attributesJson);
+      const normalizedSlug = slugify(form.slug || form.name);
+
+      if (!normalizedSlug) {
+        setError("El slug no puede quedar vacío.");
+        setSubmitting(false);
+        return;
+      }
+
+      const slugTaken = products.some(
+        (item) => item.slug === normalizedSlug && item.id !== (selectedId || ""),
+      );
+
+      if (slugTaken) {
+        setError("Ese slug ya existe. Usa uno diferente.");
+        setSubmitting(false);
+        return;
+      }
 
       const payload = {
         id: selectedId || undefined,
-        slug: form.slug,
+        slug: normalizedSlug,
         name: form.name,
         description: form.description,
         price: Number(form.price),
@@ -184,16 +217,21 @@ export default function AdminPage() {
         body: JSON.stringify(payload),
       });
 
-      if (!response.ok) throw new Error();
+      if (!response.ok) {
+        const body = (await response.json().catch(() => null)) as { message?: string } | null;
+        throw new Error(body?.message || "No se pudo guardar.");
+      }
 
       const saved = (await response.json()) as Product;
       await loadProducts();
       setSelectedId(saved.id);
       setForm(toForm(saved));
       setMessage(selectedId ? "Producto actualizado." : "Producto creado.");
-    } catch {
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "";
       setError(
-        "No se pudo guardar. Revisa que variants y attributes tengan JSON válido (o déjalos vacíos).",
+        message ||
+          "No se pudo guardar. Revisa que variants y attributes tengan JSON válido (o déjalos vacíos).",
       );
     } finally {
       setSubmitting(false);
@@ -230,7 +268,7 @@ export default function AdminPage() {
   }
 
   return (
-    <main className={styles.page}>
+    <main className={`${styles.page} ${sora.variable} ${manrope.variable}`}>
       <section className={styles.sidebar}>
         <div className={styles.sidebarHeader}>
           <h1>Admin Productos</h1>
@@ -286,7 +324,10 @@ export default function AdminPage() {
               Slug
               <input
                 value={form.slug}
-                onChange={(event) => setForm((prev) => ({ ...prev, slug: event.target.value }))}
+                onChange={(event) => {
+                  setSlugEdited(true);
+                  setForm((prev) => ({ ...prev, slug: event.target.value }));
+                }}
                 placeholder="iphone-16-pro"
               />
             </label>
@@ -296,7 +337,14 @@ export default function AdminPage() {
               <input
                 required
                 value={form.name}
-                onChange={(event) => setForm((prev) => ({ ...prev, name: event.target.value }))}
+                onChange={(event) => {
+                  const nextName = event.target.value;
+                  setForm((prev) => ({
+                    ...prev,
+                    name: nextName,
+                    slug: !selectedId && !slugEdited ? slugify(nextName) : prev.slug,
+                  }));
+                }}
               />
             </label>
 
