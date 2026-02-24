@@ -159,7 +159,7 @@
 .card {
   border-radius: 10px;
   border: 1px solid #dfe5ec;
-  background: #fff;
+  background: transparent;
   overflow: hidden;
   cursor: pointer;
   transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
@@ -202,15 +202,17 @@
 .imageWrap {
   position: relative;
   width: 100%;
-  aspect-ratio: 1 / 0.74;
-  background: #f4f6f9;
+  aspect-ratio: 4 / 5;
+  background: transparent;
 }
 
 .image {
   object-fit: cover;
+  object-position: center;
 }
 
 .cardBody {
+  background: #fff;
   padding: 11px;
   display: flex;
   flex-direction: column;
@@ -355,7 +357,7 @@
   }
 
   .imageWrap {
-    aspect-ratio: 1 / 0.68;
+    aspect-ratio: 4 / 5;
   }
 
   .cardBody {
@@ -395,7 +397,7 @@
   }
 
   .imageWrap {
-    aspect-ratio: 1 / 0.64;
+    aspect-ratio: 3 / 4;
   }
 
   .cardBody {

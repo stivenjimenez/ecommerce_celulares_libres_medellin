@@ -98,7 +98,7 @@ export function SearchModal() {
               )}
 
               {results.map((product) => {
-                const image = product.images[0] ?? "/brand/clm-logo.png";
+                const image = product.images[0] ?? "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771952540/clm-logo_fyqsex.png";
                 return (
                   <button
                     key={product.id}

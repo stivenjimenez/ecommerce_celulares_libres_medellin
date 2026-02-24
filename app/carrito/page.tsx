@@ -51,7 +51,7 @@ export default function CarritoPage() {
         <div className={homeStyles.headerInner}>
           <Link href="/" className={homeStyles.brand}>
             <Image
-              src="/brand/clm-logo.png"
+              src="https://res.cloudinary.com/dwqyypb8q/image/upload/v1771952540/clm-logo_fyqsex.png"
               alt="Celulares Libres Medellin"
               width={220}
               height={92}
@@ -182,7 +182,7 @@ export default function CarritoPage() {
             <div>
               <Link href="/" aria-label="Ir al inicio">
                 <Image
-                  src="/brand/clm-logo.png"
+                  src="https://res.cloudinary.com/dwqyypb8q/image/upload/v1771952540/clm-logo_fyqsex.png"
                   alt="Celulares Libres Medellin"
                   width={200}
                   height={84}

@@ -134,7 +134,12 @@ function ProductosPageContent() {
     delayMs: number;
     isVisible: boolean;
   }) {
-    const image = product.images[0] ?? "/brand/clm-logo.png";
+    const [showSecondImage, setShowSecondImage] = useState(false);
+    const primaryImage =
+      product.images[0] ?? "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771952540/clm-logo_fyqsex.png";
+    const secondaryImage = product.images[1];
+    const hasSecondaryImage = Boolean(secondaryImage);
+    const image = hasSecondaryImage && showSecondImage ? secondaryImage : primaryImage;
     const cardStyle = { "--reveal-delay": `${delayMs}ms` } as CSSProperties;
 
     return (
@@ -151,7 +156,14 @@ function ProductosPageContent() {
           }
         }}
       >
-        <div className={styles.imageWrap}>
+        <div
+          className={styles.imageWrap}
+          onMouseEnter={() => hasSecondaryImage && setShowSecondImage(true)}
+          onMouseLeave={() => setShowSecondImage(false)}
+          onPointerDown={() => hasSecondaryImage && setShowSecondImage(true)}
+          onPointerUp={() => setShowSecondImage(false)}
+          onPointerCancel={() => setShowSecondImage(false)}
+        >
           <Image
             src={image}
             alt={product.name}
@@ -206,7 +218,7 @@ function ProductosPageContent() {
         <div className={homeStyles.headerInner}>
           <Link href="/" className={homeStyles.brand}>
             <Image
-              src="/brand/clm-logo.png"
+              src="https://res.cloudinary.com/dwqyypb8q/image/upload/v1771952540/clm-logo_fyqsex.png"
               alt="Celulares Libres Medellin"
               width={220}
               height={92}
@@ -263,7 +275,7 @@ function ProductosPageContent() {
             <div>
               <Link href="/" aria-label="Ir al inicio">
                 <Image
-                  src="/brand/clm-logo.png"
+                  src="https://res.cloudinary.com/dwqyypb8q/image/upload/v1771952540/clm-logo_fyqsex.png"
                   alt="Celulares Libres Medellin"
                   width={200}
                   height={84}

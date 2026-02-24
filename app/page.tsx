@@ -5,8 +5,8 @@ import { ArrowRight, Facebook, Instagram } from "lucide-react";
 import styles from "./home.module.css";
 import { SearchModal } from "./components/search-modal";
 import { CartLink } from "./components/cart-link";
+import { FeaturedProductsGrid } from "./components/featured-products-grid";
 import { loadCatalog } from "@/lib/server/catalog";
-import { formatCOP } from "@/lib/utils/format";
 
 const sora = Sora({ subsets: ["latin"], variable: "--font-display" });
 const manrope = Manrope({ subsets: ["latin"], variable: "--font-body" });
@@ -48,7 +48,7 @@ export default async function Home() {
         <div className={styles.headerInner}>
           <div className={styles.brand}>
             <Image
-              src="/brand/clm-logo.png"
+              src="https://res.cloudinary.com/dwqyypb8q/image/upload/v1771952540/clm-logo_fyqsex.png"
               alt="Logo Celulares Libres Medellin"
               width={220}
               height={92}
@@ -111,28 +111,7 @@ export default async function Home() {
       {featuredProducts.length > 0 && (
         <section className={styles.featuredSection}>
           <h2>Lo más buscado</h2>
-
-          <div className={styles.productsGrid}>
-            {featuredProducts.map((product) => {
-              const image = product.images[0] ?? "/brand/clm-logo.png";
-
-              return (
-                <Link key={product.id} href={`/productos/${product.slug}`} className={styles.productCard}>
-                  <div className={styles.productImageWrap}>
-                    <Image
-                      src={image}
-                      alt={product.name}
-                      fill
-                      sizes="(max-width: 900px) 100vw, 25vw"
-                      className={styles.productImage}
-                    />
-                  </div>
-                  <h3>{product.name}</h3>
-                  <p>{formatCOP(product.price)}</p>
-                </Link>
-              );
-            })}
-          </div>
+          <FeaturedProductsGrid products={featuredProducts} />
         </section>
       )}
 
@@ -153,7 +132,7 @@ export default async function Home() {
             <div>
               <Link href="/" aria-label="Ir al inicio">
                 <Image
-                  src="/brand/clm-logo.png"
+                  src="https://res.cloudinary.com/dwqyypb8q/image/upload/v1771952540/clm-logo_fyqsex.png"
                   alt="Celulares Libres Medellin"
                   width={200}
                   height={84}

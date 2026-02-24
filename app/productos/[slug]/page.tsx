@@ -8,12 +8,12 @@ import { type Product } from "@/lib/domain/product";
 import { loadCatalog } from "@/lib/server/catalog";
 import { formatCOP } from "@/lib/utils/format";
 
-import { ProductImage } from "../../components/product-image";
 import { SearchModal } from "../../components/search-modal";
 import { CartLink } from "../../components/cart-link";
 import homeStyles from "../../home.module.css";
 import detailStyles from "../product-detail.module.css";
 import { AddToCartButton } from "../components/add-to-cart-button";
+import { ProductGallery } from "../components/product-gallery";
 
 const sora = Sora({ subsets: ["latin"], variable: "--font-display" });
 const manrope = Manrope({ subsets: ["latin"], variable: "--font-body" });
@@ -56,7 +56,6 @@ export default async function ProductDetailPage({ params }: Props) {
     notFound();
   }
 
-  const image = product.images[0] ?? "/brand/clm-logo.png";
   const description = normalizeDescription(product);
 
   return (
@@ -65,7 +64,7 @@ export default async function ProductDetailPage({ params }: Props) {
         <div className={homeStyles.headerInner}>
           <Link href="/" className={homeStyles.brand}>
             <Image
-              src="/brand/clm-logo.png"
+              src="https://res.cloudinary.com/dwqyypb8q/image/upload/v1771952540/clm-logo_fyqsex.png"
               alt="Celulares Libres Medellin"
               width={220}
               height={92}
@@ -96,17 +95,7 @@ export default async function ProductDetailPage({ params }: Props) {
 
         <div className={detailStyles.grid}>
           <div className={detailStyles.imagePanel}>
-            <div className={detailStyles.imageWrap}>
-              <ProductImage
-                src={image}
-                alt={product.name}
-                fill
-                priority
-                sizes="(max-width: 960px) 100vw, 50vw"
-                className={detailStyles.image}
-                fallbackClassName={detailStyles.imageFallback}
-              />
-            </div>
+            <ProductGallery images={product.images} alt={product.name} />
           </div>
 
           <article className={detailStyles.infoPanel}>
@@ -142,7 +131,7 @@ export default async function ProductDetailPage({ params }: Props) {
             <div>
               <Link href="/" aria-label="Ir al inicio">
                 <Image
-                  src="/brand/clm-logo.png"
+                  src="https://res.cloudinary.com/dwqyypb8q/image/upload/v1771952540/clm-logo_fyqsex.png"
                   alt="Celulares Libres Medellin"
                   width={200}
                   height={84}
