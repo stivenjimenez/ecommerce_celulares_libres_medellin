@@ -6,6 +6,7 @@
   --green: #5bf110;
   --line: #e4e8f0;
   --fs-display: clamp(28px, 2.8vw, 40px);
+  --fs-nav-link: 18px;
   --fs-section-subtitle: clamp(15px, 1.2vw, 18px);
   --fs-card-title: clamp(28px, 2.3vw, 36px);
   --fs-card-body: clamp(15px, 1.2vw, 17px);
@@ -85,7 +86,9 @@
 .navLink {
   color: #394257;
   text-decoration: none;
-  font-size: 15px;
+  font-size: var(--fs-nav-link);
+  font-weight: 700;
+  line-height: 1.15;
 }
 
 .headerRight {
@@ -614,6 +617,7 @@
     --fs-footer-title: 18px;
     --fs-footer-body: 14px;
     --fs-caption: 13px;
+    --fs-nav-link: 20px;
   }
 
   .headerInner {

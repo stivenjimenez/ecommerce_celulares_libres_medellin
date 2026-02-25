@@ -1,5 +1,20 @@
 [
   {
+    "id": "d2aae8fd-f7f0-452e-8f5a-ae690614cfd3",
+    "slug": "oneplus-12-16-512gb-estuche-original",
+    "name": "OnePlus 12 16/512gb + Estuche Original",
+    "description": "",
+    "price": 2999000,
+    "images": [
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772048112/home/sdm0ljabkny7hku6nepl.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772048112/home/vqwlhy2kktcy2q3hpzpp.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772048112/home/knbhemxx3nzd64dqeece.jpg"
+    ],
+    "category": "technology",
+    "featured": false,
+    "draft": false
+  },
+  {
     "id": "8aaa1106-e6a8-4a72-845b-6b6457ebd85f",
     "slug": "cables-originales-1mt-y-2mt-iphone-x-8-7-6-5-desde",
     "name": "Cables Originales 1mt y 2mt iPhone x 8 7 6 5 desde",
@@ -52,9 +67,9 @@
   },
   {
     "id": "13286aa0-7657-4f02-adf1-246c4b8f8fb2",
-    "slug": "vans-ultrarange-exo-se-us10-5",
-    "name": "VANS ultraRange Exo SE Us10.5",
-    "description": "Nuevo \nOriginal Traido de Tienda Vans California \nUs10.5\nEntrega inmediata en Medellín \nEnvíos Nacionales ",
+    "slug": "vans-ultrarange-exo-se",
+    "name": "VANS ultraRange Exo SE",
+    "description": "Talla: Us10.5\n",
     "price": 450000,
     "images": [
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026627/home/p1sisngqp1xw7lus4auo.jpg",

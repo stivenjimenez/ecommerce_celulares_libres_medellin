@@ -74,12 +74,8 @@ export default async function Home() {
 
       <section className={styles.categoriesSection}>
         <div className={styles.sectionHeader}>
-          <div>
-            <h2>Categorías</h2>
-            <p>Explora nuestro universo de productos</p>
-          </div>
           <Link href="/productos">
-            Ver todas <ArrowUpRight />
+            Ver todos los productos <ArrowUpRight />
           </Link>
         </div>
 
