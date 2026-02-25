@@ -587,7 +587,12 @@ export default function AdminPage() {
           {savingOrder && <p className={styles.muted}>Guardando orden...</p>}
         </div>
 
-        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleProductsSortEnd}>
+        <DndContext
+          id="admin-products-dnd"
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleProductsSortEnd}
+        >
           <SortableContext items={productOrderIds} strategy={verticalListSortingStrategy}>
             <div className={styles.productList}>
               {filteredProducts.map((product) => (
@@ -737,7 +742,12 @@ export default function AdminPage() {
               </p>
             )}
 
-            <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleImagesSortEnd}>
+            <DndContext
+              id="admin-images-dnd"
+              sensors={sensors}
+              collisionDetection={closestCenter}
+              onDragEnd={handleImagesSortEnd}
+            >
               <SortableContext items={imageOrderIds} strategy={verticalListSortingStrategy}>
                 {form.images.map((image, index) => {
                   const pendingItem = pendingUploads.find((item) => item.tempUrl === image);
