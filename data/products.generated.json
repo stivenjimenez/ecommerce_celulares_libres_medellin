@@ -52,7 +52,7 @@
     "id": "d06a415f-85b0-4ce8-86f4-bfdeb0fc9197",
     "slug": "parlante-jvc-boombox-70w-nuevo",
     "name": "Parlante JVC Boombox 70w Nuevo",
-    "description": "Características:\nPotencia real de 70W Peak Power\nLuces RGB dinámicas y personalizables\nResistencia al agua IPX5, perfecto para exteriores\nAutonomía de hasta 7.5 horas de música continua\nConexiones Bluetooth, AUX 3.5 mm, USB y TWS\nIncluye cable USB-C y garantía\nNuevo  caja sellada",
+    "description": "Potencia real de 70W Peak Power\nLuces RGB dinámicas y personalizables\nResistencia al agua IPX5, perfecto para exteriores\nAutonomía de hasta 7.5 horas de música continua\nConexiones Bluetooth, AUX 3.5 mm, USB y TWS\nIncluye cable USB-C y garantía.",
     "price": 499000,
     "images": [
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026959/home/tduve6onj2xyxjmjgvqw.jpg",
@@ -69,7 +69,7 @@
     "id": "21d606dc-d327-488a-aa1d-38fc3d408bda",
     "slug": "fox-defend-enduro-mtb-short-xl-nuevo",
     "name": "Fox Defend Enduro, MTB Short XL Nuevo",
-    "description": "Nuevo \nTraído de Florida, Us\nTalla XL\nEntrega inmediata en Medellín ",
+    "description": "Talla:  XL",
     "price": 299000,
     "images": [
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026836/home/zkcub1cqjef5bwhnaace.jpg",
@@ -88,7 +88,7 @@
     "id": "13286aa0-7657-4f02-adf1-246c4b8f8fb2",
     "slug": "vans-ultrarange-exo-se",
     "name": "VANS ultraRange Exo SE",
-    "description": "Talla: Us10.5\n",
+    "description": "Talla: Us 10.5\n",
     "price": 450000,
     "images": [
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026627/home/p1sisngqp1xw7lus4auo.jpg",
@@ -120,8 +120,8 @@
   {
     "id": "d8dc1964-c9ed-4255-90ff-36b7605145e6",
     "slug": "guantes-fox-ranger-unisex-originales-s-m",
-    "name": "Guantes Fox Ranger Unisex Originales 🇺🇸 S/M",
-    "description": "Original \nTalla M Hombre, L Mujer ",
+    "name": "Guantes Fox Ranger Unisex Originales  S/M",
+    "description": "Talla: M Hombre\nTalla: L Mujer ",
     "price": 119900,
     "images": [
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026399/home/p9jbmu7xhxekzohnknsm.jpg",
@@ -140,7 +140,7 @@
     "id": "bf8d9715-5a5f-4c0f-99df-ba6dca2a94ac",
     "slug": "google-pixel-8-pro-12-128gb-nuevo-sellado",
     "name": "Google Pixel 8 Pro 12/128gb Nuevo Sellado",
-    "description": "Nuevo \nSellado\nLibre \nEntrega inmediata en Medellín \nEnvios Nacionales ",
+    "description": "12 RAM\n125gb",
     "price": 2999000,
     "images": [
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026223/home/nkfqjomjzdnff9gzldj6.jpg",
@@ -155,7 +155,7 @@
     "id": "fd9311fc-2f83-4dc2-b1d2-cb5c89dc855e",
     "slug": "google-pixel-7-pro-12-128gb-nuevo",
     "name": "Google Pixel 7 Pro 12/128gb Nuevo",
-    "description": "Nuevo \nSellado \n12gb Ram\n128gb Rom\nLibre todo Operador \nEntrega inmediata en Medellín ",
+    "description": "12 RAM\n128gb\n",
     "price": 1799000,
     "images": [
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026127/home/xmgne58paopsgobl1jjl.jpg",
@@ -171,7 +171,7 @@
     "id": "becdb012-4777-4b84-89f8-71d7373f6f58",
     "slug": "iphone-12-pro-max-512gb-excelente",
     "name": "iPhone 12 Pro Max 512gb Excelente",
-    "description": "512gb \nSim Física \nLibre Todo Operador \nExcelente Estado \n",
+    "description": "512gb \nSim Física \nExcelente Estado \n",
     "price": 2399000,
     "images": [
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026032/home/ubqju0k8stqmv9y5jl5r.jpg",
@@ -189,7 +189,7 @@
     "id": "45608c76-bfcc-41a4-a2a5-43ebb5c8e771",
     "slug": "iphone-13-pro-1tb-nuevo-sellado",
     "name": "iPhone 13 Pro 1tb Nuevo Sellado",
-    "description": "iPhone 13 Pro 1tb Nuevo Sellado 📱\nNuevo \nCaja sellada\nEntrega inmediata en Medellín \nEnvios Nacionales ",
+    "description": "",
     "price": 2990000,
     "images": [
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772025917/home/ffxl9qrkdiuhfscwcbrh.jpg",
@@ -204,7 +204,7 @@
     "id": "d485290e-7766-400b-ad25-26f4e0c8a946",
     "slug": "google-pixel-9-12-128gb-nuevo-sellado",
     "name": "Google Pixel 9 12/128gb Nuevo Sellado",
-    "description": "Google Pixel 9  12/128gb Nuevo Sellado 🇺🇲\n\nPantalla 6.3\", 1080 x 2424 pixels\nProcesador Google Tensor G4\nMemoria RAM 12GB\nAlmacenamiento 128GB\nCámara Dual, 50MP+48MP\nBatería 4700 mAh\nOS Android 14\n\nEntrega inmediata en Medellín ",
+    "description": "Pantalla 6.3\", 1080 x 2424 pixels\nProcesador Google Tensor G4\nMemoria RAM 12GB\nAlmacenamiento 128GB\nCámara Dual, 50MP+48MP\nBatería 4700 mAh\nOS Android 14",
     "price": 2799000,
     "images": [
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772025722/home/dvtrwuzimzycskpu2l43.jpg",
@@ -221,7 +221,7 @@
     "id": "54ee6bc8-a166-4750-9cd0-9175e7e935d1",
     "slug": "google-pixel-7-8-128gb-excelente",
     "name": "Google Pixel 7 8/128gb Excelente",
-    "description": "Google Pixel 7 8/128gb Excelente\n10/10\n5g\nLibre todo operador",
+    "description": "",
     "price": 1199000,
     "images": [
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772025549/home/isepvu5nivd0k3502vnj.jpg",
@@ -235,7 +235,7 @@
     "id": "dedcf840-294b-4483-9169-d9c088a018f8",
     "slug": "google-pixel-9-pro-256gb-like",
     "name": "Google Pixel 9 Pro 256gb Like",
-    "description": "Google Pixel 9 Pro 256gb  Like\nComo nuevo\n256gb\nEntrega inmediata en Medellín\nEnvios Nacionales ",
+    "description": "256gb",
     "price": 3299000,
     "images": [
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772025437/home/wjoexomj0vrkt7watdhr.jpg",
@@ -251,7 +251,7 @@
     "id": "00d0e2ed-1712-4dec-a0b3-5f492a60c10b",
     "slug": "iphone-14-pro-max-256gb-como",
     "name": "iPhone 14 Pro Max 256gb Cómo Nuevo",
-    "description": "iPhone 14 Pro Max 256gb Cómo Nuevo 🇺🇲\n256gb\nSim Virtual \nComo Nuevo",
+    "description": "256gb\n",
     "price": 2499000,
     "images": [
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771987763/home/qau8szh1abbhv2lkvuu4.jpg",
@@ -269,7 +269,7 @@
     "id": "33ab480b-5412-4b28-9b5f-fa77f09ce965",
     "slug": "iphone-13-pro-max-128gb-90-bateria-como-nuevo",
     "name": "iPhone 13 Pro Max 128gb 90%  Batería Cómo Nuevo",
-    "description": "iPhone 13 Pro Max 128gb Cómo Nuevo \nEquipo en estado Original\nBatería  90%\nTrue Tone  ✅\nFace id      ✅",
+    "description": "Batería  90%",
     "price": 2399000,
     "images": [
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771984599/home/vx3f253n7jlbjhinpgeh.jpg",
@@ -287,7 +287,7 @@
     "id": "47e66695-96c9-4527-b957-0dff9be14373",
     "slug": "morral-manos-libres-vans",
     "name": "Morral Manos Libres VANS",
-    "description": "Nuevo\nOriginal traída de Florida \nEntrega inmediata en Medellín \nEnvios Nacionales",
+    "description": "",
     "price": 199000,
     "images": [
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771953225/0003_warpslingbagmarmalade_n4ayq1.webp",
@@ -301,7 +301,7 @@
     "id": "10effcb9-3c2c-4814-b7e6-f85ceaf0bcef",
     "slug": "gt-la-bomba-pro-26-dirt",
     "name": "Gt LA Bomba Pro 26\" Dirt",
-    "description": "Gt LA Bomba Pro 26\" Dirt  🇺🇲\nFrame: 6061 Aluminum, Threaded BB, Disc Brake Mount, Integrated 1-1/8\"-1.5\" Taper H/T, 3/8\" Dropout w/ Integrated Chain Tensioners\nFork: 100mm Manitou Circus Expert, Coil w/ Rebound Adjust, 20mm Thru Axle, 1-1/8\"-1-1/2\" Tapered AL Steer, Preload Adjust, Black Stanchions\nRims: Alloy Double Wall, 32h\nSpokes: Stainless Steel, 14g\nTires: Kenda 3-Sixty 2.35\"\nPedals: GT Mini Size Platform, PP Material\nCrank: GT Power Series Seamless Tubular Cr-Mo 3pc., 170mm Arms, Cold Forged CR-MO 22mm x 48T Spline Spindle, GT 5mm 25T Alloy Chainwheel\nBottom Bracket: Euro Sealed Bearing\nChain: KMC HL1 Wide\nRear Cogs:\nHandlebar: Spank Spoon 785, Alloy 31.8mm, 60mm Rise, 10-degree Back, 4-degree up, 785mm Width\nGrips: GT Super Soft 155mm Single Compound w/ GT Removable Plug\nStem: 3D Forged Alloy Stem, 31.8mm Clamp, 35mm Length\nHeadset: FSA No.42, Semi-integrated, Sealed Bearing, Tapered\nBrakes: Promax Hydro Disc, 160/160mm Rotors\nBrake Levers:\nSaddle: GT Pivotal Slim Padded\nGT Pivotal Slim Padded: Seatpost\nSeatpost: Alloy Pivotal 27.2 x 200mm\nSpeeds: 1 Speed\nFront Hub: Alloy Disc Body, Sealed Bearings, 32 Hole, 3/8\" x 17mm Female Bolt\nRear Hub: Alloy Disc Body, Sealed Bearings, 32 Hole, 3/8\" x 17mm Female Bolt\nWeight: 12.1kg ",
+    "description": "Frame: 6061 Aluminum, Threaded BB, Disc Brake Mount, Integrated 1-1/8\"-1.5\" Taper H/T, 3/8\" Dropout w/ Integrated Chain Tensioners\nFork: 100mm Manitou Circus Expert, Coil w/ Rebound Adjust, 20mm Thru Axle, 1-1/8\"-1-1/2\" Tapered AL Steer, Preload Adjust, Black Stanchions\nRims: Alloy Double Wall, 32h\nSpokes: Stainless Steel, 14g\nTires: Kenda 3-Sixty 2.35\"\nPedals: GT Mini Size Platform, PP Material\nCrank: GT Power Series Seamless Tubular Cr-Mo 3pc., 170mm Arms, Cold Forged CR-MO 22mm x 48T Spline Spindle, GT 5mm 25T Alloy Chainwheel\nBottom Bracket: Euro Sealed Bearing\nChain: KMC HL1 Wide\nRear Cogs:\nHandlebar: Spank Spoon 785, Alloy 31.8mm, 60mm Rise, 10-degree Back, 4-degree up, 785mm Width\nGrips: GT Super Soft 155mm Single Compound w/ GT Removable Plug\nStem: 3D Forged Alloy Stem, 31.8mm Clamp, 35mm Length\nHeadset: FSA No.42, Semi-integrated, Sealed Bearing, Tapered\nBrakes: Promax Hydro Disc, 160/160mm Rotors\nBrake Levers:\nSaddle: GT Pivotal Slim Padded\nGT Pivotal Slim Padded: Seatpost\nSeatpost: Alloy Pivotal 27.2 x 200mm\nSpeeds: 1 Speed\nFront Hub: Alloy Disc Body, Sealed Bearings, 32 Hole, 3/8\" x 17mm Female Bolt\nRear Hub: Alloy Disc Body, Sealed Bearings, 32 Hole, 3/8\" x 17mm Female Bolt\nWeight: 12.1kg ",
     "price": 5500000,
     "images": [
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771986611/home/zqpnnzkqz01z2iyvhqjs.jpg",
@@ -317,7 +317,7 @@
     "id": "962dfad2-1768-4941-b868-5a84c0e6a0a6",
     "slug": "morral-vans-startle-backpack",
     "name": "Morral VANS Startle Backpack",
-    "description": "Morral VANS Startle Backpack\nNuevos \nOriginal Traídos de Tienda Florida \nEntrega inmediata en Medellín ",
+    "description": "",
     "price": 199000,
     "images": [
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771986373/home/gwi8m9ndvuch0wie8qm8.avif",
@@ -335,7 +335,7 @@
     "id": "63419557-8aa2-47a6-8043-c4b5bc8ed27d",
     "slug": "mac-mini-2018-intel-core-i5",
     "name": "Mac Mini 2018 Intel Core i5",
-    "description": "Mac Mini 2018 \nIntel Core i5™\n8gb Ram Ddr4\n256gb Ssd\nGráficos UHD intel\nEntrega inmediata en Medellín \nEnvios Nacionales ",
+    "description": "Intel Core i5™\n8gb Ram Ddr4\n256gb Ssd\nGráficos UHD intel",
     "price": 1399000,
     "images": [
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771987351/home/jrnrdtohfgz59pmakckd.jpg",
@@ -351,7 +351,7 @@
     "id": "b4ac0fca-70fe-4699-99b7-7917abf9a519",
     "slug": "samsung-galaxy-s24-fe-256gb-open-box",
     "name": "Samsung Galaxy s24 FE 256gb Open Box",
-    "description": "Como nuevo \nEn caja Completo \n256gb\nLibre todo Operador \nEntrega en Medellín ",
+    "description": "256gb",
     "price": 1499000,
     "images": [
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771957800/641384203_26175935322002637_560011150214594029_n_ydx2qr.jpg",
@@ -367,7 +367,7 @@
     "id": "073a8217-cfe1-4295-870f-1726c5a2b5a2",
     "slug": "estuche-premium-google-pixel-8-pro-nuevo",
     "name": "Estuche Premium Google Pixel 8 Pro Nuevo",
-    "description": "Estuche Premium Google Pixel 8 Pro Nuevo \nNuevo \nImportado ",
+    "description": "",
     "price": 79900,
     "images": [
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771985234/home/jr7xu8dokgu1scqgioat.jpg",
@@ -382,7 +382,7 @@
     "id": "a92b7f16-f527-4bc7-8bd5-50822439b345",
     "slug": "tenedor-primo-bmx-nuevo",
     "name": "Tenedor PRIMO Bmx Nuevo",
-    "description": "Tenedor PRIMO Bmx Nuevo 🇺🇲\nEntrega inmediata en Medellín \nEnvios Nacionales ",
+    "description": "",
     "price": 359000,
     "images": [
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771971353/641250106_1255618226712546_8770425035799903345_n_pz1uuo.jpg",
@@ -398,7 +398,7 @@
     "id": "3853cd72-90d4-45d3-83f8-ed6d3ade3d5f",
     "slug": "vans-slip-on-pro-us8-5",
     "name": "VANS Slip On Pro Us8.5",
-    "description": "Nuevo\nOriginal traído de tienda Vans Florida \nTalla Us8.5\nEntrega en Medellín ",
+    "description": "Talla: Us8.5\n",
     "price": 299000,
     "images": [
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771970789/Skate-SlipOn-Shoe-VANS-ALT1_yr2hwx.avif",
@@ -416,7 +416,7 @@
     "id": "8550c336-c074-47f7-a8a7-750025a6d7c3",
     "slug": "vans-old-skool-pro-us10-5",
     "name": "VANS Old Skool Pro Us10.5 Nuevo",
-    "description": "Nuevo \nOriginal traído de tienda Vans Florida \nTalla Us10.5\nEntrega en Medellín",
+    "description": "Talla: Us10.5\n",
     "price": 359000,
     "images": [
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771958849/Skate-Old-Skool-Shoe-VANS-Black-Grey-ALT1_o7urp5.avif",
@@ -434,7 +434,7 @@
     "id": "587f7684-af04-4fc4-adf1-af82aa1d9880",
     "slug": "vans-zahba-leather",
     "name": "VANS Zahba Leather Us8.5",
-    "description": "Nuevos \nOriginal traídos de Florida 🇺🇲 \nEntrega inmediata en Medellín \nEnvios Nacionales \n",
+    "description": "Talla: Us 8.5",
     "price": 399000,
     "images": [
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771955410/Zahba-Leather-Shoes-VANS-Leather-BlackWhite-ALT1_dk6v03.avif",
@@ -456,7 +456,7 @@
     "id": "d2b7211b-b8a3-4bd0-858c-1cff46be33a7",
     "slug": "morral-adidas-mccartney-x-terrex",
     "name": "Morral ADIDAS McCartney x Terrex",
-    "description": "Nuevo\nOriginal \nTraído de Florida 🇺🇲\nEntrega inmediata en Medellín \nEnvios Nacionales \nDimensions: 17 cm x 26 cm x 5 cm\nVolume: 29.25 L\nOuter:100% polyurethane; Inner:100% polyester (recycled)\nWater-repellent with pack-away rain cover\nZip main compartment and front zip pocket\nSide compression straps, plus hiking stick and ice axe holder",
+    "description": "Dimensiones: 17 cm x 26 cm x 5 cm\nVolumen: 29,25 L\nExterior: 100% poliuretano; Interior: 100% poliéster (reciclado)\nResistente al agua con cubierta impermeable plegable\nCompartimento principal con cierre (cremallera) y bolsillo frontal con cierre\nCorreas laterales de compresión, además de soporte para bastones de senderismo y piolet",
     "price": 490000,
     "images": [
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771954297/IW1614_01_00_standard_wntdtq.avif",
@@ -474,7 +474,7 @@
     "id": "a4e54bad-ac52-4d7d-8100-b2c68ac58d6b",
     "slug": "estuche-pixel-9-9-pro-10-10-pro-magsafe-vidrio-templado",
     "name": "Estuche Pixel 9, 9 Pro, 10, 10 Pro Magsafe + Vidrio Templado",
-    "description": "Estuche Pixel 9, 9 Pro, 10, 10 Pro \nMagsafe⚡+ Vidrio Templado \nEstuche Rígido \nMagnético Para Carga Inalámbrica \nVidrio Templado Incluido \nEntrega en Medellín ",
+    "description": "Estuche Pixel 9, 9 Pro, 10, 10 Pro \nMagsafe + Vidrio Templado \nEstuche Rígido \nMagnético Para Carga Inalámbrica \nVidrio Templado Incluido ",
     "price": 79900,
     "images": [
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771970388/641280777_4294928414168123_758557752403612603_n_ygrwzy.jpg",
@@ -489,7 +489,7 @@
     "id": "6b2447b5-511e-4a87-bbe4-2ed54388873e",
     "slug": "rotor-colony",
     "name": "Rotor COLONY",
-    "description": "Nuevo \nTraído de California 🇺🇲 \nEntrega inmediata en Medellín \nEnvios Nacionales ",
+    "description": "",
     "price": 199900,
     "images": [
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771987195/home/zxircigg3lisnohrhujy.jpg",
