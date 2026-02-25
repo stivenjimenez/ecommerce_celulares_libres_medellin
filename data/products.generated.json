@@ -1,5 +1,24 @@
 [
   {
+    "id": "017b2cf7-0d30-438d-af71-c9da4eab4edd",
+    "slug": "vans-skate-2-wayvee",
+    "name": "VANS skate 2 wayvee",
+    "description": "Talla: Us8\n",
+    "price": 450000,
+    "images": [
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772054407/home/kna26ljw07derdv6rbzu.avif",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772054407/home/efmaq8ni1a7dmcgif7us.avif",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772054406/home/nmjlmfrzeej6idm2a7hx.avif",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772054407/home/guz8n0gy28ajbx7tjupc.avif",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772054407/home/soafxq5sedaqkvy24xq7.avif",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772054407/home/vt3kpnl8tcqtkdxmywi5.avif",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772054407/home/lgd5rpnvjngovvr1wqtm.avif"
+    ],
+    "category": "shoes",
+    "featured": false,
+    "draft": false
+  },
+  {
     "id": "d2aae8fd-f7f0-452e-8f5a-ae690614cfd3",
     "slug": "oneplus-12-16-512gb-estuche-original",
     "name": "OnePlus 12 16/512gb + Estuche Original",
