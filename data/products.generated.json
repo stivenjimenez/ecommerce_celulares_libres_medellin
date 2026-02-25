@@ -1,5 +1,134 @@
 [
   {
+    "id": "d4707dd4-c969-466f-8764-bd60f7a9bac1",
+    "slug": "iphone-13-128gb",
+    "name": "iPhone 13 128gb",
+    "description": "128gb \nBateria: 100%\nGarantía Apple Aun",
+    "price": 1599000,
+    "images": [
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772063475/home/trxojnny6livyp7w88rr.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772063474/home/x5gannmgdsuezjzkfa3d.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772063474/home/ph2wxhkecoryppj4gmw1.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772063474/home/mfketqlsmgnceycvmita.jpg"
+    ],
+    "category": "technology",
+    "featured": false,
+    "draft": false
+  },
+  {
+    "id": "91d293c1-d7e4-4d4e-a359-4c4d6df75bfd",
+    "slug": "guantes-fly-racing",
+    "name": "Guantes Fly Racing",
+    "description": "",
+    "price": 99900,
+    "images": [
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772063284/home/mkajgdr72y3nfsxwqsbz.webp",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772063284/home/iycsjaegsa3z0jumxfpr.webp",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772063284/home/qyendosmxqm7owksk9uu.webp",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772063283/home/zghtbhpmmqzffrpq6k9k.webp",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772063284/home/t1u8mlymgnc62lddfsnt.webp"
+    ],
+    "category": "bikes",
+    "featured": false,
+    "draft": false
+  },
+  {
+    "id": "d7ef8ca2-0cf0-406e-a598-77b61ab006a9",
+    "slug": "vans-sk8-hi-true-white-us8-5",
+    "name": "Vans Sk8-hi True White Us8.5",
+    "description": "Talla: Us 8.5",
+    "price": 349900,
+    "images": [
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772063114/home/pv1mixrugogs30dsuyuj.avif",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772063114/home/tz6skp7dhygu0fkeln56.avif",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772063114/home/r8krms5dd1cehagl2ywg.avif"
+    ],
+    "category": "shoes",
+    "featured": false,
+    "draft": false
+  },
+  {
+    "id": "9931fb66-3345-425b-935a-8c809cee0a98",
+    "slug": "vans-crockett-hi-us10",
+    "name": "VANS Crockett Hi Us10",
+    "description": "Talla: Us10",
+    "price": 399000,
+    "images": [
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772062842/home/uqxltwedjsvpj8o55iis.avif",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772062842/home/vajfm1k2irivfzuohldd.avif",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772062842/home/ndiiqhpi1xrqqvuztfxy.avif",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772062841/home/mpoeo2inaj5ylqhuktcd.avif",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772062842/home/rza73fdknmvwlezgcmzr.avif",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772062842/home/grpgrntqnyydksjzjfbp.avif"
+    ],
+    "category": "shoes",
+    "featured": false,
+    "draft": false
+  },
+  {
+    "id": "f1cb5b77-58ed-42bd-850f-94940a3319ca",
+    "slug": "samsung-galaxy-s24-128gb-like",
+    "name": "Samsung Galaxy s24 128gb Like",
+    "description": "Colores: Negro y Morado\n128gb",
+    "price": 1699000,
+    "images": [
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772062532/home/b4u3mrqxfmiwl8ubgpcl.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772062533/home/ij8zhkvagpvbrhzzv5lr.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772062532/home/kqwtersdrmcg7xfq9jvb.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772062532/home/e9tt3hxe8vyjb9uirwca.jpg"
+    ],
+    "category": "technology",
+    "featured": false,
+    "draft": false
+  },
+  {
+    "id": "ff6fe1b8-8500-4f81-b4b8-4462e3361509",
+    "slug": "vans-slip-on-classic-us8",
+    "name": "VANS Slip-on Classic Us8",
+    "description": "Talla:  Us 8 ",
+    "price": 299000,
+    "images": [
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772062292/home/otvanb9our1bspqmo6ie.avif",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772062292/home/xzvkacbc2vj4escj696u.avif",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772062292/home/hdnlfqd26mbr1rowcfrt.avif",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772062292/home/tkup1dax11izzjxl7f4t.avif"
+    ],
+    "category": "shoes",
+    "featured": false,
+    "draft": false
+  },
+  {
+    "id": "163dd595-2ff1-4a56-9014-8a55519854a5",
+    "slug": "samsung-galaxy-s23-8-256gb-como-nuevo",
+    "name": "Samsung Galaxy s23 8/256gb Como Nuevo",
+    "description": "",
+    "price": 1399000,
+    "images": [
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772062117/home/pwewjf0ewclcxiq40jrf.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772062117/home/zvcf5o17s0barxmnixyv.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772062119/home/feepie3pri4eyrpmbxrn.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772062119/home/r7tnqva88rxz8snw4evf.jpg"
+    ],
+    "category": "technology",
+    "featured": false,
+    "draft": false
+  },
+  {
+    "id": "f172852c-b334-4a6a-912c-56af34dbdace",
+    "slug": "vans-classic-snapback-hat",
+    "name": "Vans Classic Snapback Hat",
+    "description": "",
+    "price": 139000,
+    "images": [
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772061786/home/fj5l4vrco16muuxhf0yq.avif",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772061786/home/aw5qgrgikldf2aq25xc5.avif",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772061787/home/f1j0zunadvvkbdwrtgkn.avif"
+    ],
+    "category": "clothing",
+    "featured": false,
+    "draft": false
+  },
+  {
     "id": "017b2cf7-0d30-438d-af71-c9da4eab4edd",
     "slug": "vans-skate-2-wayvee",
     "name": "VANS skate 2 wayvee",
