@@ -48,8 +48,8 @@ function useRevealOnView<T extends HTMLElement>() {
   useEffect(() => {
     if (isVisible) return;
     if (typeof IntersectionObserver === "undefined") {
-      setIsVisible(true);
-      return;
+      const timer = window.setTimeout(() => setIsVisible(true), 0);
+      return () => window.clearTimeout(timer);
     }
 
     const element = ref.current;
@@ -63,13 +63,24 @@ function useRevealOnView<T extends HTMLElement>() {
         }
       },
       {
-        threshold: 0.08,
-        rootMargin: "0px 0px -10% 0px",
+        threshold: 0.01,
+        // More permissive: reveal a bit before entering viewport to avoid hidden rows.
+        rootMargin: "0px 0px 180px 0px",
       },
     );
 
     observer.observe(element);
-    return () => observer.disconnect();
+
+    // Failsafe: never keep cards hidden if observer doesn't fire (embedded/webview quirks).
+    const fallbackTimer = window.setTimeout(() => {
+      setIsVisible(true);
+      observer.disconnect();
+    }, 1200);
+
+    return () => {
+      window.clearTimeout(fallbackTimer);
+      observer.disconnect();
+    };
   }, [isVisible]);
 
   return { ref, isVisible };

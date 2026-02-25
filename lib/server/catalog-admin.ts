@@ -98,6 +98,7 @@ function normalizeProduct(input: ProductInput, existing?: Product): Product {
     images: safeImages(input.images).length > 0 ? safeImages(input.images) : (existing?.images ?? []),
     category,
     featured: safeBoolean(input.featured ?? existing?.featured),
+    draft: safeBoolean(input.draft ?? existing?.draft),
     variants: safeVariants(input.variants ?? existing?.variants),
     attributes: safeObject(input.attributes ?? existing?.attributes),
   };
@@ -188,4 +189,29 @@ export async function deleteProduct(id: string): Promise<boolean> {
 
   await persist(path, next);
   return true;
+}
+
+export async function reorderProducts(productIds: string[]): Promise<Product[]> {
+  const { path, products } = await getEditableCatalog();
+  const cleanIds = productIds.map((id) => safeString(id)).filter((id) => id.length > 0);
+  if (cleanIds.length === 0) return products;
+
+  const productById = new Map(products.map((product) => [product.id, product]));
+  const seen = new Set<string>();
+  const reordered: Product[] = [];
+
+  for (const id of cleanIds) {
+    const product = productById.get(id);
+    if (!product || seen.has(id)) continue;
+    reordered.push(product);
+    seen.add(id);
+  }
+
+  for (const product of products) {
+    if (seen.has(product.id)) continue;
+    reordered.push(product);
+  }
+
+  await persist(path, reordered);
+  return reordered;
 }

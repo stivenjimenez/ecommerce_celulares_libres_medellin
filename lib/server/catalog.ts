@@ -17,12 +17,16 @@ async function readCatalogFile(path: string): Promise<Product[] | null> {
   }
 }
 
+function excludeDrafts(products: Product[]): Product[] {
+  return products.filter((product) => product.draft !== true);
+}
+
 export async function loadCatalog(): Promise<Product[]> {
   const generated = await readCatalogFile(GENERATED_PATH);
   if (generated && generated.length > 0) {
-    return generated;
+    return excludeDrafts(generated);
   }
 
   const fallback = await readCatalogFile(DEFAULT_PATH);
-  return fallback ?? [];
+  return fallback ? excludeDrafts(fallback) : [];
 }

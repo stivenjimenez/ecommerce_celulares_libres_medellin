@@ -1,16 +1,24 @@
 .page {
   display: grid;
   grid-template-columns: 320px 1fr;
-  min-height: 100vh;
+  height: 100dvh;
   background: #f5f7fa;
   color: #101828;
   font-family: var(--font-body), "Segoe UI", sans-serif;
+  overflow: hidden;
 }
 
 .sidebar {
   border-right: 1px solid #d6dde8;
   background: #ffffff;
   padding: 20px;
+  min-width: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+  row-gap: 10px;
 }
 
 .sidebarHeader {
@@ -18,7 +26,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 16px;
+  margin-bottom: 0;
 }
 
 .sidebarHeader h1 {
@@ -33,52 +41,196 @@
 .imageRow button {
   border: 0;
   border-radius: 10px;
-  background: #0b6adf;
-  color: #fff;
+  background: #dff6e5;
+  color: #1dbb17;
+  border: 1px solid #a5e7b6;
   padding: 9px 14px;
   cursor: pointer;
   font-weight: 600;
+  transition: border-color 0.14s ease, background 0.14s ease;
+}
+
+.sidebarHeader button:hover,
+.actions button:hover,
+.secondaryButton:hover,
+.imageRow button:hover,
+.uploadButton:hover {
+  border-color: #5adf26;
+}
+
+.sidebarHeader button:disabled,
+.actions button:disabled,
+.secondaryButton:disabled,
+.imageRow button:disabled {
+  opacity: 0.62;
+  cursor: not-allowed;
 }
 
 .productList {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  max-height: calc(100vh - 130px);
-  overflow: auto;
+  flex: 1;
+  height: 100%;
+  min-height: 0;
+  padding-bottom: calc(40px + env(safe-area-inset-bottom, 0px));
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.productList::-webkit-scrollbar {
+  display: none;
+}
+
+.productSearchInput {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #cfd6e2;
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-bottom: 0;
+  font: inherit;
+  background: #fff;
+}
+
+.sidebarStatus {
+  min-height: 0;
+}
+
+.sidebarStatus .muted {
+  margin: 0;
+}
+
+.productListItem {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  gap: 0;
+  align-items: stretch;
+  border: 1px solid #d6dde8;
+  border-radius: 10px;
+  overflow: visible;
+  background: #fff;
+  transition: border-color 0.14s ease, box-shadow 0.14s ease;
 }
 
 .productList button {
-  border: 1px solid #d6dde8;
-  border-radius: 10px;
-  background: #fff;
-  padding: 10px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 10px 12px;
   text-align: left;
   cursor: pointer;
+  width: 100%;
+  min-width: 0;
+  overflow: visible;
 }
 
-.productList button span {
-  display: block;
+.productName {
+  display: -webkit-box;
   font-size: 0.94rem;
-  font-weight: 600;
+  font-weight: 700;
+  line-height: 1.15;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.productList button small {
+.productTags {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 0;
+  min-width: 0;
+  overflow: visible;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid #d6dde8;
+  background: #f8fafc;
   color: #667085;
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  text-transform: lowercase;
 }
 
-.productList button.active {
-  border-color: #0b6adf;
-  box-shadow: 0 0 0 1px #0b6adf inset;
+.tagDraft {
+  border-color: #f3c76a;
+  background: #fff7e6;
+  color: #8a5800;
+}
+
+.productListItemActive {
+  border-color: #5adf26;
+  box-shadow: 0 0 0 1px #5adf26 inset;
+}
+
+.productListItemDragging {
+  opacity: 0.7;
+  border-color: #5adf26;
+}
+
+.productDragHandle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-right: 0;
+  border-radius: 0;
+  background: transparent;
+  user-select: none;
+  cursor: grab;
+  min-height: auto;
+  align-self: center;
+  justify-self: center;
+  opacity: 0.7;
+  touch-action: none;
+}
+
+.productDragHandle svg {
+  width: 14px;
+  height: 14px;
+  color: #6b7280;
 }
 
 .editor {
   padding: 24px;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.editor::-webkit-scrollbar {
+  display: none;
+}
+
+.editorLayout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 20px;
+  align-items: start;
 }
 
 .form {
-  max-width: 980px;
+  max-width: 100%;
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -103,6 +255,8 @@
 
 .actions .danger {
   background: #c22f2f;
+  border-color: #c22f2f;
+  color: #fff;
 }
 
 .grid {
@@ -129,12 +283,20 @@
   background: #fff;
 }
 
-.checkbox {
-  justify-content: center;
+.form label.checkbox {
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  align-self: end;
+  min-height: 42px;
 }
 
 .checkbox input {
-  margin-right: 8px;
+  margin: 0;
+  width: 16px;
+  height: 16px;
+  padding: 0;
 }
 
 .imagesBlock {
@@ -144,16 +306,77 @@
   background: #fff;
 }
 
+.imagesHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
 .imagesBlock p {
-  margin: 0 0 10px;
+  margin: 0;
   font-weight: 600;
+}
+
+.uploadButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  border: 1px solid #a5e7b6;
+  background: #dff6e5;
+  color: #1dbb17;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 0.86rem;
+  font-weight: 600;
+}
+
+.uploadButton input {
+  display: none;
+}
+
+.uploadDropzone {
+  border: 2px dashed #98a2b3;
+  border-radius: 12px;
+  min-height: 110px;
+  padding: 16px;
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  background: #f8fafc;
+  color: #344054;
+  text-align: center;
+}
+
+.uploadDropzone strong {
+  font-size: 0.95rem;
+}
+
+.uploadDropzone span {
+  font-size: 0.84rem;
+  color: #667085;
+}
+
+.uploadDropzoneActive {
+  border-color: #5adf26;
+  background: #f0fff3;
+}
+
+.pendingHint {
+  margin: 0 0 10px;
+  font-size: 0.85rem;
+  color: #475467;
 }
 
 .imageRow {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: 16px 92px 1fr auto;
   gap: 8px;
-  margin-bottom: 8px;
+  align-items: center;
 }
 
 .imageItem {
@@ -162,16 +385,80 @@
   padding: 10px;
   margin-bottom: 10px;
   background: #f8fafc;
+  cursor: grab;
 }
 
-.imagePreview {
-  width: 100%;
-  max-width: 320px;
-  height: 180px;
-  object-fit: cover;
-  border-radius: 10px;
+.imageItemDragging {
+  opacity: 0.65;
+  border-color: #5adf26;
+}
+
+.imageThumbWrap {
+  width: 92px;
+  height: 92px;
+  border-radius: 8px;
   border: 1px solid #cfd6e2;
+  overflow: hidden;
   background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.imageThumb {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.imageMeta {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.imageMetaTitle {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1d2939;
+}
+
+.imageMetaSub {
+  font-size: 0.8rem;
+  color: #667085;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.imageDragIcon {
+  width: 14px;
+  height: 14px;
+  color: #6b7280;
+  opacity: 0.75;
+  cursor: grab;
+  user-select: none;
+}
+
+.imageDragHandle {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  touch-action: none;
+}
+
+.imageRow .imageDragHandle {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  padding: 0;
 }
 
 .previewHint,
@@ -188,9 +475,28 @@
   color: #b42318;
 }
 
-.secondaryButton {
-  background: #475467;
-  margin-top: 4px;
+.previewPanel {
+  border: 1px solid #d6dde8;
+  border-radius: 12px;
+  padding: 12px;
+  background: #fff;
+  position: sticky;
+  top: 20px;
+}
+
+.previewPanel h3 {
+  margin: 0 0 4px;
+  font-size: 1rem;
+}
+
+.previewPanel p {
+  margin: 0 0 10px;
+  color: #667085;
+  font-size: 0.86rem;
+}
+
+.realCardPreview {
+  max-width: 360px;
 }
 
 .muted {
@@ -215,18 +521,31 @@
   .sidebar {
     border-right: 0;
     border-bottom: 1px solid #d6dde8;
+    height: 100%;
   }
 
   .productList {
-    max-height: 260px;
+    flex: 1;
   }
 
   .grid {
     grid-template-columns: 1fr;
   }
 
-  .imagePreview {
-    max-width: 100%;
-    height: 160px;
+  .editorLayout {
+    grid-template-columns: 1fr;
+  }
+
+  .previewPanel {
+    position: static;
+  }
+
+  .imageRow {
+    grid-template-columns: 14px 76px 1fr auto;
+  }
+
+  .imageThumbWrap {
+    width: 76px;
+    height: 76px;
   }
 }

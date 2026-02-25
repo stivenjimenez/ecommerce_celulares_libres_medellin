@@ -16,6 +16,7 @@ export type Product = {
   images: string[];
   category: ProductCategory;
   featured: boolean;
+  draft?: boolean;
   variants?: ProductVariant;
   attributes?: Record<string, string | number | boolean>;
 };

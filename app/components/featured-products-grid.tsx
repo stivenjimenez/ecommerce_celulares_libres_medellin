@@ -18,7 +18,13 @@ function truncate(text: string, max: number) {
   return text.length > max ? `${text.slice(0, max)}...` : text;
 }
 
-function FeaturedCard({ product }: { product: Product }) {
+export function FeaturedProductCard({
+  product,
+  interactive = true,
+}: {
+  product: Product;
+  interactive?: boolean;
+}) {
   const router = useRouter();
   const addItem = useCartStore((state) => state.addItem);
   const [showSecondImage, setShowSecondImage] = useState(false);
@@ -26,17 +32,23 @@ function FeaturedCard({ product }: { product: Product }) {
   const secondaryImage = product.images[1];
   const hasSecondaryImage = Boolean(secondaryImage);
   const image = hasSecondaryImage && showSecondImage ? secondaryImage : primaryImage;
+  const safeSlug = product.slug || product.id;
+
+  function openProductDetail() {
+    if (!interactive || !safeSlug) return;
+    router.push(`/productos/${safeSlug}`);
+  }
 
   return (
     <article
       className={styles.card}
-      role="link"
-      tabIndex={0}
-      onClick={() => router.push(`/productos/${product.slug}`)}
+      role={interactive ? "link" : "article"}
+      tabIndex={interactive ? 0 : -1}
+      onClick={openProductDetail}
       onKeyDown={(event) => {
-        if (event.key === "Enter" || event.key === " ") {
+        if (interactive && (event.key === "Enter" || event.key === " ")) {
           event.preventDefault();
-          router.push(`/productos/${product.slug}`);
+          openProductDetail();
         }
       }}
     >
@@ -66,8 +78,10 @@ function FeaturedCard({ product }: { product: Product }) {
           <button
             type="button"
             aria-label={`Agregar ${product.name} al carrito`}
+            aria-disabled={!interactive}
             onClick={(event) => {
               event.stopPropagation();
+              if (!interactive) return;
               addItem(product);
             }}
           >
@@ -84,7 +98,7 @@ export function FeaturedProductsGrid({ products }: { products: Product[] }) {
   return (
     <div className={styles.grid}>
       {products.map((product) => (
-        <FeaturedCard key={product.id} product={product} />
+        <FeaturedProductCard key={product.id} product={product} />
       ))}
     </div>
   );
