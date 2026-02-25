@@ -20,19 +20,19 @@ const navLinks = [
 const categories = [
   {
     title: "Tecnología",
-    description: "Celulares, audio y gadgets con garantía y entrega rápida en Medellín.",
+    description: "Celulares, audio y gadgets.",
     image: "/category_tegnologia.png",
     href: "/productos?categoria=tecnologia",
   },
   {
     title: "Ropa",
-    description: "Streetwear original: gorras, hoodies y camisetas para todos los días.",
+    description: "Prendas urbanas y accesorios.",
     image: "/category_ropa.png",
     href: "/productos?categoria=ropa",
   },
   {
     title: "Bicicletas",
-    description: "BMX, repuestos y accesorios para armar, mejorar y rodar con confianza.",
+    description: "Bicis, repuestos y accesorios.",
     image: "/category_bike.png",
     href: "/productos?categoria=bicicletas",
   },
@@ -112,17 +112,6 @@ export default async function Home() {
           <FeaturedProductsGrid products={featuredProducts} />
         </section>
       )}
-
-      <section className={styles.ctaSection}>
-        <h2>¿Aún no decides? Empieza por aquí</h2>
-        <p>
-          Tenemos todo en un solo lugar. Haz clic y recorre el catálogo completo para encontrar
-          justo lo que estás buscando.
-        </p>
-        <Link href="/productos" className={styles.ctaButton}>
-          Quiero ver todo el catálogo
-        </Link>
-      </section>
 
       <footer className={styles.footer}>
         <div className={styles.footerInner}>

@@ -37,11 +37,11 @@ function normalizeDescription(product: Product) {
   const description = product.description.trim();
 
   if (!description || description.toLowerCase().startsWith("imported from")) {
-    return "Producto disponible para entrega inmediata. Escríbenos para confirmar disponibilidad y colores.";
+    return "";
   }
 
   if (/^\((.+)\)$/.test(description)) {
-    return "Consulta más detalles del estado y disponibilidad con nuestro equipo.";
+    return "";
   }
 
   return description;
@@ -102,7 +102,7 @@ export default async function ProductDetailPage({ params }: Props) {
             <p className={detailStyles.category}>{categoryLabel[product.category]}</p>
             <h1>{product.name}</h1>
             <p className={detailStyles.price}>{formatCOP(product.price)}</p>
-            <p className={detailStyles.description}>{description}</p>
+            {description ? <p className={detailStyles.description}>{description}</p> : null}
 
             <div className={detailStyles.actions}>
               <AddToCartButton product={product} />

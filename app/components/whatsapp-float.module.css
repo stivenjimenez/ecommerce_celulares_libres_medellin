@@ -8,6 +8,13 @@
   gap: 10px;
 }
 
+.socialRow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
 .button {
   width: 56px;
   height: 56px;

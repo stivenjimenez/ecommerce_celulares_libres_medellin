@@ -540,6 +540,14 @@
   margin: 0;
 }
 
+.socialLinks .socialLink:first-child {
+  color: #1877f2;
+}
+
+.socialLinks .socialLink:last-child {
+  color: #e1306c;
+}
+
 .socialLink:hover {
   border-color: #1e293b;
 }
