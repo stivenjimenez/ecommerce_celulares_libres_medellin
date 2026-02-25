@@ -1,5 +1,219 @@
 [
   {
+    "id": "8aaa1106-e6a8-4a72-845b-6b6457ebd85f",
+    "slug": "cables-originales-1mt-y-2mt-iphone-x-8-7-6-5-desde",
+    "name": "Cables Originales 1mt y 2mt iPhone x 8 7 6 5 desde",
+    "description": "Entrega inmediata en Medellín",
+    "price": 59900,
+    "images": [
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772027071/home/hohhte1ijlvanonrqyby.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772027071/home/no5plkgshg8waiyxkfn5.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772027071/home/kemjzurbaevrmaichpdt.jpg"
+    ],
+    "category": "technology",
+    "featured": false,
+    "draft": false
+  },
+  {
+    "id": "d06a415f-85b0-4ce8-86f4-bfdeb0fc9197",
+    "slug": "parlante-jvc-boombox-70w-nuevo",
+    "name": "Parlante JVC Boombox 70w Nuevo",
+    "description": "Características:\nPotencia real de 70W Peak Power\nLuces RGB dinámicas y personalizables\nResistencia al agua IPX5, perfecto para exteriores\nAutonomía de hasta 7.5 horas de música continua\nConexiones Bluetooth, AUX 3.5 mm, USB y TWS\nIncluye cable USB-C y garantía\nNuevo  caja sellada",
+    "price": 499000,
+    "images": [
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026959/home/tduve6onj2xyxjmjgvqw.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026959/home/o2blswn3tdmn3i0gjerl.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026960/home/aboqo7teidu9yzurnyxx.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026959/home/df5hayixaizuxrzypk0l.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026959/home/jljplln6yej9cjycvcx2.jpg"
+    ],
+    "category": "technology",
+    "featured": false,
+    "draft": false
+  },
+  {
+    "id": "21d606dc-d327-488a-aa1d-38fc3d408bda",
+    "slug": "fox-defend-enduro-mtb-short-xl-nuevo",
+    "name": "Fox Defend Enduro, MTB Short XL Nuevo",
+    "description": "Nuevo \nTraído de Florida, Us\nTalla XL\nEntrega inmediata en Medellín ",
+    "price": 299000,
+    "images": [
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026836/home/zkcub1cqjef5bwhnaace.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026836/home/yglubqhp4bgvdnxrvnkv.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026836/home/ejqz8jasstv4h7xtlxps.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026836/home/pczwrbvswgod40vbug0t.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026836/home/ujnuevxzofppslchaqfe.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026836/home/hswnpxfnu81tf8gaerii.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026836/home/pgnyrejjsq5sg8oxo7b3.jpg"
+    ],
+    "category": "clothing",
+    "featured": false,
+    "draft": false
+  },
+  {
+    "id": "13286aa0-7657-4f02-adf1-246c4b8f8fb2",
+    "slug": "vans-ultrarange-exo-se-us10-5",
+    "name": "VANS ultraRange Exo SE Us10.5",
+    "description": "Nuevo \nOriginal Traido de Tienda Vans California \nUs10.5\nEntrega inmediata en Medellín \nEnvíos Nacionales ",
+    "price": 450000,
+    "images": [
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026627/home/p1sisngqp1xw7lus4auo.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026627/home/xctyj36j6zjxzz2zhekq.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026627/home/fy4baf6lmnpvzcdnqbfc.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026627/home/ql1zrxthsp8wzdsdyp1q.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026627/home/ciit3rvordvowdettpeu.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026627/home/ojswhh46tl9fxbl9eksc.jpg"
+    ],
+    "category": "shoes",
+    "featured": false,
+    "draft": false
+  },
+  {
+    "id": "fe525de2-c1d8-4ef4-b0be-75fd19249b0a",
+    "slug": "google-pixel-9-128gb-12gb-ram-open-box",
+    "name": "Google Pixel 9 128gb 12gb Ram Open Box",
+    "description": "Especificaciones\nCPU: Google Tensor G4\nRAM: 12GB\nAlmacenamiento: 128gb\nPantalla Tamaño: 6,3″ OLED\nPantalla Resolución: 1080 × 2424 px\nBatería: 4700 mAh\nAntutu: 1’224.020 (v10)",
+    "price": 2299000,
+    "images": [
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026492/home/yior8lpohqpe6xsk2d63.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026492/home/vwyobgwk3duxjmzdmpkm.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026492/home/kw6281ipko9elyapedtz.jpg"
+    ],
+    "category": "technology",
+    "featured": false,
+    "draft": false
+  },
+  {
+    "id": "d8dc1964-c9ed-4255-90ff-36b7605145e6",
+    "slug": "guantes-fox-ranger-unisex-originales-s-m",
+    "name": "Guantes Fox Ranger Unisex Originales 🇺🇸 S/M",
+    "description": "Original \nTalla M Hombre, L Mujer ",
+    "price": 119900,
+    "images": [
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026399/home/p9jbmu7xhxekzohnknsm.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026399/home/bpl9soirmngm5n3iftls.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026399/home/b9wgfj2kggjpmikf2sts.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026399/home/jqfl4bmsrovds6dhxiw8.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026399/home/zgvgrx3qvogk62grvduj.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026399/home/tv90ajdxrch0rwqcxlhl.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026399/home/sck8hxxdvfueohbbd4se.jpg"
+    ],
+    "category": "bikes",
+    "featured": false,
+    "draft": false
+  },
+  {
+    "id": "bf8d9715-5a5f-4c0f-99df-ba6dca2a94ac",
+    "slug": "google-pixel-8-pro-12-128gb-nuevo-sellado",
+    "name": "Google Pixel 8 Pro 12/128gb Nuevo Sellado",
+    "description": "Nuevo \nSellado\nLibre \nEntrega inmediata en Medellín \nEnvios Nacionales ",
+    "price": 2999000,
+    "images": [
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026223/home/nkfqjomjzdnff9gzldj6.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026223/home/uvrkthttvfzbbc29pxka.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026223/home/akvjbwg8p70yxjy4prwo.jpg"
+    ],
+    "category": "technology",
+    "featured": false,
+    "draft": false
+  },
+  {
+    "id": "fd9311fc-2f83-4dc2-b1d2-cb5c89dc855e",
+    "slug": "google-pixel-7-pro-12-128gb-nuevo",
+    "name": "Google Pixel 7 Pro 12/128gb Nuevo",
+    "description": "Nuevo \nSellado \n12gb Ram\n128gb Rom\nLibre todo Operador \nEntrega inmediata en Medellín ",
+    "price": 1799000,
+    "images": [
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026127/home/xmgne58paopsgobl1jjl.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026127/home/bamgrlp30bkf1ocdtauu.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026127/home/wpdmcoopjrh9wj2lshfj.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026127/home/lyz54qx8ojqrmiljypw9.jpg"
+    ],
+    "category": "technology",
+    "featured": false,
+    "draft": false
+  },
+  {
+    "id": "becdb012-4777-4b84-89f8-71d7373f6f58",
+    "slug": "iphone-12-pro-max-512gb-excelente",
+    "name": "iPhone 12 Pro Max 512gb Excelente",
+    "description": "512gb \nSim Física \nLibre Todo Operador \nExcelente Estado \n",
+    "price": 2399000,
+    "images": [
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026032/home/ubqju0k8stqmv9y5jl5r.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026032/home/b9j3wdenuidyslwnaauq.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026032/home/om3pnnhlvu8dakryjhtw.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026032/home/uqhh8j0mjctkmnruin2n.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026032/home/jsvzuo0yukrsub2u8vjp.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026032/home/aocblmgaeqmw9eiadam9.jpg"
+    ],
+    "category": "technology",
+    "featured": false,
+    "draft": false
+  },
+  {
+    "id": "45608c76-bfcc-41a4-a2a5-43ebb5c8e771",
+    "slug": "iphone-13-pro-1tb-nuevo-sellado",
+    "name": "iPhone 13 Pro 1tb Nuevo Sellado",
+    "description": "iPhone 13 Pro 1tb Nuevo Sellado 📱\nNuevo \nCaja sellada\nEntrega inmediata en Medellín \nEnvios Nacionales ",
+    "price": 2990000,
+    "images": [
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772025917/home/ffxl9qrkdiuhfscwcbrh.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772025917/home/nxrntslbovxjmhvrf2ij.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772025917/home/er6gihplkrjulztftrqi.jpg"
+    ],
+    "category": "technology",
+    "featured": false,
+    "draft": false
+  },
+  {
+    "id": "d485290e-7766-400b-ad25-26f4e0c8a946",
+    "slug": "google-pixel-9-12-128gb-nuevo-sellado",
+    "name": "Google Pixel 9 12/128gb Nuevo Sellado",
+    "description": "Google Pixel 9  12/128gb Nuevo Sellado 🇺🇲\n\nPantalla 6.3\", 1080 x 2424 pixels\nProcesador Google Tensor G4\nMemoria RAM 12GB\nAlmacenamiento 128GB\nCámara Dual, 50MP+48MP\nBatería 4700 mAh\nOS Android 14\n\nEntrega inmediata en Medellín ",
+    "price": 2799000,
+    "images": [
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772025722/home/dvtrwuzimzycskpu2l43.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772025722/home/a9gcfhmieeyn6njppxv4.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772025722/home/znsy16zswhtamwm3dj8s.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772025722/home/tflavhxkq5yhwarvuq5y.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772025722/home/ml0rxct4emctnecdhmg2.jpg"
+    ],
+    "category": "technology",
+    "featured": false,
+    "draft": false
+  },
+  {
+    "id": "54ee6bc8-a166-4750-9cd0-9175e7e935d1",
+    "slug": "google-pixel-7-8-128gb-excelente",
+    "name": "Google Pixel 7 8/128gb Excelente",
+    "description": "Google Pixel 7 8/128gb Excelente\n10/10\n5g\nLibre todo operador",
+    "price": 1199000,
+    "images": [
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772025549/home/isepvu5nivd0k3502vnj.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772025549/home/uvk1ckxcndmvtchpwmdb.jpg"
+    ],
+    "category": "technology",
+    "featured": false,
+    "draft": false
+  },
+  {
+    "id": "dedcf840-294b-4483-9169-d9c088a018f8",
+    "slug": "google-pixel-9-pro-256gb-like",
+    "name": "Google Pixel 9 Pro 256gb Like",
+    "description": "Google Pixel 9 Pro 256gb  Like\nComo nuevo\n256gb\nEntrega inmediata en Medellín\nEnvios Nacionales ",
+    "price": 3299000,
+    "images": [
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772025437/home/wjoexomj0vrkt7watdhr.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772025437/home/seqfkpeautjldfj96va3.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772025437/home/jze1pnmbhtjmu56fdhez.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772025437/home/dzc8psaao9qi0nfewhqp.jpg"
+    ],
+    "category": "technology",
+    "featured": false,
+    "draft": false
+  },
+  {
     "id": "00d0e2ed-1712-4dec-a0b3-5f492a60c10b",
     "slug": "iphone-14-pro-max-256gb-como",
     "name": "iPhone 14 Pro Max 256gb Cómo Nuevo",
