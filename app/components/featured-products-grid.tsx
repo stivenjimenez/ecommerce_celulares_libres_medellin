@@ -33,6 +33,7 @@ export function FeaturedProductCard({
   const hasSecondaryImage = Boolean(secondaryImage);
   const image = hasSecondaryImage && showSecondImage ? secondaryImage : primaryImage;
   const safeSlug = product.slug || product.id;
+  const hasPreviousPrice = typeof product.previousPrice === "number" && product.previousPrice > product.price;
 
   function openProductDetail() {
     if (!interactive || !safeSlug) return;
@@ -75,9 +76,12 @@ export function FeaturedProductCard({
 
         <div className={styles.cardBottom}>
           <div className={styles.priceStack}>
-            {typeof product.previousPrice === "number" && product.previousPrice > product.price ? (
-              <span className={styles.previousPrice}>{formatCOP(product.previousPrice)}</span>
-            ) : null}
+            <span
+              className={`${styles.previousPrice} ${hasPreviousPrice ? "" : styles.previousPriceEmpty}`}
+              aria-hidden={!hasPreviousPrice}
+            >
+              {hasPreviousPrice ? formatCOP(product.previousPrice!) : "\u00a0"}
+            </span>
             <strong>{formatCOP(product.price)}</strong>
           </div>
           <button

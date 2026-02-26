@@ -234,11 +234,11 @@
 
 .cardBody {
   background: #fff;
-  padding: 11px;
+  padding: 11px 11px 8px;
   display: flex;
   flex-direction: column;
-  gap: 2px;
-  min-height: 148px;
+  gap: 3px;
+  min-height: 136px;
 }
 
 .cardBody h2 {
@@ -275,6 +275,8 @@
 .priceStack {
   display: grid;
   gap: 2px;
+  min-height: 36px;
+  align-content: start;
 }
 
 .previousPrice {
@@ -282,6 +284,10 @@
   font-size: 13px;
   line-height: 1;
   text-decoration: line-through;
+}
+
+.previousPriceEmpty {
+  visibility: hidden;
 }
 
 .cardBottom strong {
@@ -394,7 +400,7 @@
   }
 
   .cardBody {
-    padding: 9px;
+    padding: 9px 9px 8px;
     min-height: 128px;
   }
 

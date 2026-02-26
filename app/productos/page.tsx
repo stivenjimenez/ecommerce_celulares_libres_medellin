@@ -141,6 +141,8 @@ function ProductosPageContent() {
       product.images[0] ?? "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771952540/clm-logo_fyqsex.png";
     const secondaryImage = product.images[1];
     const hasSecondaryImage = Boolean(secondaryImage);
+    const hasPreviousPrice =
+      typeof product.previousPrice === "number" && product.previousPrice > product.price;
     const cardStyle = { "--reveal-delay": `${delayMs}ms` } as CSSProperties;
 
     return (
@@ -197,9 +199,12 @@ function ProductosPageContent() {
           <p>{truncate(product.description, 64)}</p>
           <div className={styles.cardBottom}>
             <div className={styles.priceStack}>
-              {typeof product.previousPrice === "number" && product.previousPrice > product.price ? (
-                <span className={styles.previousPrice}>{formatCOP(product.previousPrice)}</span>
-              ) : null}
+              <span
+                className={`${styles.previousPrice} ${hasPreviousPrice ? "" : styles.previousPriceEmpty}`}
+                aria-hidden={!hasPreviousPrice}
+              >
+                {hasPreviousPrice ? formatCOP(product.previousPrice!) : "\u00a0"}
+              </span>
               <strong>{formatCOP(product.price)}</strong>
             </div>
             <button
