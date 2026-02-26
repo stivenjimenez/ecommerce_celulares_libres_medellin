@@ -1,5 +1,21 @@
 [
   {
+    "id": "befe9767-06ab-4cc3-bb73-cbb153ddb507",
+    "slug": "google-pixel-7-pro-12-ram-y-256gb",
+    "name": "Google Pixel 7 Pro 12 ram y 256gb",
+    "description": "12 RAM\n256gb",
+    "price": 1599000,
+    "previousPrice": 1799000,
+    "images": [
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772070810/home/rq3pajsvgl8wkvlwvzyz.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772070810/home/uhejeizkgjwxop25gthh.jpg",
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772070810/home/xd0hcl2aagrv5v50cdgc.jpg"
+    ],
+    "category": "technology",
+    "featured": false,
+    "draft": false
+  },
+  {
     "id": "d4707dd4-c969-466f-8764-bd60f7a9bac1",
     "slug": "iphone-13-128gb",
     "name": "iPhone 13 128gb",
@@ -71,6 +87,7 @@
     "name": "Samsung Galaxy s24 128gb Like",
     "description": "Colores: Negro y Morado\n128gb",
     "price": 1699000,
+    "previousPrice": 1799000,
     "images": [
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772062532/home/b4u3mrqxfmiwl8ubgpcl.jpg",
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772062533/home/ij8zhkvagpvbrhzzv5lr.jpg",
@@ -286,6 +303,7 @@
     "name": "Google Pixel 7 Pro 12/128gb Nuevo",
     "description": "12 RAM\n128gb\n",
     "price": 1799000,
+    "previousPrice": 2100000,
     "images": [
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026127/home/xmgne58paopsgobl1jjl.jpg",
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026127/home/bamgrlp30bkf1ocdtauu.jpg",
