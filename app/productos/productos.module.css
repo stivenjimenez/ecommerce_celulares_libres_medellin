@@ -272,6 +272,18 @@
   margin-top: auto;
 }
 
+.priceStack {
+  display: grid;
+  gap: 2px;
+}
+
+.previousPrice {
+  color: #7c8799;
+  font-size: 13px;
+  line-height: 1;
+  text-decoration: line-through;
+}
+
 .cardBottom strong {
   display: block;
   color: #21cb16;

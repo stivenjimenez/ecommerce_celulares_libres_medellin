@@ -101,7 +101,12 @@ export default async function ProductDetailPage({ params }: Props) {
           <article className={detailStyles.infoPanel}>
             <p className={detailStyles.category}>{categoryLabel[product.category]}</p>
             <h1>{product.name}</h1>
-            <p className={detailStyles.price}>{formatCOP(product.price)}</p>
+            <div className={detailStyles.priceWrap}>
+              {typeof product.previousPrice === "number" && product.previousPrice > product.price ? (
+                <p className={detailStyles.previousPrice}>{formatCOP(product.previousPrice)}</p>
+              ) : null}
+              <p className={detailStyles.price}>{formatCOP(product.price)}</p>
+            </div>
             {description ? <p className={detailStyles.description}>{description}</p> : null}
 
             <div className={detailStyles.actions}>

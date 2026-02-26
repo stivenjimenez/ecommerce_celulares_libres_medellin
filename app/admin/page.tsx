@@ -20,7 +20,8 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { GripVertical } from "lucide-react";
-import { ChangeEvent, DragEvent, FormEvent, useEffect, useMemo, useState } from "react";
+import { ChangeEvent, DragEvent, useEffect, useMemo, useState } from "react";
+import { useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 
 import { FeaturedProductCard } from "@/app/components/featured-products-grid";
@@ -37,6 +38,7 @@ type ProductForm = {
   name: string;
   description: string;
   price: string;
+  previousPrice: string;
   category: ProductCategory;
   featured: boolean;
   draft: boolean;
@@ -57,6 +59,7 @@ const initialForm: ProductForm = {
   name: "",
   description: "",
   price: "",
+  previousPrice: "",
   category: "technology",
   featured: false,
   draft: true,
@@ -86,6 +89,7 @@ function toForm(product: Product): ProductForm {
     name: product.name,
     description: product.description,
     price: String(product.price),
+    previousPrice: product.previousPrice ? String(product.previousPrice) : "",
     category: product.category,
     featured: product.featured,
     draft: product.draft === true,
@@ -201,7 +205,12 @@ function SortableImageItem({ id, index, image, pendingName, onRemove }: Sortable
 export default function AdminPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [selectedId, setSelectedId] = useState<string>("");
-  const [form, setForm] = useState<ProductForm>(initialForm);
+  const { register, reset, setValue, getValues, control, handleSubmit: handleFormSubmit } =
+    useForm<ProductForm>({
+      defaultValues: initialForm,
+    });
+  const formWatch = useWatch({ control });
+  const form = (formWatch ?? initialForm) as ProductForm;
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [pendingUploads, setPendingUploads] = useState<PendingUpload[]>([]);
@@ -243,12 +252,17 @@ export default function AdminPage() {
       name: form.name || "Nombre del producto",
       description: form.description || "Descripción del producto para vista previa en admin.",
       price: Number(form.price) > 0 ? Number(form.price) : 0,
+      previousPrice:
+        Number(form.previousPrice) > Number(form.price)
+          ? Number(form.previousPrice)
+          : undefined,
       images: galleryImages,
       category: form.category,
       featured: form.featured,
       draft: form.draft,
     };
   }, [form, galleryImages]);
+  const nameField = register("name", { required: true });
 
   async function loadProducts() {
     setLoading(true);
@@ -274,14 +288,14 @@ export default function AdminPage() {
   function handleSelect(product: Product) {
     clearPendingUploads();
     setSelectedId(product.id);
-    setForm(toForm(product));
+    reset(toForm(product));
     setError("");
   }
 
   function handleNew() {
     clearPendingUploads();
     setSelectedId("");
-    setForm(initialForm);
+    reset(initialForm);
     setError("");
   }
 
@@ -308,15 +322,14 @@ export default function AdminPage() {
   }
 
   function removeImageField(index: number) {
-    const removedImage = form.images[index];
+    const currentImages = getValues("images") ?? [];
+    const removedImage = currentImages[index];
     if (removedImage) {
       removePendingUploadsByUrls([removedImage]);
     }
 
-    setForm((prev) => {
-      const next = prev.images.filter((_, idx) => idx !== index);
-      return { ...prev, images: next.length > 0 ? next : [""] };
-    });
+    const next = currentImages.filter((_, idx) => idx !== index);
+    setValue("images", next.length > 0 ? next : [""], { shouldDirty: true });
   }
 
   function reorderProductsInMemory(items: Product[], fromId: string, toId: string): Product[] {
@@ -373,7 +386,8 @@ export default function AdminPage() {
     const toIndex = Number(String(over.id).replace("image-", ""));
     if (Number.isNaN(fromIndex) || Number.isNaN(toIndex)) return;
 
-    setForm((prev) => ({ ...prev, images: arrayMove(prev.images, fromIndex, toIndex) }));
+    const currentImages = getValues("images") ?? [];
+    setValue("images", arrayMove(currentImages, fromIndex, toIndex), { shouldDirty: true });
   }
 
   async function uploadFilesToCloudinary(files: File[]): Promise<string[]> {
@@ -406,10 +420,9 @@ export default function AdminPage() {
     }));
 
     setPendingUploads((prev) => [...prev, ...pendingToAdd]);
-    setForm((prev) => {
-      const nextImages = [...cleanImages(prev.images), ...pendingToAdd.map((item) => item.tempUrl)];
-      return { ...prev, images: nextImages.length > 0 ? nextImages : [""] };
-    });
+    const currentImages = getValues("images") ?? [];
+    const nextImages = [...cleanImages(currentImages), ...pendingToAdd.map((item) => item.tempUrl)];
+    setValue("images", nextImages.length > 0 ? nextImages : [""], { shouldDirty: true });
   }
 
   async function handleImagesUpload(event: ChangeEvent<HTMLInputElement>) {
@@ -442,15 +455,14 @@ export default function AdminPage() {
     queuePendingFiles(files);
   }
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  const handleSubmit = handleFormSubmit(async (values) => {
     setSubmitting(true);
     setError("");
 
     try {
-      const variants = parseOptionalJson<Product["variants"]>(form.variantsJson);
-      const attributes = parseOptionalJson<Product["attributes"]>(form.attributesJson);
-      const normalizedSlug = slugify(form.slug || form.name);
+      const variants = parseOptionalJson<Product["variants"]>(values.variantsJson);
+      const attributes = parseOptionalJson<Product["attributes"]>(values.attributesJson);
+      const normalizedSlug = slugify(values.slug || values.name);
 
       if (!normalizedSlug) {
         setError("El slug no puede quedar vacío.");
@@ -468,7 +480,7 @@ export default function AdminPage() {
         return;
       }
 
-      const imageOrder = cleanImages(form.images);
+      const imageOrder = cleanImages(values.images);
       const pendingByTempUrl = new Map(pendingUploads.map((item) => [item.tempUrl, item.file]));
       const pendingInOrder = imageOrder
         .map((image) => pendingByTempUrl.get(image))
@@ -487,18 +499,19 @@ export default function AdminPage() {
           return image;
         });
         clearPendingUploads();
-        setForm((prev) => ({ ...prev, images: finalImages }));
+        setValue("images", finalImages, { shouldDirty: true });
       }
 
       const payload = {
         id: selectedId || undefined,
         slug: normalizedSlug,
-        name: form.name,
-        description: form.description,
-        price: Number(form.price),
-        category: form.category,
-        featured: form.featured,
-        draft: form.draft,
+        name: values.name,
+        description: values.description,
+        price: Number(values.price),
+        previousPrice: values.previousPrice ? Number(values.previousPrice) : undefined,
+        category: values.category,
+        featured: values.featured,
+        draft: values.draft,
         images: finalImages,
         variants,
         attributes,
@@ -520,7 +533,7 @@ export default function AdminPage() {
       clearPendingUploads();
       await loadProducts();
       setSelectedId("");
-      setForm(initialForm);
+      reset(initialForm);
       toast.success(selectedId ? "Producto actualizado con éxito." : "Producto creado con éxito.");
     } catch (err) {
       const message = err instanceof Error ? err.message : "";
@@ -531,7 +544,7 @@ export default function AdminPage() {
     } finally {
       setSubmitting(false);
     }
-  }
+  });
 
   async function handleDelete() {
     if (!selectedId) return;
@@ -635,48 +648,49 @@ export default function AdminPage() {
 
             <label>
               Slug
-              <input
-                value={form.slug}
-                onChange={(event) => setForm((prev) => ({ ...prev, slug: event.target.value }))}
-                placeholder="iphone-16-pro"
-              />
+              <input {...register("slug")} placeholder="iphone-16-pro" />
             </label>
 
             <label>
-              Nombre
+              <span className={styles.labelText}>
+                Nombre <span className={styles.requiredMark}>*</span>
+              </span>
               <input
                 required
-                value={form.name}
+                {...nameField}
                 onChange={(event) => {
                   const nextName = event.target.value;
-                  setForm((prev) => ({
-                    ...prev,
-                    name: nextName,
-                    slug: slugify(nextName),
-                  }));
+                  nameField.onChange(event);
+                  setValue("slug", slugify(nextName), { shouldDirty: true });
                 }}
               />
             </label>
 
             <label>
-              Precio (COP)
+              <span className={styles.labelText}>
+                Precio (COP) <span className={styles.requiredMark}>*</span>
+              </span>
               <input
                 required
                 type="number"
                 min="0"
-                value={form.price}
-                onChange={(event) => setForm((prev) => ({ ...prev, price: event.target.value }))}
+                {...register("price", { required: true })}
+              />
+            </label>
+
+            <label>
+              Precio anterior (COP)
+              <input
+                type="number"
+                min="0"
+                {...register("previousPrice")}
+                placeholder="Opcional"
               />
             </label>
 
             <label>
               Categoría
-              <select
-                value={form.category}
-                onChange={(event) =>
-                  setForm((prev) => ({ ...prev, category: event.target.value as ProductCategory }))
-                }
-              >
+              <select {...register("category")}>
                 {productCategories.map((category) => (
                   <option key={category} value={category}>
                     {category}
@@ -686,31 +700,19 @@ export default function AdminPage() {
             </label>
 
             <label className={styles.checkbox}>
-              <input
-                type="checkbox"
-                checked={form.featured}
-                onChange={(event) => setForm((prev) => ({ ...prev, featured: event.target.checked }))}
-              />
+              <input type="checkbox" {...register("featured")} />
               Destacado
             </label>
 
             <label className={styles.checkbox}>
-              <input
-                type="checkbox"
-                checked={form.draft}
-                onChange={(event) => setForm((prev) => ({ ...prev, draft: event.target.checked }))}
-              />
+              <input type="checkbox" {...register("draft")} />
               Draft (oculto en tienda)
             </label>
           </div>
 
           <label>
             Descripción
-            <textarea
-              rows={4}
-              value={form.description}
-              onChange={(event) => setForm((prev) => ({ ...prev, description: event.target.value }))}
-            />
+            <textarea rows={4} {...register("description")} />
           </label>
 
           <div className={styles.imagesBlock}>
@@ -784,9 +786,8 @@ export default function AdminPage() {
             Variants (JSON opcional)
             <textarea
               rows={5}
-              value={form.variantsJson}
+              {...register("variantsJson")}
               placeholder='{"size": ["M", "L"], "color": ["black"]}'
-              onChange={(event) => setForm((prev) => ({ ...prev, variantsJson: event.target.value }))}
             />
           </label>
 
@@ -794,9 +795,8 @@ export default function AdminPage() {
             Attributes (JSON opcional)
             <textarea
               rows={6}
-              value={form.attributesJson}
+              {...register("attributesJson")}
               placeholder='{"brand": "Apple", "condition": "new"}'
-              onChange={(event) => setForm((prev) => ({ ...prev, attributesJson: event.target.value }))}
             />
           </label>
           </form>

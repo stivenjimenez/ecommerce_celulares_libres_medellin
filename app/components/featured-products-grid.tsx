@@ -74,7 +74,12 @@ export function FeaturedProductCard({
         <p>{truncate(product.description, 64)}</p>
 
         <div className={styles.cardBottom}>
-          <strong>{formatCOP(product.price)}</strong>
+          <div className={styles.priceStack}>
+            {typeof product.previousPrice === "number" && product.previousPrice > product.price ? (
+              <span className={styles.previousPrice}>{formatCOP(product.previousPrice)}</span>
+            ) : null}
+            <strong>{formatCOP(product.price)}</strong>
+          </div>
           <button
             type="button"
             aria-label={`Agregar ${product.name} al carrito`}

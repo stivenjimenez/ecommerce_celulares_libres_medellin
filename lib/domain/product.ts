@@ -13,6 +13,7 @@ export type Product = {
   name: string;
   description: string;
   price: number;
+  previousPrice?: number;
   images: string[];
   category: ProductCategory;
   featured: boolean;

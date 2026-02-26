@@ -43,6 +43,19 @@ function safeNumber(value: unknown): number {
   return Math.round(parsed);
 }
 
+function safeOptionalNumber(value: unknown): number | undefined {
+  if (value === undefined || value === null || value === "") return undefined;
+  const parsed = Number(value);
+  if (!Number.isFinite(parsed) || parsed <= 0) return undefined;
+  return Math.round(parsed);
+}
+
+function safePreviousPrice(value: unknown, currentPrice: number): number | undefined {
+  const previousPrice = safeOptionalNumber(value);
+  if (previousPrice === undefined || previousPrice <= currentPrice) return undefined;
+  return previousPrice;
+}
+
 function safeBoolean(value: unknown): boolean {
   return value === true;
 }
@@ -88,13 +101,16 @@ function normalizeProduct(input: ProductInput, existing?: Product): Product {
   const providedSlug = safeString(input.slug);
   const slugCandidate = slugify(providedSlug || name) || safeString(existing?.slug);
   const description = safeText(input.description) ?? existing?.description ?? "";
+  const price = safeNumber(input.price ?? existing?.price);
+  const previousPrice = safePreviousPrice(input.previousPrice ?? existing?.previousPrice, price);
 
   return {
     id: safeString(input.id) || existing?.id || randomUUID(),
     slug: slugCandidate || randomUUID(),
     name,
     description,
-    price: safeNumber(input.price ?? existing?.price),
+    price,
+    previousPrice,
     images: safeImages(input.images).length > 0 ? safeImages(input.images) : (existing?.images ?? []),
     category,
     featured: safeBoolean(input.featured ?? existing?.featured),

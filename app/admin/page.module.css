@@ -273,6 +273,18 @@
   color: #344054;
 }
 
+.labelText {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.requiredMark {
+  color: #d92d20;
+  font-weight: 700;
+  line-height: 1;
+}
+
 .form input,
 .form select,
 .form textarea {
