@@ -1,21 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Manrope, Sora } from "next/font/google";
-import { ArrowRight, ArrowUpRight, Facebook, Instagram } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import styles from "./home.module.css";
-import { SearchModal } from "./components/search-modal";
-import { CartLink } from "./components/cart-link";
 import { FeaturedProductsGrid } from "./components/featured-products-grid";
 import { loadCatalog } from "@/lib/server/catalog";
 
 const sora = Sora({ subsets: ["latin"], variable: "--font-display" });
 const manrope = Manrope({ subsets: ["latin"], variable: "--font-body" });
-
-const navLinks = [
-  { label: "Tecnología", href: "/productos?categoria=tecnologia" },
-  { label: "Ropa", href: "/productos?categoria=ropa" },
-  { label: "Bicicletas", href: "/productos?categoria=bicicletas" },
-];
 
 const categories = [
   {
@@ -44,34 +36,6 @@ export default async function Home() {
 
   return (
     <main className={`${styles.page} ${sora.variable} ${manrope.variable}`}>
-      <header className={styles.header}>
-        <div className={styles.headerInner}>
-          <div className={styles.brand}>
-            <Image
-              src="https://res.cloudinary.com/dwqyypb8q/image/upload/v1771952540/clm-logo_fyqsex.png"
-              alt="Logo Celulares Libres Medellin"
-              width={220}
-              height={92}
-              className={styles.brandLogo}
-              priority
-            />
-          </div>
-
-          <nav className={styles.nav}>
-            {navLinks.map((link) => (
-              <Link key={link.label} href={link.href} className={styles.navLink}>
-                {link.label}
-              </Link>
-            ))}
-          </nav>
-
-          <div className={styles.headerRight}>
-            <SearchModal />
-            <CartLink className={styles.iconButton} />
-          </div>
-        </div>
-      </header>
-
       <section className={styles.categoriesSection}>
         <div className={styles.sectionHeader}>
           <Link href="/productos">
@@ -112,92 +76,6 @@ export default async function Home() {
           <FeaturedProductsGrid products={featuredProducts} />
         </section>
       )}
-
-      <footer className={styles.footer}>
-        <div className={styles.footerInner}>
-          <div className={styles.footerGrid}>
-            <div>
-              <Link href="/" aria-label="Ir al inicio">
-                <Image
-                  src="https://res.cloudinary.com/dwqyypb8q/image/upload/v1771952540/clm-logo_fyqsex.png"
-                  alt="Celulares Libres Medellin"
-                  width={200}
-                  height={84}
-                />
-              </Link>
-              <p>
-                Celulares Libres Medellin: tecnologia, ropa original y repuestos bike con atencion
-                cercana en Medellin.
-              </p>
-            </div>
-
-            {/*
-            <div>
-              <h4>Explorar</h4>
-              <a href="#">Novedades</a>
-              <a href="#">Bestsellers</a>
-              <a href="#">Promociones</a>
-              <a href="#">Marcas</a>
-            </div>
-
-            <div>
-              <h4>Ayuda</h4>
-              <a href="#">Envíos</a>
-              <a href="#">Devoluciones</a>
-              <a href="#">Soporte 24/7</a>
-              <a href="#">FAQ</a>
-            </div>
-            */}
-
-            <div>
-              <h4>Contacto</h4>
-              <a href="mailto:meyox@hotmail.com">meyox@hotmail.com</a>
-              <a
-                href="https://wa.me/573004569938"
-                target="_blank"
-                rel="noreferrer"
-                aria-label="Escribir por WhatsApp al 3004569938"
-              >
-                300 456 9938
-              </a>
-            </div>
-
-            <div>
-              <h4>Redes sociales</h4>
-              <div className={styles.socialLinks}>
-                <a
-                  href="https://www.facebook.com/marketplace/profile/678380352/?ref=permalink&mibextid=dXMIcH"
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label="Facebook"
-                  title="Facebook"
-                  className={styles.socialLink}
-                >
-                  <Facebook size={18} />
-                </a>
-                <a
-                  href="https://www.instagram.com/celulares_libres_medellin_/?hl=en"
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label="Instagram"
-                  title="Instagram"
-                  className={styles.socialLink}
-                >
-                  <Instagram size={18} />
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div className={styles.footerBottom}>
-            <p>© 2026 Celulares Libres Medellin. Todos los derechos reservados.</p>
-            <div>
-              <Link href="/privacidad">Privacidad</Link>
-              <Link href="/terminos">Términos</Link>
-            </div>
-          </div>
-        </div>
-      </footer>
     </main>
   );
 }

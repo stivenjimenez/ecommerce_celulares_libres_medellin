@@ -86,7 +86,7 @@
 .navLink {
   color: #394257;
   text-decoration: none;
-  font-size: var(--fs-nav-link);
+  font-size: 18px;
   font-weight: 700;
   line-height: 1.15;
 }
@@ -656,6 +656,10 @@
     padding-bottom: 2px;
     gap: 16px;
     justify-self: center;
+  }
+
+  .navLink {
+    font-size: 20px;
   }
 
   .headerRight {
