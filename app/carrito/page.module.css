@@ -1,10 +1,10 @@
 .page {
-  min-height: 100vh;
   background: #f2f3f5;
   color: #0f172a;
   font-family: var(--font-body), "Segoe UI", sans-serif;
   display: flex;
   flex-direction: column;
+  flex: 1;
 }
 
 .page * {

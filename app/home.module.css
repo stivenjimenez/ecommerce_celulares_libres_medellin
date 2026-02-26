@@ -28,6 +28,18 @@
   box-sizing: border-box;
 }
 
+.chromeShell {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.chromeContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
 .hero,
 .categoriesSection,
 .featuredSection,

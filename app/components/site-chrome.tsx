@@ -25,7 +25,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <>
+    <div className={homeStyles.chromeShell}>
       <header className={homeStyles.header}>
         <div className={homeStyles.headerInner}>
           <Link href="/" className={homeStyles.brand}>
@@ -54,7 +54,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
         </div>
       </header>
 
-      {children}
+      <div className={homeStyles.chromeContent}>{children}</div>
 
       <footer className={homeStyles.footer}>
         <div className={homeStyles.footerInner}>
@@ -123,6 +123,6 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
           </div>
         </div>
       </footer>
-    </>
+    </div>
   );
 }
