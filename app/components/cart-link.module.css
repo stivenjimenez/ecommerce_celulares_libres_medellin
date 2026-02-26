@@ -5,8 +5,9 @@
 
 .badge {
   position: absolute;
-  top: -5px;
-  right: -7px;
+  top: 2px;
+  right: 2px;
+  width: 18px;
   min-width: 18px;
   height: 18px;
   border-radius: 999px;
@@ -18,5 +19,5 @@
   font-size: 11px;
   line-height: 1;
   font-weight: 700;
-  padding: 0 5px;
+  padding: 0;
 }

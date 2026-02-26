@@ -54,8 +54,8 @@
 
 .badge {
   position: absolute;
-  top: -6px;
-  right: -2px;
+  top: 0;
+  right: 0;
   width: 20px;
   height: 20px;
   border-radius: 999px;

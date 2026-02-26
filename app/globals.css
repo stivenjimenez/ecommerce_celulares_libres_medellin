@@ -3,9 +3,16 @@
   --foreground: #111111;
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 html,
 body {
   min-height: 100%;
+  overflow-x: clip;
 }
 
 body {

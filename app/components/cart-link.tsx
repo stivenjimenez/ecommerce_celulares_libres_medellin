@@ -31,7 +31,7 @@ export function CartLink({ className }: Props) {
       }
     >
       <ShoppingCart />
-      {totalItems > 0 && <span className={styles.badge}>{totalItems > 99 ? "99+" : totalItems}</span>}
+      {totalItems > 0 && <span className={styles.badge}>{totalItems > 9 ? "9+" : totalItems}</span>}
     </Link>
   );
 }

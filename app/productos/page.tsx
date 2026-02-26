@@ -199,13 +199,13 @@ function ProductosPageContent() {
           <p>{truncate(product.description, 64)}</p>
           <div className={styles.cardBottom}>
             <div className={styles.priceStack}>
+              <strong>{formatCOP(product.price)}</strong>
               <span
                 className={`${styles.previousPrice} ${hasPreviousPrice ? "" : styles.previousPriceEmpty}`}
                 aria-hidden={!hasPreviousPrice}
               >
                 {hasPreviousPrice ? formatCOP(product.previousPrice!) : "\u00a0"}
               </span>
-              <strong>{formatCOP(product.price)}</strong>
             </div>
             <button
               type="button"
