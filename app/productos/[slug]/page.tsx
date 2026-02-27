@@ -19,6 +19,7 @@ const categoryLabel = {
   clothing: "Ropa",
   shoes: "Calzado",
   bikes: "Bicicletas",
+  sincategoria: "",
 };
 
 type Props = {

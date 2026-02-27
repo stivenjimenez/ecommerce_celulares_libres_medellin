@@ -218,22 +218,26 @@ export default function AdminPage() {
   const [productSearch, setProductSearch] = useState("");
   const [savingOrder, setSavingOrder] = useState(false);
   const [error, setError] = useState<string>("");
+  const [showDraftOnly, setShowDraftOnly] = useState(false);
 
   const selectedProduct = useMemo(
     () => products.find((product) => product.id === selectedId) ?? null,
     [products, selectedId],
   );
+  const draftCount = useMemo(() => products.filter((p) => p.draft).length, [products]);
+
   const filteredProducts = useMemo(() => {
+    let result = showDraftOnly ? products.filter((p) => p.draft) : products;
     const query = productSearch.trim().toLowerCase();
-    if (!query) return products;
-    return products.filter((product) => {
+    if (!query) return result;
+    return result.filter((product) => {
       return (
         product.name.toLowerCase().includes(query) ||
         product.slug.toLowerCase().includes(query) ||
         product.category.toLowerCase().includes(query)
       );
     });
-  }, [products, productSearch]);
+  }, [products, productSearch, showDraftOnly]);
   const galleryImages = useMemo(() => cleanImages(form.images), [form.images]);
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
@@ -590,6 +594,29 @@ export default function AdminPage() {
           placeholder="Buscar producto..."
           aria-label="Buscar producto"
         />
+
+        {!loading && products.length > 0 && (
+          <div className={styles.filterTabs}>
+            <button
+              type="button"
+              className={`${styles.filterTab} ${!showDraftOnly ? styles.filterTabActive : ""}`}
+              onClick={() => setShowDraftOnly(false)}
+            >
+              Todos
+              <span className={styles.filterTabBadge}>{products.length}</span>
+            </button>
+            <button
+              type="button"
+              className={`${styles.filterTab} ${showDraftOnly ? styles.filterTabActive : ""}`}
+              onClick={() => setShowDraftOnly(true)}
+            >
+              Draft
+              <span className={`${styles.filterTabBadge} ${styles.filterTabBadgeDraft}`}>
+                {draftCount}
+              </span>
+            </button>
+          </div>
+        )}
 
         <div className={styles.sidebarStatus}>
           {loading && <p className={styles.muted}>Cargando...</p>}

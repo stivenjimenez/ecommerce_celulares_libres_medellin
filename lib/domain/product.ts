@@ -1,4 +1,4 @@
-export const productCategories = ["technology", "clothing", "shoes", "bikes"] as const;
+export const productCategories = ["technology", "clothing", "shoes", "bikes", "sincategoria"] as const;
 
 export type ProductCategory = (typeof productCategories)[number];
 

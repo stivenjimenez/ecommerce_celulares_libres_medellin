@@ -98,6 +98,69 @@
   background: #fff;
 }
 
+.filterTabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.filterTab {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  border: 1px solid #d6dde8;
+  border-radius: 10px;
+  background: #f8fafc;
+  color: #667085;
+  padding: 8px 12px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.14s ease, border-color 0.14s ease, color 0.14s ease;
+}
+
+.filterTab:hover {
+  background: #f0f2f5;
+  border-color: #b0bac9;
+}
+
+.filterTabActive {
+  border-color: #5adf26;
+  background: #f0fff3;
+  color: #1d6b0a;
+}
+
+.filterTabBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: #d6dde8;
+  color: #344054;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.filterTabActive .filterTabBadge {
+  background: #5adf26;
+  color: #fff;
+}
+
+.filterTabBadgeDraft {
+  background: #f3c76a;
+  color: #8a5800;
+}
+
+.filterTabActive .filterTabBadgeDraft {
+  background: #f5a623;
+  color: #fff;
+}
+
 .sidebarStatus {
   min-height: 0;
 }
