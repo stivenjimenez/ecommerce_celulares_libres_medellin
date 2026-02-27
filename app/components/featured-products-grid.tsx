@@ -14,10 +14,6 @@ import styles from "./featured-products-grid.module.css";
 const fallbackImage =
   "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771952540/clm-logo_fyqsex.png";
 
-function truncate(text: string, max: number) {
-  return text.length > max ? `${text.slice(0, max)}...` : text;
-}
-
 export function FeaturedProductCard({
   product,
   interactive = true,
@@ -72,7 +68,6 @@ export function FeaturedProductCard({
 
       <div className={styles.cardBody}>
         <h3>{product.name}</h3>
-        <p>{truncate(product.description, 64)}</p>
 
         <div className={styles.cardBottom}>
           <div className={styles.priceStack}>

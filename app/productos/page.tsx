@@ -28,10 +28,6 @@ const categoryTitles: Record<string, string> = {
   bicicletas: "Bicicletas",
 };
 
-function truncate(text: string, max: number) {
-  return text.length > max ? `${text.slice(0, max)}...` : text;
-}
-
 function useRevealOnView<T extends HTMLElement>() {
   const ref = useRef<T | null>(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -196,7 +192,6 @@ function ProductosPageContent() {
 
         <div className={styles.cardBody}>
           <h2>{product.name}</h2>
-          <p>{truncate(product.description, 64)}</p>
           <div className={styles.cardBottom}>
             <div className={styles.priceStack}>
               <strong>{formatCOP(product.price)}</strong>
