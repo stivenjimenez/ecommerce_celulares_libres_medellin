@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { Manrope, Sora } from "next/font/google";
 import { ShoppingCart } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
