@@ -24,7 +24,6 @@ import { ChangeEvent, DragEvent, useEffect, useMemo, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 
-import { FeaturedProductCard } from "@/app/components/featured-products-grid";
 import { productCategories, type Product, type ProductCategory } from "@/lib/domain/product";
 
 import styles from "./page.module.css";
@@ -109,44 +108,12 @@ function cleanImages(images: string[]): string[] {
   return images.map((img) => img.trim()).filter((img) => img.length > 0);
 }
 
-type SortableProductItemProps = {
-  product: Product;
-  isActive: boolean;
-  onSelect: (product: Product) => void;
-};
-
-function SortableProductItem({ product, isActive, onSelect }: SortableProductItemProps) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
-    id: product.id,
-  });
-  const style = { transform: CSS.Transform.toString(transform), transition };
-
-  return (
-    <div
-      ref={setNodeRef}
-      style={style}
-      className={`${styles.productListItem} ${isActive ? styles.productListItemActive : ""} ${
-        isDragging ? styles.productListItemDragging : ""
-      }`}
-    >
-      <button
-        type="button"
-        className={styles.productDragHandle}
-        aria-label={`Reordenar ${product.name}`}
-        {...attributes}
-        {...listeners}
-      >
-        <GripVertical />
-      </button>
-      <button type="button" onClick={() => onSelect(product)}>
-        <span className={styles.productName}>{product.name}</span>
-        <span className={styles.productTags}>
-          <span className={styles.tag}>{product.category}</span>
-          {product.draft && <span className={`${styles.tag} ${styles.tagDraft}`}>draft</span>}
-        </span>
-      </button>
-    </div>
-  );
+function formatMoney(value: number): string {
+  return new Intl.NumberFormat("es-CO", {
+    style: "currency",
+    currency: "COP",
+    maximumFractionDigits: 0,
+  }).format(value);
 }
 
 type SortableImageItemProps = {
@@ -205,31 +172,36 @@ function SortableImageItem({ id, index, image, pendingName, onRemove }: Sortable
 export default function AdminPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [selectedId, setSelectedId] = useState<string>("");
-  const { register, reset, setValue, getValues, control, handleSubmit: handleFormSubmit } =
-    useForm<ProductForm>({
-      defaultValues: initialForm,
-    });
-  const formWatch = useWatch({ control });
-  const form = (formWatch ?? initialForm) as ProductForm;
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [pendingUploads, setPendingUploads] = useState<PendingUpload[]>([]);
   const [isUploadDragActive, setIsUploadDragActive] = useState(false);
   const [productSearch, setProductSearch] = useState("");
-  const [savingOrder, setSavingOrder] = useState(false);
   const [error, setError] = useState<string>("");
   const [showDraftOnly, setShowDraftOnly] = useState(false);
+  const [updatingFeaturedId, setUpdatingFeaturedId] = useState<string>("");
+
+  const { register, reset, setValue, getValues, control, handleSubmit: handleFormSubmit } =
+    useForm<ProductForm>({
+      defaultValues: initialForm,
+    });
+
+  const formWatch = useWatch({ control });
+  const form = (formWatch ?? initialForm) as ProductForm;
 
   const selectedProduct = useMemo(
     () => products.find((product) => product.id === selectedId) ?? null,
     [products, selectedId],
   );
+
   const draftCount = useMemo(() => products.filter((p) => p.draft).length, [products]);
 
   const filteredProducts = useMemo(() => {
-    let result = showDraftOnly ? products.filter((p) => p.draft) : products;
+    const result = showDraftOnly ? products.filter((p) => p.draft) : products;
     const query = productSearch.trim().toLowerCase();
     if (!query) return result;
+
     return result.filter((product) => {
       return (
         product.name.toLowerCase().includes(query) ||
@@ -238,34 +210,14 @@ export default function AdminPage() {
       );
     });
   }, [products, productSearch, showDraftOnly]);
-  const galleryImages = useMemo(() => cleanImages(form.images), [form.images]);
+
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
     useSensor(TouchSensor, { activationConstraint: { delay: 180, tolerance: 8 } }),
     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
   );
-  const productOrderIds = useMemo(() => filteredProducts.map((product) => product.id), [filteredProducts]);
-  const imageOrderIds = useMemo(
-    () => form.images.map((_, index) => `image-${index}`),
-    [form.images],
-  );
-  const previewProduct = useMemo<Product>(() => {
-    return {
-      id: form.id || "preview-product",
-      slug: form.slug || slugify(form.name) || "preview-product",
-      name: form.name || "Nombre del producto",
-      description: form.description || "Descripción del producto para vista previa en admin.",
-      price: Number(form.price) > 0 ? Number(form.price) : 0,
-      previousPrice:
-        Number(form.previousPrice) > Number(form.price)
-          ? Number(form.previousPrice)
-          : undefined,
-      images: galleryImages,
-      category: form.category,
-      featured: form.featured,
-      draft: form.draft,
-    };
-  }, [form, galleryImages]);
+
+  const imageOrderIds = useMemo(() => form.images.map((_, index) => `image-${index}`), [form.images]);
   const nameField = register("name", { required: true });
 
   async function loadProducts() {
@@ -289,20 +241,6 @@ export default function AdminPage() {
     loadProducts();
   }, []);
 
-  function handleSelect(product: Product) {
-    clearPendingUploads();
-    setSelectedId(product.id);
-    reset(toForm(product));
-    setError("");
-  }
-
-  function handleNew() {
-    clearPendingUploads();
-    setSelectedId("");
-    reset(initialForm);
-    setError("");
-  }
-
   function clearPendingUploads() {
     setPendingUploads((prev) => {
       prev.forEach((item) => URL.revokeObjectURL(item.tempUrl));
@@ -325,6 +263,30 @@ export default function AdminPage() {
     });
   }
 
+  function openDrawerForNew() {
+    clearPendingUploads();
+    setSelectedId("");
+    reset(initialForm);
+    setError("");
+    setDrawerOpen(true);
+  }
+
+  function openDrawerForEdit(product: Product) {
+    clearPendingUploads();
+    setSelectedId(product.id);
+    reset(toForm(product));
+    setError("");
+    setDrawerOpen(true);
+  }
+
+  function closeDrawer() {
+    clearPendingUploads();
+    setSelectedId("");
+    reset(initialForm);
+    setError("");
+    setDrawerOpen(false);
+  }
+
   function removeImageField(index: number) {
     const currentImages = getValues("images") ?? [];
     const removedImage = currentImages[index];
@@ -334,52 +296,6 @@ export default function AdminPage() {
 
     const next = currentImages.filter((_, idx) => idx !== index);
     setValue("images", next.length > 0 ? next : [""], { shouldDirty: true });
-  }
-
-  function reorderProductsInMemory(items: Product[], fromId: string, toId: string): Product[] {
-    if (fromId === toId) return items;
-    const fromIndex = items.findIndex((product) => product.id === fromId);
-    const toIndex = items.findIndex((product) => product.id === toId);
-    if (fromIndex < 0 || toIndex < 0) return items;
-
-    const next = [...items];
-    const [moved] = next.splice(fromIndex, 1);
-    if (!moved) return items;
-    next.splice(toIndex, 0, moved);
-    return next;
-  }
-
-  async function persistProductOrder(ids: string[]) {
-    setSavingOrder(true);
-    try {
-      const response = await fetch("/api/admin/products/order", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ids }),
-      });
-
-      if (!response.ok) {
-        const body = (await response.json().catch(() => null)) as { message?: string } | null;
-        throw new Error(body?.message || "No se pudo guardar el orden.");
-      }
-    } catch (err) {
-      const msg = err instanceof Error ? err.message : "No se pudo guardar el orden.";
-      setError(msg);
-      await loadProducts();
-    } finally {
-      setSavingOrder(false);
-    }
-  }
-
-  async function handleProductsSortEnd(event: DragEndEvent) {
-    const { active, over } = event;
-    if (!over || active.id === over.id) return;
-
-    const fromId = String(active.id);
-    const toId = String(over.id);
-    const nextProducts = reorderProductsInMemory(products, fromId, toId);
-    setProducts(nextProducts);
-    await persistProductOrder(nextProducts.map((product) => product.id));
   }
 
   function handleImagesSortEnd(event: DragEndEvent) {
@@ -459,6 +375,36 @@ export default function AdminPage() {
     queuePendingFiles(files);
   }
 
+  async function handleToggleFeatured(product: Product, nextFeatured: boolean) {
+    setUpdatingFeaturedId(product.id);
+    setError("");
+
+    try {
+      const response = await fetch("/api/admin/products", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...product, featured: nextFeatured }),
+      });
+
+      if (!response.ok) {
+        const body = (await response.json().catch(() => null)) as { message?: string } | null;
+        throw new Error(body?.message || "No se pudo actualizar destacado.");
+      }
+
+      const updated = (await response.json()) as Product;
+      setProducts((prev) => prev.map((item) => (item.id === updated.id ? updated : item)));
+
+      if (selectedId === updated.id) {
+        setValue("featured", updated.featured, { shouldDirty: true });
+      }
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "No se pudo actualizar destacado.";
+      setError(message);
+    } finally {
+      setUpdatingFeaturedId("");
+    }
+  }
+
   const handleSubmit = handleFormSubmit(async (values) => {
     setSubmitting(true);
     setError("");
@@ -536,8 +482,7 @@ export default function AdminPage() {
       await response.json();
       clearPendingUploads();
       await loadProducts();
-      setSelectedId("");
-      reset(initialForm);
+      closeDrawer();
       toast.success(selectedId ? "Producto actualizado con éxito." : "Producto creado con éxito.");
     } catch (err) {
       const message = err instanceof Error ? err.message : "";
@@ -569,7 +514,7 @@ export default function AdminPage() {
       if (!response.ok) throw new Error();
 
       await loadProducts();
-      handleNew();
+      closeDrawer();
       toast.success("Producto eliminado.");
     } catch {
       setError("No se pudo eliminar el producto.");
@@ -580,264 +525,344 @@ export default function AdminPage() {
 
   return (
     <main className={`${styles.page} ${sora.variable} ${manrope.variable}`}>
-      <section className={styles.sidebar}>
-        <div className={styles.sidebarHeader}>
-          <h1>Admin Productos</h1>
-          <button type="button" onClick={handleNew}>
+      <section className={styles.tableSection}>
+        <div className={styles.headerRow}>
+          <div>
+            <h1>Admin Productos</h1>
+            <p>Gestiona catálogo desde una sola tabla.</p>
+          </div>
+          <button type="button" onClick={openDrawerForNew}>
             Nuevo
           </button>
         </div>
-        <input
-          className={styles.productSearchInput}
-          value={productSearch}
-          onChange={(event) => setProductSearch(event.target.value)}
-          placeholder="Buscar producto..."
-          aria-label="Buscar producto"
-        />
 
-        {!loading && products.length > 0 && (
-          <div className={styles.filterTabs}>
-            <button
-              type="button"
-              className={`${styles.filterTab} ${!showDraftOnly ? styles.filterTabActive : ""}`}
-              onClick={() => setShowDraftOnly(false)}
-            >
-              Todos
-              <span className={styles.filterTabBadge}>{products.length}</span>
-            </button>
-            <button
-              type="button"
-              className={`${styles.filterTab} ${showDraftOnly ? styles.filterTabActive : ""}`}
-              onClick={() => setShowDraftOnly(true)}
-            >
-              Draft
-              <span className={`${styles.filterTabBadge} ${styles.filterTabBadgeDraft}`}>
-                {draftCount}
-              </span>
-            </button>
-          </div>
-        )}
+        <div className={styles.toolbar}>
+          <input
+            className={styles.productSearchInput}
+            value={productSearch}
+            onChange={(event) => setProductSearch(event.target.value)}
+            placeholder="Buscar producto..."
+            aria-label="Buscar producto"
+          />
 
-        <div className={styles.sidebarStatus}>
-          {loading && <p className={styles.muted}>Cargando...</p>}
-          {!loading && products.length === 0 && <p className={styles.muted}>No hay productos.</p>}
-          {!loading && products.length > 0 && filteredProducts.length === 0 && (
-            <p className={styles.muted}>No hay resultados para esa búsqueda.</p>
-          )}
-          {savingOrder && <p className={styles.muted}>Guardando orden...</p>}
-        </div>
-
-        <DndContext
-          id="admin-products-dnd"
-          sensors={sensors}
-          collisionDetection={closestCenter}
-          onDragEnd={handleProductsSortEnd}
-        >
-          <SortableContext items={productOrderIds} strategy={verticalListSortingStrategy}>
-            <div className={styles.productList}>
-              {filteredProducts.map((product) => (
-                <SortableProductItem
-                  key={product.id}
-                  product={product}
-                  isActive={selectedId === product.id}
-                  onSelect={handleSelect}
-                />
-              ))}
-            </div>
-          </SortableContext>
-        </DndContext>
-      </section>
-
-      <section className={styles.editor}>
-        <div className={styles.editorLayout}>
-          <form className={styles.form} onSubmit={handleSubmit}>
-          <div className={styles.topRow}>
-            <h2>{selectedProduct ? "Editar producto" : "Crear producto"}</h2>
-            <div className={styles.actions}>
-              {selectedId && (
-                <button type="button" className={styles.danger} onClick={handleDelete}>
-                  Eliminar
-                </button>
-              )}
-              <button type="submit" disabled={submitting}>
-                {submitting ? "Guardando..." : "Guardar"}
+          {!loading && products.length > 0 && (
+            <div className={styles.filterTabs}>
+              <button
+                type="button"
+                className={`${styles.filterTab} ${!showDraftOnly ? styles.filterTabActive : ""}`}
+                onClick={() => setShowDraftOnly(false)}
+              >
+                Todos
+                <span className={styles.filterTabBadge}>{products.length}</span>
+              </button>
+              <button
+                type="button"
+                className={`${styles.filterTab} ${showDraftOnly ? styles.filterTabActive : ""}`}
+                onClick={() => setShowDraftOnly(true)}
+              >
+                Draft
+                <span className={`${styles.filterTabBadge} ${styles.filterTabBadgeDraft}`}>
+                  {draftCount}
+                </span>
               </button>
             </div>
-          </div>
+          )}
+        </div>
 
-          {error && <p className={styles.error}>{error}</p>}
+        {error && <p className={styles.error}>{error}</p>}
 
-          <div className={styles.grid}>
-            <label>
-              ID
-              <input value={form.id} readOnly placeholder="Se genera automáticamente" />
-            </label>
+        <div className={styles.tableWrap}>
+          <table className={styles.table}>
+            <thead>
+              <tr>
+                <th>Imagen</th>
+                <th>Nombre</th>
+                <th>Categoría</th>
+                <th>Precio</th>
+                <th>Estado</th>
+                <th>Destacado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {loading && (
+                <tr>
+                  <td colSpan={7} className={styles.mutedCell}>
+                    Cargando...
+                  </td>
+                </tr>
+              )}
 
-            <label>
-              Slug
-              <input {...register("slug")} placeholder="iphone-16-pro" />
-            </label>
+              {!loading && products.length === 0 && (
+                <tr>
+                  <td colSpan={7} className={styles.mutedCell}>
+                    No hay productos.
+                  </td>
+                </tr>
+              )}
 
-            <label>
-              <span className={styles.labelText}>
-                Nombre <span className={styles.requiredMark}>*</span>
-              </span>
-              <input
-                required
-                {...nameField}
-                onChange={(event) => {
-                  const nextName = event.target.value;
-                  nameField.onChange(event);
-                  setValue("slug", slugify(nextName), { shouldDirty: true });
-                }}
-              />
-            </label>
+              {!loading && products.length > 0 && filteredProducts.length === 0 && (
+                <tr>
+                  <td colSpan={7} className={styles.mutedCell}>
+                    No hay resultados para esa búsqueda.
+                  </td>
+                </tr>
+              )}
 
-            <label>
-              <span className={styles.labelText}>
-                Precio (COP) <span className={styles.requiredMark}>*</span>
-              </span>
-              <input
-                required
-                type="number"
-                min="0"
-                {...register("price", { required: true })}
-              />
-            </label>
-
-            <label>
-              Precio anterior (COP)
-              <input
-                type="number"
-                min="0"
-                {...register("previousPrice")}
-                placeholder="Opcional"
-              />
-            </label>
-
-            <label>
-              Categoría
-              <select {...register("category")}>
-                {productCategories.map((category) => (
-                  <option key={category} value={category}>
-                    {category}
-                  </option>
+              {!loading &&
+                filteredProducts.map((product) => (
+                  <tr key={product.id}>
+                    <td>
+                      <div className={styles.tableImageWrap}>
+                        {product.images[0] ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            src={product.images[0]}
+                            alt={product.name}
+                            className={styles.tableImage}
+                          />
+                        ) : (
+                          <span className={styles.tableImageEmpty}>Sin imagen</span>
+                        )}
+                      </div>
+                    </td>
+                    <td>
+                      <button
+                        type="button"
+                        className={styles.tableNameButton}
+                        onClick={() => openDrawerForEdit(product)}
+                      >
+                        {product.name}
+                      </button>
+                    </td>
+                    <td>
+                      <span className={styles.tag}>{product.category}</span>
+                    </td>
+                    <td>{formatMoney(product.price)}</td>
+                    <td>
+                      {product.draft ? (
+                        <span className={`${styles.tag} ${styles.tagDraft}`}>draft</span>
+                      ) : (
+                        <span className={`${styles.tag} ${styles.tagPublished}`}>activo</span>
+                      )}
+                    </td>
+                    <td>
+                      <label className={styles.tableCheckboxLabel}>
+                        <input
+                          type="checkbox"
+                          checked={product.featured}
+                          disabled={updatingFeaturedId === product.id}
+                          onChange={(event) => handleToggleFeatured(product, event.target.checked)}
+                        />
+                        <span>{product.featured ? "Sí" : "No"}</span>
+                      </label>
+                    </td>
+                    <td>
+                      <button
+                        type="button"
+                        className={styles.secondaryButton}
+                        onClick={() => openDrawerForEdit(product)}
+                      >
+                        Editar
+                      </button>
+                    </td>
+                  </tr>
                 ))}
-              </select>
-            </label>
-
-            <label className={styles.checkbox}>
-              <input type="checkbox" {...register("featured")} />
-              Destacado
-            </label>
-
-            <label className={styles.checkbox}>
-              <input type="checkbox" {...register("draft")} />
-              Draft (oculto en tienda)
-            </label>
-          </div>
-
-          <label>
-            Descripción
-            <textarea rows={4} {...register("description")} />
-          </label>
-
-          <div className={styles.imagesBlock}>
-            <div className={styles.imagesHeader}>
-              <p>Imágenes de producto</p>
-              <label className={styles.uploadButton}>
-                Seleccionar imágenes
-                <input
-                  type="file"
-                  accept="image/*"
-                  multiple
-                  disabled={submitting}
-                  onChange={handleImagesUpload}
-                />
-              </label>
-            </div>
-            <div
-              className={`${styles.uploadDropzone} ${isUploadDragActive ? styles.uploadDropzoneActive : ""}`}
-              onDragOver={handleUploadDragOver}
-              onDragLeave={handleUploadDragLeave}
-              onDrop={handleUploadDrop}
-            >
-              <strong>Arrastra una o varias imágenes aquí</strong>
-              <span>Se subirán a Cloudinary solo cuando presiones Guardar.</span>
-            </div>
-            {pendingUploads.length > 0 && (
-              <p className={styles.pendingHint}>
-                {pendingUploads.length} imagen(es) pendiente(s) de subir.
-              </p>
-            )}
-
-            <DndContext
-              id="admin-images-dnd"
-              sensors={sensors}
-              collisionDetection={closestCenter}
-              onDragEnd={handleImagesSortEnd}
-            >
-              <SortableContext items={imageOrderIds} strategy={verticalListSortingStrategy}>
-                {form.images.map((image, index) => {
-                  const pendingItem = pendingUploads.find((item) => item.tempUrl === image);
-
-                  return (
-                    <SortableImageItem
-                      key={`image-${index}`}
-                      id={`image-${index}`}
-                      index={index}
-                      image={image}
-                      pendingName={pendingItem?.name}
-                      onRemove={removeImageField}
-                    />
-                  );
-                })}
-              </SortableContext>
-            </DndContext>
-            {form.images.length === 0 && (
-              <div className={styles.imageItem}>
-                <div className={styles.imageRow}>
-                  <div className={styles.imageThumbWrap}>
-                    <p className={styles.previewHint}>Sin imagen</p>
-                  </div>
-                  <div className={styles.imageMeta}>
-                    <p className={styles.imageMetaTitle}>No hay imágenes todavía</p>
-                    <span className={styles.imageMetaSub}>Arrastra o selecciona archivos arriba</span>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-
-          <label>
-            Variants (JSON opcional)
-            <textarea
-              rows={5}
-              {...register("variantsJson")}
-              placeholder='{"size": ["M", "L"], "color": ["black"]}'
-            />
-          </label>
-
-          <label>
-            Attributes (JSON opcional)
-            <textarea
-              rows={6}
-              {...register("attributesJson")}
-              placeholder='{"brand": "Apple", "condition": "new"}'
-            />
-          </label>
-          </form>
-
-          <aside className={styles.previewPanel}>
-            <h3>Preview tarjeta</h3>
-            <p>Componente real del catálogo.</p>
-
-            <div className={styles.realCardPreview}>
-              <FeaturedProductCard product={previewProduct} interactive={false} />
-            </div>
-          </aside>
+            </tbody>
+          </table>
         </div>
       </section>
+
+      {drawerOpen && (
+        <>
+          <button
+            type="button"
+            className={styles.drawerBackdrop}
+            onClick={closeDrawer}
+            aria-label="Cerrar formulario"
+          />
+          <aside className={styles.drawer} role="dialog" aria-modal="true" aria-label="Formulario de producto">
+            <form className={styles.form} onSubmit={handleSubmit}>
+              <div className={styles.topRow}>
+                <h2>{selectedProduct ? "Editar producto" : "Crear producto"}</h2>
+                <div className={styles.actions}>
+                  <button
+                    type="button"
+                    className={styles.secondaryButton}
+                    onClick={closeDrawer}
+                    disabled={submitting}
+                  >
+                    Cerrar
+                  </button>
+                  {selectedId && (
+                    <button type="button" className={styles.danger} onClick={handleDelete}>
+                      Eliminar
+                    </button>
+                  )}
+                  <button type="submit" disabled={submitting}>
+                    {submitting ? "Guardando..." : "Guardar"}
+                  </button>
+                </div>
+              </div>
+
+              {error && <p className={styles.error}>{error}</p>}
+
+              <div className={styles.grid}>
+                <label>
+                  ID
+                  <input value={form.id} readOnly placeholder="Se genera automáticamente" />
+                </label>
+
+                <label>
+                  Slug
+                  <input {...register("slug")} placeholder="iphone-16-pro" />
+                </label>
+
+                <label>
+                  <span className={styles.labelText}>
+                    Nombre <span className={styles.requiredMark}>*</span>
+                  </span>
+                  <input
+                    required
+                    {...nameField}
+                    onChange={(event) => {
+                      const nextName = event.target.value;
+                      nameField.onChange(event);
+                      setValue("slug", slugify(nextName), { shouldDirty: true });
+                    }}
+                  />
+                </label>
+
+                <label>
+                  <span className={styles.labelText}>
+                    Precio (COP) <span className={styles.requiredMark}>*</span>
+                  </span>
+                  <input required type="number" min="0" {...register("price", { required: true })} />
+                </label>
+
+                <label>
+                  Precio anterior (COP)
+                  <input type="number" min="0" {...register("previousPrice")} placeholder="Opcional" />
+                </label>
+
+                <label>
+                  Categoría
+                  <select {...register("category")}>
+                    {productCategories.map((category) => (
+                      <option key={category} value={category}>
+                        {category}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+
+                <label className={styles.checkbox}>
+                  <input type="checkbox" {...register("featured")} />
+                  Destacado
+                </label>
+
+                <label className={styles.checkbox}>
+                  <input type="checkbox" {...register("draft")} />
+                  Draft (oculto en tienda)
+                </label>
+              </div>
+
+              <label>
+                Descripción
+                <textarea rows={4} {...register("description")} />
+              </label>
+
+              <div className={styles.imagesBlock}>
+                <div className={styles.imagesHeader}>
+                  <p>Imágenes de producto</p>
+                  <label className={styles.uploadButton}>
+                    Seleccionar imágenes
+                    <input
+                      type="file"
+                      accept="image/*"
+                      multiple
+                      disabled={submitting}
+                      onChange={handleImagesUpload}
+                    />
+                  </label>
+                </div>
+
+                <div
+                  className={`${styles.uploadDropzone} ${isUploadDragActive ? styles.uploadDropzoneActive : ""}`}
+                  onDragOver={handleUploadDragOver}
+                  onDragLeave={handleUploadDragLeave}
+                  onDrop={handleUploadDrop}
+                >
+                  <strong>Arrastra una o varias imágenes aquí</strong>
+                  <span>Se subirán a Cloudinary solo cuando presiones Guardar.</span>
+                </div>
+
+                {pendingUploads.length > 0 && (
+                  <p className={styles.pendingHint}>
+                    {pendingUploads.length} imagen(es) pendiente(s) de subir.
+                  </p>
+                )}
+
+                <DndContext
+                  id="admin-images-dnd"
+                  sensors={sensors}
+                  collisionDetection={closestCenter}
+                  onDragEnd={handleImagesSortEnd}
+                >
+                  <SortableContext items={imageOrderIds} strategy={verticalListSortingStrategy}>
+                    {form.images.map((image, index) => {
+                      const pendingItem = pendingUploads.find((item) => item.tempUrl === image);
+
+                      return (
+                        <SortableImageItem
+                          key={`image-${index}`}
+                          id={`image-${index}`}
+                          index={index}
+                          image={image}
+                          pendingName={pendingItem?.name}
+                          onRemove={removeImageField}
+                        />
+                      );
+                    })}
+                  </SortableContext>
+                </DndContext>
+
+                {form.images.length === 0 && (
+                  <div className={styles.imageItem}>
+                    <div className={styles.imageRow}>
+                      <div className={styles.imageThumbWrap}>
+                        <p className={styles.previewHint}>Sin imagen</p>
+                      </div>
+                      <div className={styles.imageMeta}>
+                        <p className={styles.imageMetaTitle}>No hay imágenes todavía</p>
+                        <span className={styles.imageMetaSub}>Arrastra o selecciona archivos arriba</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <label>
+                Variants (JSON opcional)
+                <textarea
+                  rows={5}
+                  {...register("variantsJson")}
+                  placeholder='{"size": ["M", "L"], "color": ["black"]}'
+                />
+              </label>
+
+              <label>
+                Attributes (JSON opcional)
+                <textarea
+                  rows={6}
+                  {...register("attributesJson")}
+                  placeholder='{"brand": "Apple", "condition": "new"}'
+                />
+              </label>
+            </form>
+          </aside>
+        </>
+      )}
     </main>
   );
 }

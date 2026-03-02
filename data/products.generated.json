@@ -716,7 +716,7 @@
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772025437/home/dzc8psaao9qi0nfewhqp.jpg"
     ],
     "category": "technology",
-    "featured": false,
+    "featured": true,
     "draft": false
   },
   {
@@ -734,7 +734,7 @@
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771987763/home/rej4kpzdhiotjtetkxyc.jpg"
     ],
     "category": "technology",
-    "featured": false,
+    "featured": true,
     "draft": false
   },
   {
@@ -766,7 +766,7 @@
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771953225/0002_warpslingbagmarmalade-2_nbh2jz.webp"
     ],
     "category": "clothing",
-    "featured": true,
+    "featured": false,
     "draft": false
   },
   {
@@ -899,7 +899,7 @@
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771958852/Skate-Old-Skool-Shoe-VANS-ALT5_enqsbf.avif"
     ],
     "category": "shoes",
-    "featured": true,
+    "featured": false,
     "draft": false
   },
   {
