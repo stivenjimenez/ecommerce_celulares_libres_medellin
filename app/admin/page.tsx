@@ -20,7 +20,14 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { GripVertical } from "lucide-react";
-import { ChangeEvent, DragEvent, useEffect, useMemo, useState } from "react";
+import {
+  ChangeEvent,
+  DragEvent,
+  FormEvent,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -31,6 +38,7 @@ import {
   type ProductCategory,
   type Subcategory,
 } from "@/lib/domain/product";
+import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 
 import styles from "./page.module.css";
 
@@ -229,6 +237,15 @@ function SortableImageItem({
 }
 
 export default function AdminPage() {
+  const supabase = useMemo(() => getSupabaseBrowserClient(), []);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthLoading, setIsAuthLoading] = useState(true);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loginError, setLoginError] = useState("");
+  const [isLoginSubmitting, setIsLoginSubmitting] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
+  const [currentUserEmail, setCurrentUserEmail] = useState("");
   const [adminSection, setAdminSection] = useState<
     "products" | "subcategories" | "brands"
   >("products");
@@ -394,6 +411,11 @@ export default function AdminPage() {
       const response = await fetch("/api/admin/products", {
         cache: "no-store",
       });
+      if (response.status === 401) {
+        setIsAuthenticated(false);
+        setCurrentUserEmail("");
+        return;
+      }
       if (!response.ok) throw new Error();
 
       const data = (await response.json()) as Product[];
@@ -413,6 +435,11 @@ export default function AdminPage() {
       const response = await fetch("/api/admin/subcategories", {
         cache: "no-store",
       });
+      if (response.status === 401) {
+        setIsAuthenticated(false);
+        setCurrentUserEmail("");
+        return;
+      }
       if (!response.ok) throw new Error();
       const data = (await response.json()) as Subcategory[];
       setSubcategories(data);
@@ -429,6 +456,11 @@ export default function AdminPage() {
 
     try {
       const response = await fetch("/api/admin/brands", { cache: "no-store" });
+      if (response.status === 401) {
+        setIsAuthenticated(false);
+        setCurrentUserEmail("");
+        return;
+      }
       if (!response.ok) throw new Error();
       const data = (await response.json()) as Brand[];
       setBrands(data);
@@ -440,10 +472,47 @@ export default function AdminPage() {
   }
 
   useEffect(() => {
+    let isMounted = true;
+
+    async function bootstrapAuth() {
+      const { data, error } = await supabase.auth.getUser();
+      if (!isMounted) return;
+
+      if (error || !data.user) {
+        setIsAuthenticated(false);
+        setCurrentUserEmail("");
+      } else {
+        setIsAuthenticated(true);
+        setCurrentUserEmail(data.user.email ?? "");
+      }
+
+      setIsAuthLoading(false);
+    }
+
+    bootstrapAuth();
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!isMounted) return;
+      const user = session?.user ?? null;
+      setIsAuthenticated(Boolean(user));
+      setCurrentUserEmail(user?.email ?? "");
+      setProfileOpen(false);
+    });
+
+    return () => {
+      isMounted = false;
+      subscription.unsubscribe();
+    };
+  }, [supabase]);
+
+  useEffect(() => {
+    if (isAuthLoading || !isAuthenticated) return;
     loadProducts();
     loadSubcategories();
     loadBrands();
-  }, []);
+  }, [isAuthenticated, isAuthLoading]);
 
   useEffect(() => {
     if (!form.subcategory) return;
@@ -1023,31 +1092,150 @@ export default function AdminPage() {
     }
   }
 
+  async function handleLogin(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    setIsLoginSubmitting(true);
+    setLoginError("");
+
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: email.trim(),
+        password,
+      });
+
+      if (error || !data.user) {
+        setLoginError("Correo o contraseña inválidos.");
+        return;
+      }
+
+      setIsAuthenticated(true);
+      setCurrentUserEmail(data.user.email ?? "");
+      setEmail("");
+      setPassword("");
+    } finally {
+      setIsLoginSubmitting(false);
+    }
+  }
+
+  async function handleLogout() {
+    await supabase.auth.signOut();
+    clearPendingUploads();
+    setProducts([]);
+    setSubcategories([]);
+    setBrands([]);
+    setSelectedId("");
+    setSubcatSelectedId("");
+    setBrandSelectedId("");
+    setDrawerOpen(false);
+    setSubcatDrawerOpen(false);
+    setBrandDrawerOpen(false);
+    setProfileOpen(false);
+    setCurrentUserEmail("");
+    setIsAuthenticated(false);
+  }
+
+  if (isAuthLoading) {
+    return (
+      <main className={`${styles.page} ${sora.variable} ${manrope.variable}`}>
+        <p className={styles.muted}>Cargando...</p>
+      </main>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <main className={`${styles.page} ${sora.variable} ${manrope.variable}`}>
+        <section className={styles.authCard}>
+          <h1>Ingreso Admin</h1>
+          <p>Ingresa con correo y contraseña para continuar.</p>
+          <form className={styles.authForm} onSubmit={handleLogin}>
+            <label>
+              Correo
+              <input
+                type="email"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                autoComplete="email"
+                placeholder="correo@empresa.com"
+                required
+              />
+            </label>
+            <label>
+              Contraseña
+              <input
+                type="password"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                autoComplete="current-password"
+                placeholder="Contraseña"
+                required
+              />
+            </label>
+            {loginError && <p className={styles.error}>{loginError}</p>}
+            <button
+              type="submit"
+              className={styles.authButton}
+              disabled={isLoginSubmitting}
+            >
+              Entrar
+            </button>
+          </form>
+        </section>
+      </main>
+    );
+  }
+
   return (
     <main className={`${styles.page} ${sora.variable} ${manrope.variable}`}>
-      <nav className={styles.adminNav} aria-label="Secciones de admin">
-        <button
-          type="button"
-          className={`${styles.adminNavButton} ${adminSection === "products" ? styles.adminNavButtonActive : ""}`}
-          onClick={() => setAdminSection("products")}
-        >
-          Productos
-        </button>
-        <button
-          type="button"
-          className={`${styles.adminNavButton} ${adminSection === "subcategories" ? styles.adminNavButtonActive : ""}`}
-          onClick={() => setAdminSection("subcategories")}
-        >
-          Subcategorías
-        </button>
-        <button
-          type="button"
-          className={`${styles.adminNavButton} ${adminSection === "brands" ? styles.adminNavButtonActive : ""}`}
-          onClick={() => setAdminSection("brands")}
-        >
-          Marcas
-        </button>
-      </nav>
+      <div className={styles.adminTopBar}>
+        <nav className={styles.adminNav} aria-label="Secciones de admin">
+          <button
+            type="button"
+            className={`${styles.adminNavButton} ${adminSection === "products" ? styles.adminNavButtonActive : ""}`}
+            onClick={() => setAdminSection("products")}
+          >
+            Productos
+          </button>
+          <button
+            type="button"
+            className={`${styles.adminNavButton} ${adminSection === "subcategories" ? styles.adminNavButtonActive : ""}`}
+            onClick={() => setAdminSection("subcategories")}
+          >
+            Subcategorías
+          </button>
+          <button
+            type="button"
+            className={`${styles.adminNavButton} ${adminSection === "brands" ? styles.adminNavButtonActive : ""}`}
+            onClick={() => setAdminSection("brands")}
+          >
+            Marcas
+          </button>
+        </nav>
+        <div className={styles.profileWrap}>
+          <button
+            type="button"
+            className={styles.profileButton}
+            onClick={() => setProfileOpen((value) => !value)}
+          >
+            Profile
+          </button>
+          {profileOpen && (
+            <div className={styles.profilePanel}>
+              <p className={styles.profileEmail}>
+                {currentUserEmail || "Sin correo"}
+              </p>
+              <button
+                type="button"
+                onClick={handleLogout}
+                className={styles.logoutButton}
+              >
+                Cerrar sesión
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
 
       {adminSection === "products" && (
         <section className={styles.tableSection}>

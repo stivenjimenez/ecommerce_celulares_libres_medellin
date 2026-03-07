@@ -6,13 +6,20 @@ import {
   getEditableBrands,
   updateBrand,
 } from "@/lib/server/brands-admin";
+import { requireAdminAuth } from "@/lib/server/admin-auth";
 
 export async function GET() {
+  const auth = await requireAdminAuth();
+  if (auth.response) return auth.response;
+
   const { brands } = await getEditableBrands();
   return NextResponse.json(brands);
 }
 
 export async function POST(request: Request) {
+  const auth = await requireAdminAuth();
+  if (auth.response) return auth.response;
+
   try {
     const body = (await request.json()) as Record<string, unknown>;
     const brand = await createBrand(body);
@@ -26,6 +33,9 @@ export async function POST(request: Request) {
 }
 
 export async function PUT(request: Request) {
+  const auth = await requireAdminAuth();
+  if (auth.response) return auth.response;
+
   try {
     const body = (await request.json()) as Record<string, unknown>;
     const brand = await updateBrand(body);
@@ -47,6 +57,9 @@ export async function PUT(request: Request) {
 }
 
 export async function DELETE(request: Request) {
+  const auth = await requireAdminAuth();
+  if (auth.response) return auth.response;
+
   try {
     const body = (await request.json()) as { id?: string };
     if (!body.id) {

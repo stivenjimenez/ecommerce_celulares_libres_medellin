@@ -1,20 +1,21 @@
 import { randomUUID } from "node:crypto";
-import { readFile, writeFile } from "node:fs/promises";
-import { resolve } from "node:path";
 
+import { and, asc, eq, isNull, sql } from "drizzle-orm";
+
+import { categories, subcategories } from "@/db/schema";
 import {
   productCategories,
   type ProductCategory,
   type Subcategory,
 } from "@/lib/domain/product";
-
-const GENERATED_PATH = resolve(
-  process.cwd(),
-  "data/subcategories.generated.json",
-);
-const DEFAULT_PATH = resolve(process.cwd(), "data/subcategories.json");
+import { getDb } from "@/lib/db/client";
+import { getCategoryIdBySlugForAdmin } from "@/lib/server/catalog-admin";
 
 type SubcategoryInput = Partial<Subcategory>;
+
+function database() {
+  return getDb();
+}
 
 function slugify(value: string): string {
   return value
@@ -33,6 +34,32 @@ function isProductCategory(value: string): value is ProductCategory {
   return (productCategories as readonly string[]).includes(value);
 }
 
+function mapRow(row: {
+  subcategory: typeof subcategories.$inferSelect;
+  category: typeof categories.$inferSelect | null;
+}): Subcategory {
+  return {
+    id: row.subcategory.id,
+    slug: row.subcategory.slug,
+    name: row.subcategory.name,
+    category: (row.category?.slug as ProductCategory) ?? "sincategoria",
+    createdAt: row.subcategory.createdAt.toISOString(),
+    updatedAt: row.subcategory.updatedAt.toISOString(),
+  };
+}
+
+async function getSubcategoryById(id: string): Promise<Subcategory | null> {
+  const rows = await database()
+    .select({ subcategory: subcategories, category: categories })
+    .from(subcategories)
+    .leftJoin(categories, eq(subcategories.categoryId, categories.id))
+    .where(and(eq(subcategories.id, id), isNull(subcategories.deletedAt)))
+    .limit(1);
+
+  if (rows.length === 0) return null;
+  return mapRow(rows[0]);
+}
+
 function normalizeSubcategory(
   input: SubcategoryInput,
   existing?: Subcategory,
@@ -45,71 +72,86 @@ function normalizeSubcategory(
     ? categoryCandidate
     : (existing?.category ?? "sincategoria");
   const now = new Date().toISOString();
-  const createdAt = safeString(input.createdAt) || existing?.createdAt || now;
-  const updatedAt = safeString(input.updatedAt) || now;
 
   return {
     id: safeString(input.id) || existing?.id || randomUUID(),
     slug,
     name,
     category,
-    createdAt,
-    updatedAt,
+    createdAt: safeString(input.createdAt) || existing?.createdAt || now,
+    updatedAt: now,
   };
-}
-
-async function readSubcategoriesFile(
-  path: string,
-): Promise<Subcategory[] | null> {
-  try {
-    const content = await readFile(path, "utf8");
-    const parsed = JSON.parse(content) as unknown;
-    if (!Array.isArray(parsed)) return null;
-    return parsed.map((item) => normalizeSubcategory(item as SubcategoryInput));
-  } catch {
-    return null;
-  }
-}
-
-async function getSubcategoriesTargetPath(): Promise<string> {
-  const generated = await readSubcategoriesFile(GENERATED_PATH);
-  if (generated) return GENERATED_PATH;
-
-  const fallback = await readSubcategoriesFile(DEFAULT_PATH);
-  if (fallback) return DEFAULT_PATH;
-
-  return GENERATED_PATH;
-}
-
-async function persist(
-  path: string,
-  subcategories: Subcategory[],
-): Promise<void> {
-  await writeFile(path, `${JSON.stringify(subcategories, null, 2)}\n`, "utf8");
 }
 
 export async function getEditableSubcategories(): Promise<{
   path: string;
   subcategories: Subcategory[];
 }> {
-  const path = await getSubcategoriesTargetPath();
-  const subcategories = (await readSubcategoriesFile(path)) ?? [];
-  return { path, subcategories };
+  const rows = await database()
+    .select({ subcategory: subcategories, category: categories })
+    .from(subcategories)
+    .leftJoin(categories, eq(subcategories.categoryId, categories.id))
+    .where(isNull(subcategories.deletedAt))
+    .orderBy(asc(subcategories.createdAt));
+
+  return {
+    path: "supabase:subcategories",
+    subcategories: rows.map(mapRow),
+  };
 }
 
 export async function createSubcategory(
   input: SubcategoryInput,
 ): Promise<Subcategory> {
-  const { path, subcategories } = await getEditableSubcategories();
   const subcategory = normalizeSubcategory(input);
+  const categoryId = await getCategoryIdBySlugForAdmin(subcategory.category);
 
-  if (subcategories.some((item) => item.id === subcategory.id)) {
-    subcategory.id = randomUUID();
+  const [slugConflict] = await database()
+    .select({ id: subcategories.id })
+    .from(subcategories)
+    .where(
+      and(
+        eq(subcategories.slug, subcategory.slug),
+        isNull(subcategories.deletedAt),
+      ),
+    )
+    .limit(1);
+
+  if (slugConflict) {
+    throw new Error("Ya existe una subcategoría con ese slug.");
   }
 
-  const next = [subcategory, ...subcategories];
-  await persist(path, next);
-  return subcategory;
+  const [nameConflict] = await database()
+    .select({ id: subcategories.id })
+    .from(subcategories)
+    .where(
+      and(
+        eq(subcategories.name, subcategory.name),
+        eq(subcategories.categoryId, categoryId),
+        isNull(subcategories.deletedAt),
+      ),
+    )
+    .limit(1);
+
+  if (nameConflict) {
+    throw new Error(
+      "Ya existe una subcategoría con ese nombre en la categoría.",
+    );
+  }
+
+  const [inserted] = await database()
+    .insert(subcategories)
+    .values({
+      id: subcategory.id,
+      slug: subcategory.slug,
+      name: subcategory.name,
+      categoryId,
+    })
+    .returning({ id: subcategories.id });
+
+  const created = await getSubcategoryById(inserted.id);
+  if (!created) throw new Error("No se pudo leer la subcategoría creada.");
+  return created;
 }
 
 export async function updateSubcategory(
@@ -118,26 +160,68 @@ export async function updateSubcategory(
   const id = safeString(input.id);
   if (!id) return null;
 
-  const { path, subcategories } = await getEditableSubcategories();
-  const index = subcategories.findIndex((item) => item.id === id);
-  if (index < 0) return null;
+  const current = await getSubcategoryById(id);
+  if (!current) return null;
 
-  const current = subcategories[index];
   const updated = normalizeSubcategory({ ...current, ...input }, current);
-  const next = [...subcategories];
-  next[index] = updated;
-  await persist(path, next);
-  return updated;
+  const categoryId = await getCategoryIdBySlugForAdmin(updated.category);
+
+  const [slugConflict] = await database()
+    .select({ id: subcategories.id })
+    .from(subcategories)
+    .where(
+      and(
+        eq(subcategories.slug, updated.slug),
+        isNull(subcategories.deletedAt),
+        sql`${subcategories.id} <> ${id}`,
+      ),
+    )
+    .limit(1);
+
+  if (slugConflict) {
+    throw new Error("Ya existe una subcategoría con ese slug.");
+  }
+
+  const [nameConflict] = await database()
+    .select({ id: subcategories.id })
+    .from(subcategories)
+    .where(
+      and(
+        eq(subcategories.name, updated.name),
+        eq(subcategories.categoryId, categoryId),
+        isNull(subcategories.deletedAt),
+        sql`${subcategories.id} <> ${id}`,
+      ),
+    )
+    .limit(1);
+
+  if (nameConflict) {
+    throw new Error(
+      "Ya existe una subcategoría con ese nombre en la categoría.",
+    );
+  }
+
+  await database()
+    .update(subcategories)
+    .set({
+      slug: updated.slug,
+      name: updated.name,
+      categoryId,
+    })
+    .where(and(eq(subcategories.id, id), isNull(subcategories.deletedAt)));
+
+  return getSubcategoryById(id);
 }
 
 export async function deleteSubcategory(id: string): Promise<boolean> {
   const cleanId = safeString(id);
   if (!cleanId) return false;
 
-  const { path, subcategories } = await getEditableSubcategories();
-  const next = subcategories.filter((item) => item.id !== cleanId);
-  if (next.length === subcategories.length) return false;
+  const [deleted] = await database()
+    .update(subcategories)
+    .set({ deletedAt: new Date() })
+    .where(and(eq(subcategories.id, cleanId), isNull(subcategories.deletedAt)))
+    .returning({ id: subcategories.id });
 
-  await persist(path, next);
-  return true;
+  return Boolean(deleted);
 }

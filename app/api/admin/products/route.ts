@@ -7,13 +7,20 @@ import {
   SlugConflictError,
   updateProduct,
 } from "@/lib/server/catalog-admin";
+import { requireAdminAuth } from "@/lib/server/admin-auth";
 
 export async function GET() {
+  const auth = await requireAdminAuth();
+  if (auth.response) return auth.response;
+
   const { products } = await getEditableCatalog();
   return NextResponse.json(products);
 }
 
 export async function POST(request: Request) {
+  const auth = await requireAdminAuth();
+  if (auth.response) return auth.response;
+
   try {
     const body = (await request.json()) as Record<string, unknown>;
     const product = await createProduct(body);
@@ -31,6 +38,9 @@ export async function POST(request: Request) {
 }
 
 export async function PUT(request: Request) {
+  const auth = await requireAdminAuth();
+  if (auth.response) return auth.response;
+
   try {
     const body = (await request.json()) as Record<string, unknown>;
     const product = await updateProduct(body);
@@ -56,6 +66,9 @@ export async function PUT(request: Request) {
 }
 
 export async function DELETE(request: Request) {
+  const auth = await requireAdminAuth();
+  if (auth.response) return auth.response;
+
   try {
     const body = (await request.json()) as { id?: string };
 

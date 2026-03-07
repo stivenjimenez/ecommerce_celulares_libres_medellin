@@ -12,6 +12,7 @@
     ],
     "category": "clothing",
     "subcategory": "calcetines",
+    "brand": "VANS",
     "featured": false,
     "draft": false
   },
@@ -2154,6 +2155,7 @@
     ],
     "category": "clothing",
     "subcategory": "tenis",
+    "brand": "VANS",
     "featured": true,
     "draft": false,
     "variants": {

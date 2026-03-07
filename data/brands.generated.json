@@ -1,5 +1,13 @@
 [
   {
+    "id": "93fc5ccc-0c00-4575-9784-3d30b5767dad",
+    "slug": "vans",
+    "name": "VANS",
+    "category": "clothing",
+    "createdAt": "2026-03-07T14:25:14.719Z",
+    "updatedAt": "2026-03-07T14:25:14.719Z"
+  },
+  {
     "id": "1841e464-cc06-461f-8987-79f1a3093e8e",
     "slug": "samsung",
     "name": "Samsung",

@@ -1,8 +1,13 @@
 import { NextResponse } from "next/server";
 
+import { requireAdminAuth } from "@/lib/server/admin-auth";
+
 import { reorderProducts } from "@/lib/server/catalog-admin";
 
 export async function POST(request: Request) {
+  const auth = await requireAdminAuth();
+  if (auth.response) return auth.response;
+
   try {
     const body = (await request.json()) as { ids?: string[] };
     if (!Array.isArray(body.ids)) {

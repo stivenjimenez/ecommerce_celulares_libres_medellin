@@ -6,13 +6,20 @@ import {
   getEditableSubcategories,
   updateSubcategory,
 } from "@/lib/server/subcategories-admin";
+import { requireAdminAuth } from "@/lib/server/admin-auth";
 
 export async function GET() {
+  const auth = await requireAdminAuth();
+  if (auth.response) return auth.response;
+
   const { subcategories } = await getEditableSubcategories();
   return NextResponse.json(subcategories);
 }
 
 export async function POST(request: Request) {
+  const auth = await requireAdminAuth();
+  if (auth.response) return auth.response;
+
   try {
     const body = (await request.json()) as Record<string, unknown>;
     const subcategory = await createSubcategory(body);
@@ -26,6 +33,9 @@ export async function POST(request: Request) {
 }
 
 export async function PUT(request: Request) {
+  const auth = await requireAdminAuth();
+  if (auth.response) return auth.response;
+
   try {
     const body = (await request.json()) as Record<string, unknown>;
     const subcategory = await updateSubcategory(body);
@@ -47,6 +57,9 @@ export async function PUT(request: Request) {
 }
 
 export async function DELETE(request: Request) {
+  const auth = await requireAdminAuth();
+  if (auth.response) return auth.response;
+
   try {
     const body = (await request.json()) as { id?: string };
     if (!body.id) {

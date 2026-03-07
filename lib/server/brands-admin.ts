@@ -1,17 +1,21 @@
 import { randomUUID } from "node:crypto";
-import { readFile, writeFile } from "node:fs/promises";
-import { resolve } from "node:path";
 
+import { and, asc, eq, isNull, sql } from "drizzle-orm";
+
+import { brands, categories } from "@/db/schema";
 import {
   productCategories,
   type Brand,
   type ProductCategory,
 } from "@/lib/domain/product";
-
-const GENERATED_PATH = resolve(process.cwd(), "data/brands.generated.json");
-const DEFAULT_PATH = resolve(process.cwd(), "data/brands.json");
+import { getDb } from "@/lib/db/client";
+import { getCategoryIdBySlugForAdmin } from "@/lib/server/catalog-admin";
 
 type BrandInput = Partial<Brand>;
+
+function database() {
+  return getDb();
+}
 
 function slugify(value: string): string {
   return value
@@ -30,6 +34,32 @@ function isProductCategory(value: string): value is ProductCategory {
   return (productCategories as readonly string[]).includes(value);
 }
 
+function mapRow(row: {
+  brand: typeof brands.$inferSelect;
+  category: typeof categories.$inferSelect | null;
+}): Brand {
+  return {
+    id: row.brand.id,
+    slug: row.brand.slug,
+    name: row.brand.name,
+    category: (row.category?.slug as ProductCategory) ?? "sincategoria",
+    createdAt: row.brand.createdAt.toISOString(),
+    updatedAt: row.brand.updatedAt.toISOString(),
+  };
+}
+
+async function getBrandById(id: string): Promise<Brand | null> {
+  const rows = await database()
+    .select({ brand: brands, category: categories })
+    .from(brands)
+    .leftJoin(categories, eq(brands.categoryId, categories.id))
+    .where(and(eq(brands.id, id), isNull(brands.deletedAt)))
+    .limit(1);
+
+  if (rows.length === 0) return null;
+  return mapRow(rows[0]);
+}
+
 function normalizeBrand(input: BrandInput, existing?: Brand): Brand {
   const name = safeString(input.name) || existing?.name || "Marca";
   const slug =
@@ -39,90 +69,143 @@ function normalizeBrand(input: BrandInput, existing?: Brand): Brand {
     ? categoryCandidate
     : (existing?.category ?? "sincategoria");
   const now = new Date().toISOString();
-  const createdAt = safeString(input.createdAt) || existing?.createdAt || now;
-  const updatedAt = safeString(input.updatedAt) || now;
 
   return {
     id: safeString(input.id) || existing?.id || randomUUID(),
     slug,
     name,
     category,
-    createdAt,
-    updatedAt,
+    createdAt: safeString(input.createdAt) || existing?.createdAt || now,
+    updatedAt: now,
   };
-}
-
-async function readBrandsFile(path: string): Promise<Brand[] | null> {
-  try {
-    const content = await readFile(path, "utf8");
-    const parsed = JSON.parse(content) as unknown;
-    if (!Array.isArray(parsed)) return null;
-    return parsed.map((item) => normalizeBrand(item as BrandInput));
-  } catch {
-    return null;
-  }
-}
-
-async function getBrandsTargetPath(): Promise<string> {
-  const generated = await readBrandsFile(GENERATED_PATH);
-  if (generated) return GENERATED_PATH;
-
-  const fallback = await readBrandsFile(DEFAULT_PATH);
-  if (fallback) return DEFAULT_PATH;
-
-  return GENERATED_PATH;
-}
-
-async function persist(path: string, brands: Brand[]): Promise<void> {
-  await writeFile(path, `${JSON.stringify(brands, null, 2)}\n`, "utf8");
 }
 
 export async function getEditableBrands(): Promise<{
   path: string;
   brands: Brand[];
 }> {
-  const path = await getBrandsTargetPath();
-  const brands = (await readBrandsFile(path)) ?? [];
-  return { path, brands };
+  const rows = await database()
+    .select({ brand: brands, category: categories })
+    .from(brands)
+    .leftJoin(categories, eq(brands.categoryId, categories.id))
+    .where(isNull(brands.deletedAt))
+    .orderBy(asc(brands.createdAt));
+
+  return {
+    path: "supabase:brands",
+    brands: rows.map(mapRow),
+  };
 }
 
 export async function createBrand(input: BrandInput): Promise<Brand> {
-  const { path, brands } = await getEditableBrands();
   const brand = normalizeBrand(input);
+  const categoryId = await getCategoryIdBySlugForAdmin(brand.category);
 
-  if (brands.some((item) => item.id === brand.id)) {
-    brand.id = randomUUID();
+  const [slugConflict] = await database()
+    .select({ id: brands.id })
+    .from(brands)
+    .where(and(eq(brands.slug, brand.slug), isNull(brands.deletedAt)))
+    .limit(1);
+
+  if (slugConflict) {
+    throw new Error("Ya existe una marca con ese slug.");
   }
 
-  const next = [brand, ...brands];
-  await persist(path, next);
-  return brand;
+  const [nameConflict] = await database()
+    .select({ id: brands.id })
+    .from(brands)
+    .where(
+      and(
+        eq(brands.name, brand.name),
+        eq(brands.categoryId, categoryId),
+        isNull(brands.deletedAt),
+      ),
+    )
+    .limit(1);
+
+  if (nameConflict) {
+    throw new Error("Ya existe una marca con ese nombre en la categoría.");
+  }
+
+  const [inserted] = await database()
+    .insert(brands)
+    .values({
+      id: brand.id,
+      slug: brand.slug,
+      name: brand.name,
+      categoryId,
+    })
+    .returning({ id: brands.id });
+
+  const created = await getBrandById(inserted.id);
+  if (!created) throw new Error("No se pudo leer la marca creada.");
+  return created;
 }
 
 export async function updateBrand(input: BrandInput): Promise<Brand | null> {
   const id = safeString(input.id);
   if (!id) return null;
 
-  const { path, brands } = await getEditableBrands();
-  const index = brands.findIndex((item) => item.id === id);
-  if (index < 0) return null;
+  const current = await getBrandById(id);
+  if (!current) return null;
 
-  const current = brands[index];
   const updated = normalizeBrand({ ...current, ...input }, current);
-  const next = [...brands];
-  next[index] = updated;
-  await persist(path, next);
-  return updated;
+  const categoryId = await getCategoryIdBySlugForAdmin(updated.category);
+
+  const [slugConflict] = await database()
+    .select({ id: brands.id })
+    .from(brands)
+    .where(
+      and(
+        eq(brands.slug, updated.slug),
+        isNull(brands.deletedAt),
+        sql`${brands.id} <> ${id}`,
+      ),
+    )
+    .limit(1);
+
+  if (slugConflict) {
+    throw new Error("Ya existe una marca con ese slug.");
+  }
+
+  const [nameConflict] = await database()
+    .select({ id: brands.id })
+    .from(brands)
+    .where(
+      and(
+        eq(brands.name, updated.name),
+        eq(brands.categoryId, categoryId),
+        isNull(brands.deletedAt),
+        sql`${brands.id} <> ${id}`,
+      ),
+    )
+    .limit(1);
+
+  if (nameConflict) {
+    throw new Error("Ya existe una marca con ese nombre en la categoría.");
+  }
+
+  await database()
+    .update(brands)
+    .set({
+      slug: updated.slug,
+      name: updated.name,
+      categoryId,
+    })
+    .where(and(eq(brands.id, id), isNull(brands.deletedAt)));
+
+  return getBrandById(id);
 }
 
 export async function deleteBrand(id: string): Promise<boolean> {
   const cleanId = safeString(id);
   if (!cleanId) return false;
 
-  const { path, brands } = await getEditableBrands();
-  const next = brands.filter((item) => item.id !== cleanId);
-  if (next.length === brands.length) return false;
+  const [deleted] = await database()
+    .update(brands)
+    .set({ deletedAt: new Date() })
+    .where(and(eq(brands.id, cleanId), isNull(brands.deletedAt)))
+    .returning({ id: brands.id });
 
-  await persist(path, next);
-  return true;
+  return Boolean(deleted);
 }

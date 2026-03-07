@@ -2,6 +2,8 @@ import { createHash } from "node:crypto";
 
 import { NextResponse } from "next/server";
 
+import { requireAdminAuth } from "@/lib/server/admin-auth";
+
 export const runtime = "nodejs";
 
 type CloudinarySuccess = {
@@ -68,6 +70,9 @@ async function uploadToCloudinary(file: File): Promise<string> {
 }
 
 export async function POST(request: Request) {
+  const auth = await requireAdminAuth();
+  if (auth.response) return auth.response;
+
   try {
     const formData = await request.formData();
     const items = formData.getAll("files");
