@@ -51,7 +51,9 @@ export default async function ProductDetailPage({ params }: Props) {
   const description = normalizeDescription(product);
 
   return (
-    <main className={`${detailStyles.page} ${sora.variable} ${manrope.variable}`}>
+    <main
+      className={`${detailStyles.page} ${sora.variable} ${manrope.variable}`}
+    >
       <section className={detailStyles.detail}>
         <BackButton className={detailStyles.backLink} />
 
@@ -61,15 +63,22 @@ export default async function ProductDetailPage({ params }: Props) {
           </div>
 
           <article className={detailStyles.infoPanel}>
-            <p className={detailStyles.category}>{categoryLabel[product.category]}</p>
+            <p className={detailStyles.category}>
+              {categoryLabel[product.category]}
+            </p>
             <h1>{product.name}</h1>
             <div className={detailStyles.priceWrap}>
-              {typeof product.previousPrice === "number" && product.previousPrice > product.price ? (
-                <p className={detailStyles.previousPrice}>{formatCOP(product.previousPrice)}</p>
+              {typeof product.previousPrice === "number" &&
+              product.previousPrice > product.price ? (
+                <p className={detailStyles.previousPrice}>
+                  {formatCOP(product.previousPrice)}
+                </p>
               ) : null}
               <p className={detailStyles.price}>{formatCOP(product.price)}</p>
             </div>
-            {description ? <p className={detailStyles.description}>{description}</p> : null}
+            {description ? (
+              <p className={detailStyles.description}>{description}</p>
+            ) : null}
 
             <div className={detailStyles.actions}>
               <AddToCartButton product={product} />

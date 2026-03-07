@@ -35,8 +35,10 @@ export function ProductGallery({ images, alt }: Props) {
   const activeIndex = Math.min(selectedIndex, galleryImages.length - 1);
   const activeImage = galleryImages[activeIndex];
   const hasMultiple = galleryImages.length > 1;
-  const previousIndex = activeIndex === 0 ? galleryImages.length - 1 : activeIndex - 1;
-  const nextIndex = activeIndex === galleryImages.length - 1 ? 0 : activeIndex + 1;
+  const previousIndex =
+    activeIndex === 0 ? galleryImages.length - 1 : activeIndex - 1;
+  const nextIndex =
+    activeIndex === galleryImages.length - 1 ? 0 : activeIndex + 1;
 
   return (
     <div className={detailStyles.galleryLayout}>

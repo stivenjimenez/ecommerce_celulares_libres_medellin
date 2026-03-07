@@ -22,7 +22,9 @@ export function WhatsAppFloat() {
           className={`${styles.button} ${styles.cartButton}`}
         >
           <ShoppingCart />
-          <span className={styles.badge}>{totalItems > 99 ? "99+" : totalItems}</span>
+          <span className={styles.badge}>
+            {totalItems > 99 ? "99+" : totalItems}
+          </span>
         </Link>
       ) : null}
 

@@ -66,7 +66,8 @@
   min-height: 0;
   background: #edf0f5;
   border-bottom: 1px solid #d3dbe7;
-  padding-inline: max(16px, env(safe-area-inset-left)) max(16px, env(safe-area-inset-right));
+  padding-inline: max(16px, env(safe-area-inset-left))
+    max(16px, env(safe-area-inset-right));
 }
 
 .headerInner {
@@ -525,7 +526,10 @@
 
 .footerGrid {
   display: grid;
-  grid-template-columns: minmax(320px, 1.6fr) minmax(210px, 1fr) minmax(210px, 1fr);
+  grid-template-columns: minmax(320px, 1.6fr) minmax(210px, 1fr) minmax(
+      210px,
+      1fr
+    );
   gap: 30px;
   align-items: start;
 }

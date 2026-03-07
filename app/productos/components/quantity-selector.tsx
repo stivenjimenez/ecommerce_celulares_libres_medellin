@@ -9,8 +9,15 @@ type Props = {
   max?: number;
 };
 
-export function QuantitySelector({ value, onChange, min = 1, max = 99 }: Props) {
-  const safeValue = Number.isFinite(value) ? Math.min(max, Math.max(min, Math.trunc(value))) : min;
+export function QuantitySelector({
+  value,
+  onChange,
+  min = 1,
+  max = 99,
+}: Props) {
+  const safeValue = Number.isFinite(value)
+    ? Math.min(max, Math.max(min, Math.trunc(value)))
+    : min;
 
   function update(nextValue: number) {
     onChange(Math.min(max, Math.max(min, Math.trunc(nextValue))));

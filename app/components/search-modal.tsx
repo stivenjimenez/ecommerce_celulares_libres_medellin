@@ -65,14 +65,24 @@ export function SearchModal() {
 
   return (
     <>
-      <button type="button" className={styles.trigger} onClick={openModal} aria-label="Buscar productos">
+      <button
+        type="button"
+        className={styles.trigger}
+        onClick={openModal}
+        aria-label="Buscar productos"
+      >
         <Search className={styles.triggerIcon} />
         <span className={styles.triggerText}>Buscar productos...</span>
       </button>
 
       {open && (
         <div className={styles.backdrop} onClick={closeModal}>
-          <div className={styles.modal} role="dialog" aria-modal="true" onClick={(e) => e.stopPropagation()}>
+          <div
+            className={styles.modal}
+            role="dialog"
+            aria-modal="true"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className={styles.modalTop}>
               <Search />
               <input
@@ -83,22 +93,35 @@ export function SearchModal() {
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
               />
-              <button type="button" className={styles.closeButton} onClick={closeModal} aria-label="Cerrar búsqueda">
+              <button
+                type="button"
+                className={styles.closeButton}
+                onClick={closeModal}
+                aria-label="Cerrar búsqueda"
+              >
                 <X />
               </button>
             </div>
 
             <div className={styles.results}>
               {!query.trim() && (
-                <p className={styles.state}>Escribe el nombre del producto que estás buscando.</p>
+                <p className={styles.state}>
+                  Escribe el nombre del producto que estás buscando.
+                </p>
               )}
-              {!!query.trim() && isLoading && <p className={styles.state}>Buscando productos...</p>}
+              {!!query.trim() && isLoading && (
+                <p className={styles.state}>Buscando productos...</p>
+              )}
               {!!query.trim() && !isLoading && results.length === 0 && (
-                <p className={styles.state}>No encontramos productos relacionados.</p>
+                <p className={styles.state}>
+                  No encontramos productos relacionados.
+                </p>
               )}
 
               {results.map((product) => {
-                const image = product.images[0] ?? "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771952540/clm-logo_fyqsex.png";
+                const image =
+                  product.images[0] ??
+                  "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771952540/clm-logo_fyqsex.png";
                 return (
                   <button
                     key={product.id}
@@ -110,7 +133,13 @@ export function SearchModal() {
                     }}
                   >
                     <div className={styles.resultImageWrap}>
-                      <Image src={image} alt={product.name} fill sizes="66px" className={styles.resultImage} />
+                      <Image
+                        src={image}
+                        alt={product.name}
+                        fill
+                        sizes="66px"
+                        className={styles.resultImage}
+                      />
                     </div>
                     <div className={styles.resultBody}>
                       <h3>{product.name}</h3>

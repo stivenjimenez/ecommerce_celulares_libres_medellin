@@ -23,7 +23,10 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: error.message }, { status: 409 });
     }
 
-    return NextResponse.json({ message: "No se pudo crear el producto." }, { status: 400 });
+    return NextResponse.json(
+      { message: "No se pudo crear el producto." },
+      { status: 400 },
+    );
   }
 }
 
@@ -33,7 +36,10 @@ export async function PUT(request: Request) {
     const product = await updateProduct(body);
 
     if (!product) {
-      return NextResponse.json({ message: "Producto no encontrado." }, { status: 404 });
+      return NextResponse.json(
+        { message: "Producto no encontrado." },
+        { status: 404 },
+      );
     }
 
     return NextResponse.json(product);
@@ -42,7 +48,10 @@ export async function PUT(request: Request) {
       return NextResponse.json({ message: error.message }, { status: 409 });
     }
 
-    return NextResponse.json({ message: "No se pudo actualizar el producto." }, { status: 400 });
+    return NextResponse.json(
+      { message: "No se pudo actualizar el producto." },
+      { status: 400 },
+    );
   }
 }
 
@@ -57,11 +66,17 @@ export async function DELETE(request: Request) {
     const deleted = await deleteProduct(body.id);
 
     if (!deleted) {
-      return NextResponse.json({ message: "Producto no encontrado." }, { status: 404 });
+      return NextResponse.json(
+        { message: "Producto no encontrado." },
+        { status: 404 },
+      );
     }
 
     return NextResponse.json({ ok: true });
   } catch {
-    return NextResponse.json({ message: "No se pudo eliminar el producto." }, { status: 400 });
+    return NextResponse.json(
+      { message: "No se pudo eliminar el producto." },
+      { status: 400 },
+    );
   }
 }

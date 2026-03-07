@@ -23,7 +23,9 @@ export const useCartStore = create<CartState>()(
       items: [],
       addItem: (product, quantity = 1) => {
         set((state) => {
-          const existing = state.items.find((item) => item.productId === product.id);
+          const existing = state.items.find(
+            (item) => item.productId === product.id,
+          );
           if (existing) {
             return {
               items: state.items.map((item) =>
@@ -57,7 +59,9 @@ export const useCartStore = create<CartState>()(
         const nextQuantity = Math.max(1, Math.trunc(quantity));
         set((state) => ({
           items: state.items.map((item) =>
-            item.productId === productId ? { ...item, quantity: nextQuantity } : item,
+            item.productId === productId
+              ? { ...item, quantity: nextQuantity }
+              : item,
           ),
         }));
       },
@@ -69,8 +73,10 @@ export const useCartStore = create<CartState>()(
       clearCart: () => {
         set({ items: [] });
       },
-      totalItems: () => get().items.reduce((acc, item) => acc + item.quantity, 0),
-      subtotal: () => get().items.reduce((acc, item) => acc + item.price * item.quantity, 0),
+      totalItems: () =>
+        get().items.reduce((acc, item) => acc + item.quantity, 0),
+      subtotal: () =>
+        get().items.reduce((acc, item) => acc + item.price * item.quantity, 0),
     }),
     {
       name: "clm-cart",

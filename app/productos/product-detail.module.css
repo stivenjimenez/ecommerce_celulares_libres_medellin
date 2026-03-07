@@ -106,8 +106,12 @@
   min-height: 560px;
   display: grid;
   place-items: center;
-  background:
-    radial-gradient(circle at 20% 20%, #f8fbff 0, #f1f5fb 45%, #ebf1fa 100%);
+  background: radial-gradient(
+    circle at 20% 20%,
+    #f8fbff 0,
+    #f1f5fb 45%,
+    #ebf1fa 100%
+  );
   color: #526380;
   font-size: 15px;
   text-align: center;

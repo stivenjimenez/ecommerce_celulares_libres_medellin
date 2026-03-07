@@ -6,7 +6,10 @@ export async function POST(request: Request) {
   try {
     const body = (await request.json()) as { ids?: string[] };
     if (!Array.isArray(body.ids)) {
-      return NextResponse.json({ message: "Falta el arreglo de ids." }, { status: 400 });
+      return NextResponse.json(
+        { message: "Falta el arreglo de ids." },
+        { status: 400 },
+      );
     }
 
     const products = await reorderProducts(body.ids);
@@ -18,4 +21,3 @@ export async function POST(request: Request) {
     );
   }
 }
-

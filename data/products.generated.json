@@ -945,9 +945,7 @@
     "featured": true,
     "draft": false,
     "variants": {
-      "size": [
-        "8.5"
-      ]
+      "size": ["8.5"]
     }
   },
   {

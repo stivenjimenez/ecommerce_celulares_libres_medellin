@@ -19,7 +19,10 @@ export default function CarritoPage() {
   const clearCart = useCartStore((state) => state.clearCart);
 
   const totalItems = items.reduce((acc, item) => acc + item.quantity, 0);
-  const subtotal = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const subtotal = items.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0,
+  );
   const orderLines = items.map(
     (item, index) =>
       `${index + 1}. ${item.name} - Cantidad: ${item.quantity} - Total: ${formatCOP(item.price * item.quantity)}`,
@@ -42,7 +45,11 @@ export default function CarritoPage() {
         <div className={styles.cartTop}>
           <h1>Carrito</h1>
           {items.length > 0 && (
-            <button type="button" onClick={clearCart} className={styles.clearButton}>
+            <button
+              type="button"
+              onClick={clearCart}
+              className={styles.clearButton}
+            >
               Vaciar carrito
             </button>
           )}
@@ -61,12 +68,24 @@ export default function CarritoPage() {
             <div className={styles.items}>
               {items.map((item) => (
                 <article key={item.productId} className={styles.item}>
-                  <Link href={`/productos/${item.slug}`} className={styles.itemImage}>
-                    <Image src={item.image} alt={item.name} fill sizes="140px" className={styles.image} />
+                  <Link
+                    href={`/productos/${item.slug}`}
+                    className={styles.itemImage}
+                  >
+                    <Image
+                      src={item.image}
+                      alt={item.name}
+                      fill
+                      sizes="140px"
+                      className={styles.image}
+                    />
                   </Link>
 
                   <div className={styles.itemBody}>
-                    <Link href={`/productos/${item.slug}`} className={styles.itemName}>
+                    <Link
+                      href={`/productos/${item.slug}`}
+                      className={styles.itemName}
+                    >
                       {item.name}
                     </Link>
                     <p className={styles.itemPrice}>{formatCOP(item.price)}</p>
@@ -75,7 +94,12 @@ export default function CarritoPage() {
                       <div className={styles.qtyBox}>
                         <button
                           type="button"
-                          onClick={() => updateItemQuantity(item.productId, item.quantity - 1)}
+                          onClick={() =>
+                            updateItemQuantity(
+                              item.productId,
+                              item.quantity - 1,
+                            )
+                          }
                           disabled={item.quantity <= 1}
                           aria-label={`Restar una unidad de ${item.name}`}
                         >
@@ -84,7 +108,12 @@ export default function CarritoPage() {
                         <span>{item.quantity}</span>
                         <button
                           type="button"
-                          onClick={() => updateItemQuantity(item.productId, item.quantity + 1)}
+                          onClick={() =>
+                            updateItemQuantity(
+                              item.productId,
+                              item.quantity + 1,
+                            )
+                          }
                           aria-label={`Sumar una unidad de ${item.name}`}
                         >
                           <Plus />
@@ -103,7 +132,9 @@ export default function CarritoPage() {
                     </div>
                   </div>
 
-                  <strong className={styles.itemTotal}>{formatCOP(item.price * item.quantity)}</strong>
+                  <strong className={styles.itemTotal}>
+                    {formatCOP(item.price * item.quantity)}
+                  </strong>
                 </article>
               ))}
             </div>

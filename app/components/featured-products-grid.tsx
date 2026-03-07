@@ -27,9 +27,12 @@ export function FeaturedProductCard({
   const primaryImage = product.images[0] ?? fallbackImage;
   const secondaryImage = product.images[1];
   const hasSecondaryImage = Boolean(secondaryImage);
-  const image = hasSecondaryImage && showSecondImage ? secondaryImage : primaryImage;
+  const image =
+    hasSecondaryImage && showSecondImage ? secondaryImage : primaryImage;
   const safeSlug = product.slug || product.id;
-  const hasPreviousPrice = typeof product.previousPrice === "number" && product.previousPrice > product.price;
+  const hasPreviousPrice =
+    typeof product.previousPrice === "number" &&
+    product.previousPrice > product.price;
 
   function openProductDetail() {
     if (!interactive || !safeSlug) return;

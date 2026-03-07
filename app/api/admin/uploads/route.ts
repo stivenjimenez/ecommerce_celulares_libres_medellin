@@ -13,7 +13,8 @@ const cloudName = process.env.CLOUDINARY_CLOUD_NAME ?? "dwqyypb8q";
 const apiKey = process.env.CLOUDINARY_API_KEY ?? "";
 const apiSecret = process.env.CLOUDINARY_API_SECRET ?? "";
 const unsignedUploadPreset = process.env.CLOUDINARY_UPLOAD_PRESET ?? "";
-const uploadFolder = process.env.CLOUDINARY_UPLOAD_FOLDER ?? "celulares_libres_medellin";
+const uploadFolder =
+  process.env.CLOUDINARY_UPLOAD_FOLDER ?? "celulares_libres_medellin";
 
 function makeSignature(params: Record<string, string>, secret: string): string {
   const toSign = Object.entries(params)
@@ -22,9 +23,7 @@ function makeSignature(params: Record<string, string>, secret: string): string {
     .map(([key, value]) => `${key}=${value}`)
     .join("&");
 
-  return createHash("sha1")
-    .update(`${toSign}${secret}`)
-    .digest("hex");
+  return createHash("sha1").update(`${toSign}${secret}`).digest("hex");
 }
 
 async function uploadToCloudinary(file: File): Promise<string> {
@@ -55,10 +54,14 @@ async function uploadToCloudinary(file: File): Promise<string> {
     body,
   });
 
-  const payload = (await response.json().catch(() => null)) as CloudinarySuccess | null;
+  const payload = (await response
+    .json()
+    .catch(() => null)) as CloudinarySuccess | null;
 
   if (!response.ok || !payload?.secure_url) {
-    throw new Error(payload?.error?.message || "Cloudinary no devolvió una URL válida.");
+    throw new Error(
+      payload?.error?.message || "Cloudinary no devolvió una URL válida.",
+    );
   }
 
   return payload.secure_url;
@@ -68,16 +71,26 @@ export async function POST(request: Request) {
   try {
     const formData = await request.formData();
     const items = formData.getAll("files");
-    const files = items.filter((item): item is File => item instanceof File && item.size > 0);
+    const files = items.filter(
+      (item): item is File => item instanceof File && item.size > 0,
+    );
 
     if (files.length === 0) {
-      return NextResponse.json({ message: "No se recibieron imágenes." }, { status: 400 });
+      return NextResponse.json(
+        { message: "No se recibieron imágenes." },
+        { status: 400 },
+      );
     }
 
-    const urls = await Promise.all(files.map((file) => uploadToCloudinary(file)));
+    const urls = await Promise.all(
+      files.map((file) => uploadToCloudinary(file)),
+    );
     return NextResponse.json({ urls }, { status: 201 });
   } catch (error) {
-    const message = error instanceof Error ? error.message : "No se pudieron subir las imágenes.";
+    const message =
+      error instanceof Error
+        ? error.message
+        : "No se pudieron subir las imágenes.";
     return NextResponse.json({ message }, { status: 500 });
   }
 }

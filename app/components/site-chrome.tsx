@@ -41,7 +41,11 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
 
           <nav className={homeStyles.nav}>
             {navLinks.map((link) => (
-              <Link key={link.label} href={link.href} className={homeStyles.navLink}>
+              <Link
+                key={link.label}
+                href={link.href}
+                className={homeStyles.navLink}
+              >
                 {link.label}
               </Link>
             ))}
@@ -69,8 +73,8 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
                 />
               </Link>
               <p>
-                Celulares Libres Medellin: tecnologia, ropa original y repuestos bike con atencion
-                cercana en Medellin.
+                Celulares Libres Medellin: tecnologia, ropa original y repuestos
+                bike con atencion cercana en Medellin.
               </p>
             </div>
 
@@ -115,7 +119,9 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
           </div>
 
           <div className={homeStyles.footerBottom}>
-            <p>© 2026 Celulares Libres Medellin. Todos los derechos reservados.</p>
+            <p>
+              © 2026 Celulares Libres Medellin. Todos los derechos reservados.
+            </p>
             <div>
               <Link href="/privacidad">Privacidad</Link>
               <Link href="/terminos">Términos</Link>

@@ -4,7 +4,14 @@ import Image from "next/image";
 import { Manrope, Sora } from "next/font/google";
 import { ShoppingCart, ArrowUpDown } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
+import {
+  Suspense,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type CSSProperties,
+} from "react";
 
 import { type Product, type ProductCategory } from "@/lib/domain/product";
 import { useProducts } from "@/lib/services/products";
@@ -28,7 +35,13 @@ const categoryTitles: Record<string, string> = {
   bicicletas: "Bicicletas",
 };
 
-type SortOption = "default" | "price-asc" | "price-desc" | "name-asc" | "name-desc" | "discount";
+type SortOption =
+  | "default"
+  | "price-asc"
+  | "price-desc"
+  | "name-asc"
+  | "name-desc"
+  | "discount";
 
 const sortLabels: Record<Exclude<SortOption, "default">, string> = {
   "price-asc": "Menor precio",
@@ -38,7 +51,9 @@ const sortLabels: Record<Exclude<SortOption, "default">, string> = {
   discount: "Mayor descuento",
 };
 
-const sortOptions = Object.keys(sortLabels) as Array<Exclude<SortOption, "default">>;
+const sortOptions = Object.keys(sortLabels) as Array<
+  Exclude<SortOption, "default">
+>;
 
 function applySorting(items: Product[], sort: SortOption): Product[] {
   if (sort === "default") return items;
@@ -59,8 +74,14 @@ function applySorting(items: Product[], sort: SortOption): Product[] {
       break;
     case "discount":
       sorted.sort((a, b) => {
-        const da = a.previousPrice && a.previousPrice > a.price ? a.previousPrice - a.price : 0;
-        const db = b.previousPrice && b.previousPrice > b.price ? b.previousPrice - b.price : 0;
+        const da =
+          a.previousPrice && a.previousPrice > a.price
+            ? a.previousPrice - a.price
+            : 0;
+        const db =
+          b.previousPrice && b.previousPrice > b.price
+            ? b.previousPrice - b.price
+            : 0;
         return db - da;
       });
       break;
@@ -139,7 +160,8 @@ function ProductosPageContent() {
   const sectionTitle = categoryTitles[categoryParam] ?? "Catálogo completo";
 
   useEffect(() => {
-    const syncColumns = () => setColumns(getColumnsForViewport(window.innerWidth));
+    const syncColumns = () =>
+      setColumns(getColumnsForViewport(window.innerWidth));
     syncColumns();
     window.addEventListener("resize", syncColumns);
     return () => window.removeEventListener("resize", syncColumns);
@@ -168,7 +190,9 @@ function ProductosPageContent() {
 
   const filteredProducts = useMemo(() => {
     const subFiltered = activeSubcategory
-      ? categoryProducts.filter((product) => product.subcategory === activeSubcategory)
+      ? categoryProducts.filter(
+          (product) => product.subcategory === activeSubcategory,
+        )
       : categoryProducts;
 
     return applySorting(subFiltered, sortBy);
@@ -182,14 +206,24 @@ function ProductosPageContent() {
       .map((key) => ({
         key,
         title: categoryTitles[key],
-        products: filteredProducts.filter((product) => categoryFilters[key].includes(product.category)),
+        products: filteredProducts.filter((product) =>
+          categoryFilters[key].includes(product.category),
+        ),
       }))
       .filter((section) => section.products.length > 0);
   }, [activeCategories, filteredProducts, sortBy]);
 
   const showFlatList = activeCategories !== null || sortBy !== "default";
 
-  function ProductCard({ product, delayMs, isVisible }: { product: Product; delayMs: number; isVisible: boolean }) {
+  function ProductCard({
+    product,
+    delayMs,
+    isVisible,
+  }: {
+    product: Product;
+    delayMs: number;
+    isVisible: boolean;
+  }) {
     const [showSecondImage, setShowSecondImage] = useState(false);
     const primaryImage =
       product.images[0] ??
@@ -197,7 +231,8 @@ function ProductosPageContent() {
     const secondaryImage = product.images[1];
     const hasSecondaryImage = Boolean(secondaryImage);
     const hasPreviousPrice =
-      typeof product.previousPrice === "number" && product.previousPrice > product.price;
+      typeof product.previousPrice === "number" &&
+      product.previousPrice > product.price;
     const cardStyle = { "--reveal-delay": `${delayMs}ms` } as CSSProperties;
 
     return (
@@ -258,7 +293,9 @@ function ProductosPageContent() {
                 className={`${styles.previousPrice} ${hasPreviousPrice ? "" : styles.previousPriceEmpty}`}
                 aria-hidden={!hasPreviousPrice}
               >
-                {hasPreviousPrice ? formatCOP(product.previousPrice!) : "\u00a0"}
+                {hasPreviousPrice
+                  ? formatCOP(product.previousPrice!)
+                  : "\u00a0"}
               </span>
             </div>
             <button
@@ -305,7 +342,9 @@ function ProductosPageContent() {
               <ArrowUpDown size={15} className={styles.sortIcon} />
               <select
                 value={sortBy === "default" ? "" : sortBy}
-                onChange={(e) => setSortBy((e.target.value as SortOption) || "default")}
+                onChange={(e) =>
+                  setSortBy((e.target.value as SortOption) || "default")
+                }
                 aria-label="Ordenar por"
               >
                 <option value="">Ordenar por</option>
@@ -320,7 +359,10 @@ function ProductosPageContent() {
         </div>
 
         {activeCategories && visibleSubcategories.length > 0 && (
-          <section className={styles.subcategoriesBar} aria-label="Subcategorías disponibles">
+          <section
+            className={styles.subcategoriesBar}
+            aria-label="Subcategorías disponibles"
+          >
             <p>Subcategorías</p>
             <div className={styles.subcategoriesList}>
               <button
@@ -337,7 +379,9 @@ function ProductosPageContent() {
                   key={subcategory}
                   type="button"
                   className={`${styles.subcategoryChip} ${
-                    activeSubcategory === subcategory ? styles.subcategoryChipActive : ""
+                    activeSubcategory === subcategory
+                      ? styles.subcategoryChipActive
+                      : ""
                   }`}
                   onClick={() => setActiveSubcategory(subcategory)}
                 >
@@ -348,13 +392,19 @@ function ProductosPageContent() {
           </section>
         )}
 
-        {error && <p className={styles.state}>No se pudieron cargar los productos.</p>}
+        {error && (
+          <p className={styles.state}>No se pudieron cargar los productos.</p>
+        )}
         {isLoading && <p className={styles.state}>Cargando catálogo...</p>}
         {!isLoading && !error && filteredProducts.length === 0 && (
-          <p className={styles.state}>No hay productos disponibles en esta categoría.</p>
+          <p className={styles.state}>
+            No hay productos disponibles en esta categoría.
+          </p>
         )}
 
-        {!error && filteredProducts.length > 0 && showFlatList && <ProductGrid items={filteredProducts} />}
+        {!error && filteredProducts.length > 0 && showFlatList && (
+          <ProductGrid items={filteredProducts} />
+        )}
 
         {!error && filteredProducts.length > 0 && !showFlatList && (
           <div className={styles.categorySections}>
@@ -373,7 +423,13 @@ function ProductosPageContent() {
 
 export default function ProductosPage() {
   return (
-    <Suspense fallback={<main className={`${styles.page} ${sora.variable} ${manrope.variable}`} />}>
+    <Suspense
+      fallback={
+        <main
+          className={`${styles.page} ${sora.variable} ${manrope.variable}`}
+        />
+      }
+    >
       <ProductosPageContent />
     </Suspense>
   );
