@@ -31,10 +31,15 @@
   display: inline-flex;
   align-items: center;
   gap: 7px;
+  border: 0;
+  background: transparent;
+  padding: 0;
   color: #3e4c63;
   text-decoration: none;
   font-size: var(--fs-back-link);
   margin-bottom: 16px;
+  cursor: pointer;
+  font: inherit;
 }
 
 .backLink svg {

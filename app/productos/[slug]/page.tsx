@@ -1,7 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Manrope, Sora } from "next/font/google";
-import { ArrowLeft, ShieldCheck, Truck } from "lucide-react";
+import { ShieldCheck, Truck } from "lucide-react";
 import { notFound } from "next/navigation";
 
 import { type Product } from "@/lib/domain/product";
@@ -11,13 +10,13 @@ import { formatCOP } from "@/lib/utils/format";
 import detailStyles from "../product-detail.module.css";
 import { AddToCartButton } from "../components/add-to-cart-button";
 import { ProductGallery } from "../components/product-gallery";
+import { BackButton } from "./back-button";
 
 const sora = Sora({ subsets: ["latin"], variable: "--font-display" });
 const manrope = Manrope({ subsets: ["latin"], variable: "--font-body" });
 const categoryLabel = {
   technology: "Tecnología",
   clothing: "Ropa",
-  shoes: "Calzado",
   bikes: "Bicicletas",
   sincategoria: "",
 };
@@ -54,9 +53,7 @@ export default async function ProductDetailPage({ params }: Props) {
   return (
     <main className={`${detailStyles.page} ${sora.variable} ${manrope.variable}`}>
       <section className={detailStyles.detail}>
-        <Link href="/productos" className={detailStyles.backLink}>
-          <ArrowLeft /> Volver al catálogo
-        </Link>
+        <BackButton className={detailStyles.backLink} />
 
         <div className={detailStyles.grid}>
           <div className={detailStyles.imagePanel}>

@@ -15,6 +15,7 @@
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772220470/home/w9w7z4dz3knv6zr56rzx.jpg"
     ],
     "category": "clothing",
+    "subcategory": "gorras",
     "featured": false,
     "draft": false
   },
@@ -32,7 +33,8 @@
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772220891/home/oknexifothuoy8grhhaf.jpg",
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772220888/home/rupxatlaqtcvg5kp10ir.jpg"
     ],
-    "category": "shoes",
+    "category": "clothing",
+    "subcategory": "tenis",
     "featured": false,
     "draft": false
   },
@@ -51,7 +53,8 @@
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772221184/home/zmirydjfrd0icia7ecwj.jpg",
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772221184/home/izowfdexcgvgqwpgoorh.jpg"
     ],
-    "category": "shoes",
+    "category": "clothing",
+    "subcategory": "tenis",
     "featured": false,
     "draft": false
   },
@@ -71,6 +74,7 @@
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772221082/home/zo6ly3yinvjjdmoujsrg.webp"
     ],
     "category": "clothing",
+    "subcategory": "calcetines",
     "featured": false,
     "draft": false
   },
@@ -87,6 +91,7 @@
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772222369/home/cf4wbdflbiui94efotpq.jpg"
     ],
     "category": "clothing",
+    "subcategory": "camisetas",
     "featured": false,
     "draft": false
   },
@@ -103,7 +108,8 @@
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772222259/home/lykbfrwhwafcaz5vndzm.jpg",
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772222259/home/u2gkgt9sy5z23rrjg7di.jpg"
     ],
-    "category": "shoes",
+    "category": "clothing",
+    "subcategory": "tenis",
     "featured": false,
     "draft": false
   },
@@ -139,7 +145,8 @@
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772220643/home/wabwehbcjfrr2w5hsv8w.webp",
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772220643/home/atn8ofirptlcbpmmkinz.webp"
     ],
-    "category": "shoes",
+    "category": "clothing",
+    "subcategory": "tenis",
     "featured": false,
     "draft": false
   },
@@ -193,6 +200,7 @@
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772222687/home/p3mrezukkdzxnsyxlu3p.jpg"
     ],
     "category": "bikes",
+    "subcategory": "cascos",
     "featured": false,
     "draft": false
   },
@@ -210,6 +218,7 @@
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772222037/home/nfamrogccym94plornr2.jpg"
     ],
     "category": "bikes",
+    "subcategory": "cascos",
     "featured": false,
     "draft": false
   },
@@ -224,7 +233,8 @@
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772221300/home/n9jes1x1obcscyxomxgg.webp",
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772221300/home/sa0wmxhqz5arlewt2spz.webp"
     ],
-    "category": "shoes",
+    "category": "clothing",
+    "subcategory": "tenis",
     "featured": false,
     "draft": false
   },
@@ -240,6 +250,7 @@
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772222748/home/aoxyonyphgqlgbrjpgtz.jpg"
     ],
     "category": "bikes",
+    "subcategory": "guantes",
     "featured": false,
     "draft": false
   },
@@ -257,6 +268,7 @@
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772221879/home/rhzcuq4gxb7xaifwgu1l.jpg"
     ],
     "category": "bikes",
+    "subcategory": "cascos",
     "featured": false,
     "draft": false
   },
@@ -275,6 +287,7 @@
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772222822/home/vlc7yrvm7sbn2wbyfaew.jpg"
     ],
     "category": "bikes",
+    "subcategory": "guantes",
     "featured": false,
     "draft": false
   },
@@ -370,6 +383,7 @@
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772063284/home/t1u8mlymgnc62lddfsnt.webp"
     ],
     "category": "bikes",
+    "subcategory": "guantes",
     "featured": false,
     "draft": false
   },
@@ -384,7 +398,8 @@
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772063114/home/tz6skp7dhygu0fkeln56.avif",
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772063114/home/r8krms5dd1cehagl2ywg.avif"
     ],
-    "category": "shoes",
+    "category": "clothing",
+    "subcategory": "tenis",
     "featured": false,
     "draft": false
   },
@@ -402,7 +417,8 @@
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772062842/home/rza73fdknmvwlezgcmzr.avif",
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772062842/home/grpgrntqnyydksjzjfbp.avif"
     ],
-    "category": "shoes",
+    "category": "clothing",
+    "subcategory": "tenis",
     "featured": false,
     "draft": false
   },
@@ -435,7 +451,8 @@
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772062292/home/hdnlfqd26mbr1rowcfrt.avif",
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772062292/home/tkup1dax11izzjxl7f4t.avif"
     ],
-    "category": "shoes",
+    "category": "clothing",
+    "subcategory": "tenis",
     "featured": false,
     "draft": false
   },
@@ -467,6 +484,7 @@
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772061787/home/f1j0zunadvvkbdwrtgkn.avif"
     ],
     "category": "clothing",
+    "subcategory": "gorras",
     "featured": false,
     "draft": false
   },
@@ -485,7 +503,8 @@
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772054407/home/vt3kpnl8tcqtkdxmywi5.avif",
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772054407/home/lgd5rpnvjngovvr1wqtm.avif"
     ],
-    "category": "shoes",
+    "category": "clothing",
+    "subcategory": "tenis",
     "featured": false,
     "draft": false
   },
@@ -569,7 +588,8 @@
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026627/home/ciit3rvordvowdettpeu.jpg",
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026627/home/ojswhh46tl9fxbl9eksc.jpg"
     ],
-    "category": "shoes",
+    "category": "clothing",
+    "subcategory": "tenis",
     "featured": false,
     "draft": false
   },
@@ -604,6 +624,7 @@
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1772026399/home/sck8hxxdvfueohbbd4se.jpg"
     ],
     "category": "bikes",
+    "subcategory": "guantes",
     "featured": false,
     "draft": false
   },
@@ -766,6 +787,7 @@
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771953225/0002_warpslingbagmarmalade-2_nbh2jz.webp"
     ],
     "category": "clothing",
+    "subcategory": "Maletas",
     "featured": false,
     "draft": false
   },
@@ -800,6 +822,7 @@
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771986373/home/xxsekrntervwzmgoascp.avif"
     ],
     "category": "clothing",
+    "subcategory": "Maletas",
     "featured": false,
     "draft": false
   },
@@ -880,7 +903,8 @@
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771970789/Skate-SlipOn-Shoe-VANS-ALT4_iilpj6.avif",
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771970789/Skate-SlipOn-Shoe-VANS-ALT5_w5vc4f.avif"
     ],
-    "category": "shoes",
+    "category": "clothing",
+    "subcategory": "tenis",
     "featured": false,
     "draft": false
   },
@@ -898,7 +922,8 @@
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771958849/Skate-Old-Skool-Shoe-VANS-ALT4_lnqdn2.avif",
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771958852/Skate-Old-Skool-Shoe-VANS-ALT5_enqsbf.avif"
     ],
-    "category": "shoes",
+    "category": "clothing",
+    "subcategory": "tenis",
     "featured": false,
     "draft": false
   },
@@ -915,7 +940,8 @@
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771955410/Zahba-Leather-Shoes-VANS-Black-HERO_nmcck9.avif",
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771955411/Zahba-Leather-Shoes-VANS-Leather-BlackWhite-ALT4_ppojoc.avif"
     ],
-    "category": "shoes",
+    "category": "clothing",
+    "subcategory": "tenis",
     "featured": true,
     "draft": false,
     "variants": {
@@ -939,6 +965,7 @@
       "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771954298/IW1614_05_hover_standard_audhsr.avif"
     ],
     "category": "clothing",
+    "subcategory": "Maletas",
     "featured": true,
     "draft": false
   },

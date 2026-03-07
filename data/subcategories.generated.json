@@ -1,0 +1,74 @@
+[
+  {
+    "id": "98f48041-74c0-4a9d-8b14-bb498ac4c819",
+    "slug": "cascos",
+    "name": "cascos",
+    "category": "bikes",
+    "createdAt": "2026-03-07T01:02:55.169Z",
+    "updatedAt": "2026-03-07T01:02:55.169Z"
+  },
+  {
+    "id": "8ac04ce7-3ff1-413e-965f-c0ef8b1d136e",
+    "slug": "guantes",
+    "name": "guantes",
+    "category": "bikes",
+    "createdAt": "2026-03-07T01:02:21.152Z",
+    "updatedAt": "2026-03-07T01:02:21.152Z"
+  },
+  {
+    "id": "f648e776-06a8-492b-9f3b-ebbb6bda7658",
+    "slug": "maletas",
+    "name": "Maletas",
+    "category": "clothing",
+    "createdAt": "2026-03-07T00:59:59.439Z",
+    "updatedAt": "2026-03-07T00:59:59.439Z"
+  },
+  {
+    "id": "b0d35994-75e8-477d-9a52-4b35cbc98e47",
+    "slug": "calcetines",
+    "name": "calcetines",
+    "category": "clothing",
+    "createdAt": "2026-03-07T00:36:59.290Z",
+    "updatedAt": "2026-03-07T00:36:59.290Z"
+  },
+  {
+    "id": "c46ecae8-530d-4f6f-96ee-1a51df91dbea",
+    "slug": "accesorios",
+    "name": "accesorios",
+    "category": "clothing",
+    "createdAt": "2026-03-07T00:36:51.810Z",
+    "updatedAt": "2026-03-07T00:36:51.810Z"
+  },
+  {
+    "id": "1531b645-1f9d-4a9b-b5df-a9e6a3572740",
+    "slug": "tenis",
+    "name": "tenis",
+    "category": "clothing",
+    "createdAt": "2026-03-07T00:36:42.828Z",
+    "updatedAt": "2026-03-07T00:36:42.828Z"
+  },
+  {
+    "id": "fff99a8a-c894-4907-81eb-fa893b9f4d78",
+    "slug": "busos",
+    "name": "busos",
+    "category": "clothing",
+    "createdAt": "2026-03-07T00:36:37.570Z",
+    "updatedAt": "2026-03-07T00:36:37.570Z"
+  },
+  {
+    "id": "53fdc75a-a277-45d9-b6e1-f8ae2c1da508",
+    "slug": "camisetas",
+    "name": "camisetas",
+    "category": "clothing",
+    "createdAt": "2026-03-07T00:36:22.372Z",
+    "updatedAt": "2026-03-07T00:36:22.372Z"
+  },
+  {
+    "id": "5bfa5e27-4f1f-41e4-b83c-f6c88a7540cc",
+    "slug": "gorras",
+    "name": "gorras",
+    "category": "clothing",
+    "createdAt": "2026-03-07T00:35:04.246Z",
+    "updatedAt": "2026-03-07T00:35:04.246Z"
+  }
+]
