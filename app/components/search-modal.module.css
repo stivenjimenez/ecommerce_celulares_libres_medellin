@@ -42,7 +42,7 @@
 
 .modal {
   width: min(760px, 100%);
-  max-height: min(82vh, 760px);
+  max-height: min(82dvh, 760px);
   border-radius: 16px;
   border: 1px solid #dbe2ec;
   background: #ffffff;
@@ -183,8 +183,13 @@
     display: none;
   }
 
+  .backdrop {
+    padding: 16px 12px 12px;
+    align-items: flex-start;
+  }
+
   .modal {
-    max-height: 90vh;
+    max-height: 90dvh;
   }
 
   .modalInput {

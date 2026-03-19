@@ -9,13 +9,37 @@ import "./globals.css";
 const sora = Sora({ subsets: ["latin"], variable: "--font-display" });
 const manrope = Manrope({ subsets: ["latin"], variable: "--font-body" });
 
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://celulareslibresmedellin.com";
+
+const siteTitle = "Celulares Libres Medellin | Celulares Libres";
+const siteDescription =
+  "En celulares libres medellin encuentras celulares libres, ropa original y lo último en tecnología.";
+
 export const metadata: Metadata = {
-  title: "Celulares Libres Medellin",
-  description: "Cascaron base del proyecto",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: siteTitle,
+    template: "%s | Celulares Libres Medellin",
+  },
+  description: siteDescription,
   icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon.ico",
     apple: "/favicon.ico",
+  },
+  openGraph: {
+    type: "website",
+    locale: "es_CO",
+    url: siteUrl,
+    siteName: "Celulares Libres Medellin",
+    title: siteTitle,
+    description: siteDescription,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteTitle,
+    description: siteDescription,
   },
 };
 
