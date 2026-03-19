@@ -35,11 +35,22 @@ export const metadata: Metadata = {
     siteName: "Celulares Libres Medellin",
     title: siteTitle,
     description: siteDescription,
+    images: [
+      {
+        url: "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771952540/clm-logo_fyqsex.png",
+        width: 512,
+        height: 512,
+        alt: "Celulares Libres Medellín",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: siteTitle,
     description: siteDescription,
+    images: [
+      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771952540/clm-logo_fyqsex.png",
+    ],
   },
 };
 
