@@ -8,6 +8,7 @@ import {
   type Product,
   type ProductCategory,
 } from "@/lib/domain/product";
+import { deleteUnusedCloudinaryImages } from "@/lib/server/cloudinary-admin";
 import { getDb } from "@/lib/db/client";
 
 const FALLBACK_CATEGORY: ProductCategory = "sincategoria";
@@ -123,6 +124,10 @@ function safeVariants(value: unknown): Product["variants"] {
 }
 
 function normalizeProduct(input: ProductInput, existing?: Product): Product {
+  const hasImagesInput = Array.isArray(input.images);
+  const normalizedImages = hasImagesInput
+    ? safeImages(input.images)
+    : (existing?.images ?? []);
   const name =
     safeString(input.name) || existing?.name || "Producto sin nombre";
   const categorySource = safeString(input.category);
@@ -151,10 +156,7 @@ function normalizeProduct(input: ProductInput, existing?: Product): Product {
     description,
     price,
     previousPrice,
-    images:
-      safeImages(input.images).length > 0
-        ? safeImages(input.images)
-        : (existing?.images ?? []),
+    images: normalizedImages,
     category,
     subcategory,
     brand,
@@ -364,6 +366,9 @@ export async function updateProduct(
     categoryId,
   );
   const brandId = await resolveBrandId(updated.brand, categoryId);
+  const removedImages = current.images.filter(
+    (image) => !updated.images.includes(image),
+  );
 
   await database()
     .update(products)
@@ -384,6 +389,8 @@ export async function updateProduct(
     })
     .where(and(eq(products.id, id), isNull(products.deletedAt)));
 
+  await deleteUnusedCloudinaryImages(removedImages, id);
+
   return getProductById(id);
 }
 
@@ -391,11 +398,18 @@ export async function deleteProduct(id: string): Promise<boolean> {
   const cleanId = safeString(id);
   if (!cleanId) return false;
 
+  const current = await getProductById(cleanId);
+  if (!current) return false;
+
   const [deleted] = await database()
     .update(products)
-    .set({ deletedAt: new Date() })
+    .set({ deletedAt: new Date(), images: [] })
     .where(and(eq(products.id, cleanId), isNull(products.deletedAt)))
     .returning({ id: products.id });
+
+  if (deleted) {
+    await deleteUnusedCloudinaryImages(current.images, cleanId);
+  }
 
   return Boolean(deleted);
 }

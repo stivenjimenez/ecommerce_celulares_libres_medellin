@@ -82,6 +82,27 @@ type PendingUpload = {
   name: string;
 };
 
+type CloudinaryUploadConfig =
+  | {
+      mode: "signed";
+      cloudName: string;
+      folder: string;
+      apiKey: string;
+      timestamp: string;
+      signature: string;
+    }
+  | {
+      mode: "unsigned";
+      cloudName: string;
+      folder: string;
+      uploadPreset: string;
+    };
+
+const MAX_SOURCE_IMAGE_BYTES = 25 * 1024 * 1024;
+const MAX_UPLOAD_IMAGE_BYTES = 10 * 1024 * 1024;
+const MAX_IMAGE_DIMENSION = 2000;
+const OUTPUT_IMAGE_QUALITIES = [0.82, 0.76, 0.7, 0.64, 0.58];
+
 const initialForm: ProductForm = {
   id: "",
   slug: "",
@@ -162,6 +183,113 @@ function formatMoney(value: number): string {
     currency: "COP",
     maximumFractionDigits: 0,
   }).format(value);
+}
+
+function formatFileSize(bytes: number): string {
+  if (bytes >= 1024 * 1024) {
+    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+  }
+
+  return `${Math.ceil(bytes / 1024)} KB`;
+}
+
+function renameFileExtension(filename: string, extension: string): string {
+  return filename.replace(/\.[^.]+$/, "") + extension;
+}
+
+function canvasToBlob(
+  canvas: HTMLCanvasElement,
+  type: string,
+  quality?: number,
+): Promise<Blob> {
+  return new Promise((resolve, reject) => {
+    canvas.toBlob(
+      (blob) => {
+        if (!blob) {
+          reject(new Error("No se pudo procesar la imagen seleccionada."));
+          return;
+        }
+
+        resolve(blob);
+      },
+      type,
+      quality,
+    );
+  });
+}
+
+function loadImageElement(file: File): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
+    const objectUrl = URL.createObjectURL(file);
+    const image = new Image();
+
+    image.onload = () => {
+      URL.revokeObjectURL(objectUrl);
+      resolve(image);
+    };
+
+    image.onerror = () => {
+      URL.revokeObjectURL(objectUrl);
+      reject(
+        new Error(`No se pudo leer la imagen "${file.name}" para procesarla.`),
+      );
+    };
+
+    image.src = objectUrl;
+  });
+}
+
+async function optimizeImageForUpload(file: File): Promise<File> {
+  if (file.size > MAX_SOURCE_IMAGE_BYTES) {
+    throw new Error(
+      `La imagen "${file.name}" supera el límite permitido de ${formatFileSize(MAX_SOURCE_IMAGE_BYTES)}.`,
+    );
+  }
+
+  const image = await loadImageElement(file);
+  const longestSide = Math.max(image.naturalWidth, image.naturalHeight) || 1;
+  const scale = Math.min(1, MAX_IMAGE_DIMENSION / longestSide);
+  const targetWidth = Math.max(1, Math.round(image.naturalWidth * scale));
+  const targetHeight = Math.max(1, Math.round(image.naturalHeight * scale));
+  const canvas = document.createElement("canvas");
+
+  canvas.width = targetWidth;
+  canvas.height = targetHeight;
+
+  const context = canvas.getContext("2d");
+  if (!context) {
+    throw new Error("No se pudo preparar la imagen para subirla.");
+  }
+
+  context.drawImage(image, 0, 0, targetWidth, targetHeight);
+
+  let bestBlob: Blob | null = null;
+
+  for (const type of ["image/webp", "image/jpeg"]) {
+    for (const quality of OUTPUT_IMAGE_QUALITIES) {
+      const blob = await canvasToBlob(canvas, type, quality);
+
+      if (!bestBlob || blob.size < bestBlob.size) {
+        bestBlob = blob;
+      }
+
+      if (blob.size <= MAX_UPLOAD_IMAGE_BYTES) {
+        const extension = type === "image/webp" ? ".webp" : ".jpg";
+        return new File([blob], renameFileExtension(file.name, extension), {
+          type,
+          lastModified: Date.now(),
+        });
+      }
+    }
+  }
+
+  if (!bestBlob) {
+    throw new Error(`No se pudo optimizar la imagen "${file.name}".`);
+  }
+
+  throw new Error(
+    `La imagen "${file.name}" supera el límite permitido de ${formatFileSize(MAX_UPLOAD_IMAGE_BYTES)} incluso después de optimizarla.`,
+  );
 }
 
 type SortableImageItemProps = {
@@ -262,6 +390,7 @@ export default function AdminPage() {
   const [subcatLoading, setSubcatLoading] = useState(true);
   const [brandLoading, setBrandLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  const [isPreparingImages, setIsPreparingImages] = useState(false);
   const [subcatSubmitting, setSubcatSubmitting] = useState(false);
   const [brandSubmitting, setBrandSubmitting] = useState(false);
   const [pendingUploads, setPendingUploads] = useState<PendingUpload[]>([]);
@@ -655,54 +784,122 @@ export default function AdminPage() {
     });
   }
 
-  async function uploadFilesToCloudinary(files: File[]): Promise<string[]> {
-    const payload = new FormData();
-    files.forEach((file) => payload.append("files", file));
+  async function getCloudinaryUploadConfig(): Promise<CloudinaryUploadConfig> {
+    const response = await fetch("/api/admin/uploads/sign");
+    const body = (await response.json().catch(() => null)) as
+      | (CloudinaryUploadConfig & { message?: string })
+      | { message?: string }
+      | null;
 
-    const response = await fetch("/api/admin/uploads", {
-      method: "POST",
-      body: payload,
-    });
-
-    const body = (await response.json().catch(() => null)) as {
-      urls?: string[];
-      message?: string;
-    } | null;
-
-    if (!response.ok || !body?.urls || body.urls.length === 0) {
-      throw new Error(body?.message || "No se pudo subir las imágenes.");
+    if (!response.ok || !body || !("mode" in body)) {
+      throw new Error(
+        body?.message || "No se pudo preparar la subida de imágenes.",
+      );
     }
 
-    return body.urls;
+    return body;
   }
 
-  function queuePendingFiles(files: File[]) {
+  async function uploadFilesToCloudinary(files: File[]): Promise<string[]> {
+    const config = await getCloudinaryUploadConfig();
+    const urls: string[] = [];
+
+    for (const file of files) {
+      const payload = new FormData();
+      payload.append("file", file);
+      payload.append("folder", config.folder);
+
+      if (config.mode === "signed") {
+        payload.append("timestamp", config.timestamp);
+        payload.append("api_key", config.apiKey);
+        payload.append("signature", config.signature);
+      } else {
+        payload.append("upload_preset", config.uploadPreset);
+      }
+
+      const response = await fetch(
+        `https://api.cloudinary.com/v1_1/${config.cloudName}/image/upload`,
+        {
+          method: "POST",
+          body: payload,
+        },
+      );
+
+      const body = (await response.json().catch(() => null)) as {
+        secure_url?: string;
+        error?: { message?: string };
+      } | null;
+
+      if (!response.ok || !body?.secure_url) {
+        throw new Error(
+          body?.error?.message ||
+            `No se pudo subir la imagen "${file.name}" a Cloudinary.`,
+        );
+      }
+
+      urls.push(body.secure_url);
+    }
+
+    return urls;
+  }
+
+  async function queuePendingFiles(files: File[]) {
     if (files.length === 0) return;
 
-    const pendingToAdd = files.map((file) => ({
-      tempUrl: URL.createObjectURL(file),
-      file,
-      name: file.name,
-    }));
+    setIsPreparingImages(true);
+    setError("");
 
-    setPendingUploads((prev) => [...prev, ...pendingToAdd]);
-    const currentImages = getValues("images") ?? [];
-    const nextImages = [
-      ...cleanImages(currentImages),
-      ...pendingToAdd.map((item) => item.tempUrl),
-    ];
-    setValue("images", nextImages.length > 0 ? nextImages : [""], {
-      shouldDirty: true,
-    });
+    const pendingToAdd: PendingUpload[] = [];
+    const processingErrors: string[] = [];
+
+    try {
+      for (const file of files) {
+        try {
+          const optimizedFile = await optimizeImageForUpload(file);
+          pendingToAdd.push({
+            tempUrl: URL.createObjectURL(optimizedFile),
+            file: optimizedFile,
+            name: file.name,
+          });
+        } catch (error) {
+          processingErrors.push(
+            error instanceof Error
+              ? error.message
+              : `No se pudo procesar la imagen "${file.name}".`,
+          );
+        }
+      }
+
+      if (pendingToAdd.length > 0) {
+        setPendingUploads((prev) => [...prev, ...pendingToAdd]);
+        const currentImages = getValues("images") ?? [];
+        const nextImages = [
+          ...cleanImages(currentImages),
+          ...pendingToAdd.map((item) => item.tempUrl),
+        ];
+        setValue("images", nextImages.length > 0 ? nextImages : [""], {
+          shouldDirty: true,
+        });
+      }
+
+      if (processingErrors.length > 0) {
+        const message = processingErrors.join(" ");
+        setError(message);
+        toast.error(message);
+      }
+    } finally {
+      setIsPreparingImages(false);
+    }
   }
 
   async function handleImagesUpload(event: ChangeEvent<HTMLInputElement>) {
+    if (isPreparingImages) return;
     const files = event.target.files;
     if (!files || files.length === 0) return;
     const images = Array.from(files).filter((file) =>
       file.type.startsWith("image/"),
     );
-    queuePendingFiles(images);
+    await queuePendingFiles(images);
     event.target.value = "";
   }
 
@@ -719,13 +916,14 @@ export default function AdminPage() {
   async function handleUploadDrop(event: DragEvent<HTMLDivElement>) {
     event.preventDefault();
     setIsUploadDragActive(false);
+    if (isPreparingImages) return;
 
     const files = Array.from(event.dataTransfer.files || []).filter((file) =>
       file.type.startsWith("image/"),
     );
 
     if (files.length === 0) return;
-    queuePendingFiles(files);
+    await queuePendingFiles(files);
   }
 
   async function handleToggleFeatured(product: Product, nextFeatured: boolean) {
@@ -764,6 +962,11 @@ export default function AdminPage() {
   }
 
   const handleSubmit = handleFormSubmit(async (values) => {
+    if (isPreparingImages) {
+      setError("Espera a que termine la preparación de las imágenes.");
+      return;
+    }
+
     setSubmitting(true);
     setError("");
 
@@ -1637,7 +1840,7 @@ export default function AdminPage() {
                     type="button"
                     className={styles.secondaryButton}
                     onClick={closeDrawer}
-                    disabled={submitting}
+                    disabled={submitting || isPreparingImages}
                   >
                     Cerrar
                   </button>
@@ -1650,8 +1853,15 @@ export default function AdminPage() {
                       Eliminar
                     </button>
                   )}
-                  <button type="submit" disabled={submitting}>
-                    {submitting ? "Guardando..." : "Guardar"}
+                  <button
+                    type="submit"
+                    disabled={submitting || isPreparingImages}
+                  >
+                    {submitting
+                      ? "Guardando..."
+                      : isPreparingImages
+                        ? "Preparando imágenes..."
+                        : "Guardar"}
                   </button>
                 </div>
               </div>
@@ -1772,7 +1982,7 @@ export default function AdminPage() {
                       type="file"
                       accept="image/*"
                       multiple
-                      disabled={submitting}
+                      disabled={submitting || isPreparingImages}
                       onChange={handleImagesUpload}
                     />
                   </label>
@@ -1786,11 +1996,18 @@ export default function AdminPage() {
                 >
                   <strong>Arrastra una o varias imágenes aquí</strong>
                   <span>
-                    Se subirán a Cloudinary solo cuando presiones Guardar.
+                    Se optimizan y se subirán directo a Cloudinary cuando
+                    presiones Guardar.
                   </span>
                 </div>
 
-                {pendingUploads.length > 0 && (
+                {isPreparingImages && (
+                  <p className={styles.pendingHint}>
+                    Preparando imágenes para subir...
+                  </p>
+                )}
+
+                {pendingUploads.length > 0 && !isPreparingImages && (
                   <p className={styles.pendingHint}>
                     {pendingUploads.length} imagen(es) pendiente(s) de subir.
                   </p>
