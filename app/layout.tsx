@@ -10,11 +10,12 @@ const sora = Sora({ subsets: ["latin"], variable: "--font-display" });
 const manrope = Manrope({ subsets: ["latin"], variable: "--font-body" });
 
 const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://celulareslibresmedellin.com";
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://celulareslibresmedellin.co";
 
 const siteTitle = "Celulares Libres Medellin | Celulares Libres";
 const siteDescription =
   "En celulares libres medellin encuentras celulares libres, ropa original y lo último en tecnología.";
+const socialImageUrl = new URL("/og-whatsapp.png", siteUrl).toString();
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -37,9 +38,10 @@ export const metadata: Metadata = {
     description: siteDescription,
     images: [
       {
-        url: "/clm-logo_fyqsex.png",
-        width: 512,
-        height: 512,
+        url: socialImageUrl,
+        width: 1200,
+        height: 630,
+        type: "image/png",
         alt: "Celulares Libres Medellin",
       },
     ],
@@ -48,7 +50,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: siteTitle,
     description: siteDescription,
-    images: ["/clm-logo_fyqsex.png"],
+    images: [socialImageUrl],
   },
 };
 
