@@ -12,7 +12,7 @@ const manrope = Manrope({ subsets: ["latin"], variable: "--font-body" });
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://celulareslibresmedellin.co";
 
-const siteTitle = "Celulares Libres Medellin | Celulares Libres";
+const siteTitle = "Celulares Libres Medellin";
 const siteDescription =
   "En celulares libres medellin encuentras celulares libres, ropa original y lo último en tecnología.";
 const socialImageUrl = new URL("/og-whatsapp.png", siteUrl).toString();
