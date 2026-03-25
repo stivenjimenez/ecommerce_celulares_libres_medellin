@@ -15,7 +15,7 @@ const siteUrl =
 const siteTitle = "Celulares Libres Medellin | Celulares Libres";
 const siteDescription =
   "En celulares libres medellin encuentras celulares libres, ropa original y lo último en tecnología.";
-const socialImageUrl = new URL("/clm-logo_fyqsex.png", siteUrl).toString();
+const socialImageUrl = new URL("/og-whatsapp.png", siteUrl).toString();
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -39,8 +39,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: socialImageUrl,
-        width: 1058,
-        height: 443,
+        width: 1200,
+        height: 630,
         type: "image/png",
         alt: "Celulares Libres Medellin",
       },
