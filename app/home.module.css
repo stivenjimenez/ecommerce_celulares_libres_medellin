@@ -714,8 +714,19 @@
     --fs-nav-link: 20px;
   }
 
+  .nav {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    width: 100%;
+    justify-content: stretch;
+    justify-self: stretch;
+    align-items: center;
+  }
+
   .navLink {
     font-size: 20px;
+    text-align: center;
   }
 
   .hero,
