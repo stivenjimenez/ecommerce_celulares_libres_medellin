@@ -59,7 +59,12 @@ export async function PUT(request: Request) {
     }
 
     return NextResponse.json(
-      { message: "No se pudo actualizar el producto." },
+      {
+        message:
+          error instanceof Error
+            ? error.message
+            : "No se pudo actualizar el producto.",
+      },
       { status: 400 },
     );
   }
@@ -86,9 +91,14 @@ export async function DELETE(request: Request) {
     }
 
     return NextResponse.json({ ok: true });
-  } catch {
+  } catch (error) {
     return NextResponse.json(
-      { message: "No se pudo eliminar el producto." },
+      {
+        message:
+          error instanceof Error
+            ? error.message
+            : "No se pudo eliminar el producto.",
+      },
       { status: 400 },
     );
   }
