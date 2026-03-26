@@ -131,6 +131,8 @@ export default function PrivacidadPage() {
             por tamaño/actividad, debes evaluar la obligación de registro en el
             RNBD.
           </p>
+
+          <p className={styles.note}>Revisando.</p>
         </article>
       </div>
     </main>

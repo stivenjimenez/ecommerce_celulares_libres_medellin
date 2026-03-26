@@ -145,6 +145,8 @@ export default function TerminosPage() {
             del Consumidor), Ley 2439 de 2024 (actualización para ecommerce),
             Ley 527 de 1999 (comercio electrónico) y disposiciones concordantes.
           </p>
+
+          <p className={styles.note}>Revisando.</p>
         </article>
       </div>
     </main>
