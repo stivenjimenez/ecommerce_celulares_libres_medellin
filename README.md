@@ -177,6 +177,10 @@ pnpm lint
 pnpm build
 ```
 
+## Nota de prueba
+
+Este cambio fue agregado como prueba para validar el flujo de ramas y PRs del proyecto.
+
 Y validar manualmente:
 
 - `/`
