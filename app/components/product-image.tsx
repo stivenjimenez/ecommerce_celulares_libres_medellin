@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Image, { type ImageProps } from "next/image";
 
 type Props = Omit<ImageProps, "src"> & {
@@ -21,12 +21,6 @@ export function ProductImage({
   const [currentSrc, setCurrentSrc] = useState(src);
   const [usedFallback, setUsedFallback] = useState(false);
   const [showFallbackText, setShowFallbackText] = useState(false);
-
-  useEffect(() => {
-    setCurrentSrc(src);
-    setUsedFallback(false);
-    setShowFallbackText(false);
-  }, [src]);
 
   function handleError() {
     if (!usedFallback && fallbackSrc && currentSrc !== fallbackSrc) {
