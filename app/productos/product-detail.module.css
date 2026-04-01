@@ -66,19 +66,13 @@
   position: relative;
   width: 100%;
   min-height: 560px;
-  aspect-ratio: 1 / 1;
   border-radius: 14px;
   overflow: hidden;
-  background: #fff;
-}
-
-.imageWrapSingle {
-  aspect-ratio: 4 / 5;
+  background: transparent;
 }
 
 .image {
   object-fit: contain;
-  padding: 18px;
 }
 
 .navArrow {

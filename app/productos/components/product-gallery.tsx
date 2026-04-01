@@ -39,9 +39,6 @@ export function ProductGallery({ images, alt }: Props) {
     activeIndex === 0 ? galleryImages.length - 1 : activeIndex - 1;
   const nextIndex =
     activeIndex === galleryImages.length - 1 ? 0 : activeIndex + 1;
-  const imageWrapClassName = hasMultiple
-    ? detailStyles.imageWrap
-    : `${detailStyles.imageWrap} ${detailStyles.imageWrapSingle}`;
 
   return (
     <div className={detailStyles.galleryLayout}>
@@ -72,7 +69,7 @@ export function ProductGallery({ images, alt }: Props) {
         </div>
       )}
 
-      <div className={imageWrapClassName}>
+      <div className={detailStyles.imageWrap}>
         {hasMultiple && (
           <>
             <button
