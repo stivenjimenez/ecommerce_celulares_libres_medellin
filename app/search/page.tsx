@@ -141,24 +141,18 @@ function SearchPageContent() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const initialQuery = searchParams.get("q") ?? "";
-  const [inputValue, setInputValue] = useState(initialQuery);
-  const [debouncedQuery, setDebouncedQuery] = useState(initialQuery);
+  const urlQuery = searchParams.get("q") ?? "";
+  const [inputValue, setInputValue] = useState(urlQuery);
+  const [debouncedQuery, setDebouncedQuery] = useState(urlQuery);
   const [columns, setColumns] = useState(4);
   const [sortBy, setSortBy] = useState<SortOption>("default");
+  const lastSyncedQueryRef = useRef(urlQuery);
 
   const {
     data: products = [],
     isLoading,
     error,
   } = useProductSearch(debouncedQuery);
-
-  useEffect(() => {
-    if (initialQuery === debouncedQuery) return;
-
-    setInputValue(initialQuery);
-    setDebouncedQuery(initialQuery);
-  }, [debouncedQuery, initialQuery]);
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -169,6 +163,8 @@ function SearchPageContent() {
   }, [inputValue]);
 
   useEffect(() => {
+    if (debouncedQuery === lastSyncedQueryRef.current) return;
+
     const nextParams = new URLSearchParams(searchParams.toString());
 
     if (debouncedQuery) {
@@ -179,14 +175,18 @@ function SearchPageContent() {
 
     const nextQuery = nextParams.toString();
     const nextUrl = nextQuery ? `${pathname}?${nextQuery}` : pathname;
-    const currentUrl = searchParams.toString()
-      ? `${pathname}?${searchParams.toString()}`
-      : pathname;
 
-    if (nextUrl !== currentUrl) {
-      router.replace(nextUrl, { scroll: false });
-    }
+    lastSyncedQueryRef.current = debouncedQuery;
+    router.replace(nextUrl, { scroll: false });
   }, [debouncedQuery, pathname, router, searchParams]);
+
+  useEffect(() => {
+    if (urlQuery === lastSyncedQueryRef.current) return;
+
+    lastSyncedQueryRef.current = urlQuery;
+    setInputValue(urlQuery);
+    setDebouncedQuery(urlQuery);
+  }, [urlQuery]);
 
   useEffect(() => {
     const syncColumns = () =>
