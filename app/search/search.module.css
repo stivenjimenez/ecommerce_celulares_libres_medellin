@@ -283,6 +283,64 @@
   stroke-width: 2.2;
 }
 
+.skeletonCard {
+  border-radius: 10px;
+  border: 1px solid #dfe5ec;
+  background: #fff;
+  overflow: hidden;
+}
+
+.skeletonImage,
+.skeletonLine,
+.skeletonButton {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(90deg, #eef2f7 0%, #f7f9fc 50%, #eef2f7 100%);
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.2s linear infinite;
+}
+
+.skeletonImage {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+}
+
+.skeletonBody {
+  padding: 11px;
+  display: grid;
+  gap: 10px;
+}
+
+.skeletonLine {
+  height: 14px;
+  border-radius: 999px;
+}
+
+.skeletonTitle {
+  width: 82%;
+  height: 16px;
+}
+
+.skeletonPrice {
+  width: 44%;
+  height: 20px;
+}
+
+.skeletonButton {
+  width: 100%;
+  height: 34px;
+  border-radius: 9px;
+}
+
+@keyframes skeletonShimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
 @media (max-width: 1100px) {
   .catalog {
     padding-inline: 14px;

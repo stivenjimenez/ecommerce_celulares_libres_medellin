@@ -23,7 +23,7 @@ import styles from "./search.module.css";
 const sora = Sora({ subsets: ["latin"], variable: "--font-display" });
 const manrope = Manrope({ subsets: ["latin"], variable: "--font-body" });
 
-const DEBOUNCE_MS = 1200;
+const DEBOUNCE_MS = 700;
 
 type SortOption =
   | "default"
@@ -323,6 +323,27 @@ function SearchPageContent() {
     );
   }
 
+  function SkeletonGrid() {
+    return (
+      <div className={styles.grid} aria-hidden="true">
+        {Array.from({ length: columns }).map((_, index) => (
+          <div key={index} className={styles.skeletonCard}>
+            <div className={styles.skeletonImage} />
+            <div className={styles.skeletonBody}>
+              <div
+                className={`${styles.skeletonLine} ${styles.skeletonTitle}`}
+              />
+              <div
+                className={`${styles.skeletonLine} ${styles.skeletonPrice}`}
+              />
+              <div className={styles.skeletonButton} />
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
   return (
     <main className={`${styles.page} ${sora.variable} ${manrope.variable}`}>
       <section className={styles.catalog}>
@@ -364,14 +385,8 @@ function SearchPageContent() {
         {error && (
           <p className={styles.state}>No se pudieron cargar los productos.</p>
         )}
-        {!error && isWaitingForDebounce && (
-          <p className={styles.state}>
-            Esperando a que termines de escribir...
-          </p>
-        )}
-        {!error && !isWaitingForDebounce && isLoading && (
-          <p className={styles.state}>Buscando productos...</p>
-        )}
+        {!error && isWaitingForDebounce && <SkeletonGrid />}
+        {!error && !isWaitingForDebounce && isLoading && <SkeletonGrid />}
         {!isWaitingForDebounce &&
           !isLoading &&
           !error &&
