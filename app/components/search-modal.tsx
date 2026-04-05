@@ -6,15 +6,34 @@ import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
 import { useProducts } from "@/lib/services/products";
+import { type Product } from "@/lib/domain/product";
 import { formatCOP } from "@/lib/utils/format";
 
 import styles from "./search-modal.module.css";
+
+const MAX_RESULTS = 50;
 
 function normalize(value: string) {
   return value
     .toLowerCase()
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "");
+}
+
+function getSearchTerms(product: Product) {
+  return [
+    product.name,
+    product.description,
+    product.slug,
+    product.category,
+    product.subcategory,
+    product.brand,
+    ...(product.variants?.color ?? []),
+    ...(product.variants?.size ?? []),
+    ...Object.values(product.attributes ?? {}).map((value) => String(value)),
+  ]
+    .filter((value): value is string => Boolean(value && value.trim()))
+    .map((value) => normalize(value));
 }
 
 export function SearchModal() {
@@ -27,13 +46,17 @@ export function SearchModal() {
     const term = normalize(query.trim());
     if (!term) return [];
 
+    const tokens = term.split(/\s+/).filter(Boolean);
+
     return products
       .filter((product) => {
-        const name = normalize(product.name);
-        const description = normalize(product.description);
-        return name.includes(term) || description.includes(term);
+        const haystack = getSearchTerms(product);
+
+        return tokens.every((token) =>
+          haystack.some((value) => value.includes(token)),
+        );
       })
-      .slice(0, 12);
+      .slice(0, MAX_RESULTS);
   }, [products, query]);
 
   useEffect(() => {
@@ -152,13 +175,20 @@ export function SearchModal() {
                     <div className={styles.resultBody}>
                       <h3>{product.name}</h3>
                       <div className={styles.resultMeta}>
-                        <span>{product.category}</span>
+                        <span>
+                          {product.brand ?? product.subcategory ?? product.category}
+                        </span>
                         <strong>{formatCOP(product.price)}</strong>
                       </div>
                     </div>
                   </button>
                 );
               })}
+              {!!query.trim() && results.length >= MAX_RESULTS && (
+                <p className={styles.state}>
+                  Mostrando los primeros {MAX_RESULTS} resultados. Refina la búsqueda si necesitas encontrar un producto más específico.
+                </p>
+              )}
             </div>
           </div>
         </div>
