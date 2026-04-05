@@ -323,10 +323,20 @@ function SearchPageContent() {
   return (
     <main className={`${styles.page} ${sora.variable} ${manrope.variable}`}>
       <section className={styles.catalog}>
-        <div className={styles.catalogTop}>
-          <div className={styles.catalogHeading}>
-            <p>{resultLabel}</p>
-          </div>
+        <div className={styles.searchBox}>
+          <Search className={styles.searchIcon} />
+          <input
+            type="text"
+            value={inputValue}
+            onChange={(event) => setInputValue(event.target.value)}
+            placeholder="Buscar por nombre, descripción o slug..."
+            aria-label="Buscar productos"
+            autoFocus
+          />
+        </div>
+
+        <div className={styles.catalogToolbar}>
+          <p className={styles.resultLabel}>{resultLabel}</p>
           <div className={styles.catalogTopActions}>
             <div className={styles.sortSelect}>
               <ArrowUpDown size={15} className={styles.sortIcon} />
@@ -346,18 +356,6 @@ function SearchPageContent() {
               </select>
             </div>
           </div>
-        </div>
-
-        <div className={styles.searchBox}>
-          <Search className={styles.searchIcon} />
-          <input
-            type="text"
-            value={inputValue}
-            onChange={(event) => setInputValue(event.target.value)}
-            placeholder="Buscar por nombre, descripción o slug..."
-            aria-label="Buscar productos"
-            autoFocus
-          />
         </div>
 
         {error && (

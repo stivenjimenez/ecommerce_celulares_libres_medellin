@@ -24,7 +24,7 @@
   padding: 24px 24px 40px;
 }
 
-.catalogTop {
+.catalogToolbar {
   display: flex;
   justify-content: space-between;
   gap: 14px;
@@ -32,12 +32,7 @@
   margin-bottom: 24px;
 }
 
-.catalogHeading {
-  display: grid;
-  gap: 4px;
-}
-
-.catalogTop p {
+.resultLabel {
   margin: 0;
   color: var(--muted);
   font-size: 19px;
@@ -293,7 +288,7 @@
     padding-inline: 14px;
   }
 
-  .catalogTop p,
+  .resultLabel,
   .searchBox input {
     font-size: 17px;
   }
@@ -313,7 +308,7 @@
 }
 
 @media (max-width: 760px) {
-  .catalogTop {
+  .catalogToolbar {
     flex-direction: column;
     align-items: flex-start;
   }
