@@ -1,22 +1,12 @@
 "use client";
 
-import Image from "next/image";
 import { Manrope, Sora } from "next/font/google";
-import { ShoppingCart, ArrowUpDown } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
-import {
-  Suspense,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-  type CSSProperties,
-} from "react";
-
+import { ArrowUpDown } from "lucide-react";
+import { useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { type Product, type ProductCategory } from "@/lib/domain/product";
 import { useProducts } from "@/lib/services/products";
-import { useCartStore } from "@/lib/store/cart-store";
-import { formatCOP } from "@/lib/utils/format";
+import { ProductCard } from "@/app/components/product-card";
 
 import styles from "./productos.module.css";
 
@@ -148,8 +138,6 @@ function getRevealDelay(index: number, columns: number) {
 
 function ProductosPageContent() {
   const { data: products = [], isLoading, error } = useProducts();
-  const addItem = useCartStore((state) => state.addItem);
-  const router = useRouter();
   const searchParams = useSearchParams();
   const [columns, setColumns] = useState(4);
   const [activeSubcategory, setActiveSubcategory] = useState("");
@@ -214,106 +202,6 @@ function ProductosPageContent() {
   }, [activeCategories, filteredProducts, sortBy]);
 
   const showFlatList = activeCategories !== null || sortBy !== "default";
-
-  function ProductCard({
-    product,
-    delayMs,
-    isVisible,
-  }: {
-    product: Product;
-    delayMs: number;
-    isVisible: boolean;
-  }) {
-    const [showSecondImage, setShowSecondImage] = useState(false);
-    const primaryImage =
-      product.images[0] ??
-      "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771952540/clm-logo_fyqsex.png";
-    const secondaryImage = product.images[1];
-    const hasSecondaryImage = Boolean(secondaryImage);
-    const hasPreviousPrice =
-      typeof product.previousPrice === "number" &&
-      product.previousPrice > product.price;
-    const cardStyle = { "--reveal-delay": `${delayMs}ms` } as CSSProperties;
-
-    return (
-      <article
-        className={`${styles.card} ${styles.cardReveal} ${isVisible ? styles.cardVisible : ""}`}
-        style={cardStyle}
-        role="link"
-        tabIndex={0}
-        onClick={() => router.push(`/productos/${product.slug}`)}
-        onKeyDown={(event) => {
-          if (event.key === "Enter" || event.key === " ") {
-            event.preventDefault();
-            router.push(`/productos/${product.slug}`);
-          }
-        }}
-      >
-        <div
-          className={styles.imageWrap}
-          onPointerEnter={(event) => {
-            if (hasSecondaryImage && event.pointerType === "mouse") {
-              setShowSecondImage(true);
-            }
-          }}
-          onPointerLeave={(event) => {
-            if (event.pointerType === "mouse") {
-              setShowSecondImage(false);
-            }
-          }}
-        >
-          <Image
-            src={primaryImage}
-            alt={product.name}
-            fill
-            sizes="(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 25vw"
-            className={`${styles.image} ${styles.imagePrimary} ${
-              hasSecondaryImage && showSecondImage ? styles.imageHidden : ""
-            }`}
-          />
-          {hasSecondaryImage && secondaryImage ? (
-            <Image
-              src={secondaryImage}
-              alt=""
-              fill
-              sizes="(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 25vw"
-              className={`${styles.image} ${styles.imageSecondary} ${
-                showSecondImage ? styles.imageVisible : ""
-              }`}
-            />
-          ) : null}
-        </div>
-
-        <div className={styles.cardBody}>
-          <h2>{product.name}</h2>
-          <div className={styles.cardBottom}>
-            <div className={styles.priceStack}>
-              <strong>{formatCOP(product.price)}</strong>
-              <span
-                className={`${styles.previousPrice} ${hasPreviousPrice ? "" : styles.previousPriceEmpty}`}
-                aria-hidden={!hasPreviousPrice}
-              >
-                {hasPreviousPrice
-                  ? formatCOP(product.previousPrice!)
-                  : "\u00a0"}
-              </span>
-            </div>
-            <button
-              type="button"
-              aria-label={`Agregar ${product.name} al carrito`}
-              onClick={(event) => {
-                event.stopPropagation();
-                addItem(product);
-              }}
-            >
-              <ShoppingCart />
-              Agregar al carrito
-            </button>
-          </div>
-        </div>
-      </article>
-    );
-  }
 
   function ProductGrid({ items }: { items: Product[] }) {
     const { ref, isVisible } = useRevealOnView<HTMLDivElement>();
