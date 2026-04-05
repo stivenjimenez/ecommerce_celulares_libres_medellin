@@ -23,7 +23,7 @@ import styles from "./search.module.css";
 const sora = Sora({ subsets: ["latin"], variable: "--font-display" });
 const manrope = Manrope({ subsets: ["latin"], variable: "--font-body" });
 
-const DEBOUNCE_MS = 350;
+const DEBOUNCE_MS = 1200;
 
 type SortOption =
   | "default"
@@ -200,6 +200,7 @@ function SearchPageContent() {
     return applySorting(products, sortBy);
   }, [products, sortBy]);
 
+  const isWaitingForDebounce = inputValue !== debouncedQuery;
   const displayQuery = debouncedQuery.trim();
   const resultLabel = displayQuery
     ? `${filteredProducts.length} resultado${filteredProducts.length === 1 ? "" : "s"} para “${displayQuery}”`
@@ -363,13 +364,23 @@ function SearchPageContent() {
         {error && (
           <p className={styles.state}>No se pudieron cargar los productos.</p>
         )}
-        {isLoading && <p className={styles.state}>Buscando productos...</p>}
-        {!isLoading && !error && filteredProducts.length === 0 && (
+        {!error && isWaitingForDebounce && (
           <p className={styles.state}>
-            No encontramos productos relacionados con tu búsqueda.
+            Esperando a que termines de escribir...
           </p>
         )}
-        {!error && filteredProducts.length > 0 && (
+        {!error && !isWaitingForDebounce && isLoading && (
+          <p className={styles.state}>Buscando productos...</p>
+        )}
+        {!isWaitingForDebounce &&
+          !isLoading &&
+          !error &&
+          filteredProducts.length === 0 && (
+            <p className={styles.state}>
+              No encontramos productos relacionados con tu búsqueda.
+            </p>
+          )}
+        {!error && !isWaitingForDebounce && filteredProducts.length > 0 && (
           <ProductGrid items={filteredProducts} />
         )}
       </section>

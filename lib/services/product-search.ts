@@ -9,5 +9,9 @@ export function useProductSearch(query: string) {
   const params = new URLSearchParams({ q: query });
   const key = `/api/products/search?${params.toString()}`;
 
-  return useSWR<Product[]>(key, fetcher<Product[]>);
+  return useSWR<Product[]>(key, fetcher<Product[]>, {
+    revalidateOnFocus: false,
+    revalidateIfStale: false,
+    keepPreviousData: false,
+  });
 }
