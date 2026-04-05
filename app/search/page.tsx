@@ -147,7 +147,11 @@ function SearchPageContent() {
   const [columns, setColumns] = useState(4);
   const [sortBy, setSortBy] = useState<SortOption>("default");
 
-  const { data: products = [], isLoading, error } = useProductSearch(debouncedQuery);
+  const {
+    data: products = [],
+    isLoading,
+    error,
+  } = useProductSearch(debouncedQuery);
 
   useEffect(() => {
     setInputValue(initialQuery);
@@ -156,7 +160,7 @@ function SearchPageContent() {
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
-      setDebouncedQuery(inputValue.trim());
+      setDebouncedQuery(inputValue);
     }, DEBOUNCE_MS);
 
     return () => window.clearTimeout(timer);
@@ -194,8 +198,9 @@ function SearchPageContent() {
     return applySorting(products, sortBy);
   }, [products, sortBy]);
 
-  const resultLabel = debouncedQuery
-    ? `${filteredProducts.length} resultado${filteredProducts.length === 1 ? "" : "s"} para “${debouncedQuery}”`
+  const displayQuery = debouncedQuery.trim();
+  const resultLabel = displayQuery
+    ? `${filteredProducts.length} resultado${filteredProducts.length === 1 ? "" : "s"} para “${displayQuery}”`
     : `${filteredProducts.length} producto${filteredProducts.length === 1 ? "" : "s"} disponibles`;
 
   function ProductCard({
@@ -320,7 +325,6 @@ function SearchPageContent() {
       <section className={styles.catalog}>
         <div className={styles.catalogTop}>
           <div className={styles.catalogHeading}>
-            <h1>SEARCH</h1>
             <p>{resultLabel}</p>
           </div>
           <div className={styles.catalogTopActions}>

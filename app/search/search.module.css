@@ -37,14 +37,6 @@
   gap: 4px;
 }
 
-.catalogTop h1 {
-  margin: 0;
-  font-family: var(--font-display), "Trebuchet MS", sans-serif;
-  letter-spacing: 0.08em;
-  font-size: 30px;
-  font-weight: 800;
-}
-
 .catalogTop p {
   margin: 0;
   color: var(--muted);
@@ -299,10 +291,6 @@
 @media (max-width: 1100px) {
   .catalog {
     padding-inline: 14px;
-  }
-
-  .catalogTop h1 {
-    font-size: 26px;
   }
 
   .catalogTop p,
