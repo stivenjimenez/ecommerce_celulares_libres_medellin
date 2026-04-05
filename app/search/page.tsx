@@ -154,9 +154,11 @@ function SearchPageContent() {
   } = useProductSearch(debouncedQuery);
 
   useEffect(() => {
+    if (initialQuery === debouncedQuery) return;
+
     setInputValue(initialQuery);
     setDebouncedQuery(initialQuery);
-  }, [initialQuery]);
+  }, [debouncedQuery, initialQuery]);
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
