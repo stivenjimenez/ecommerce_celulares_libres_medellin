@@ -3,6 +3,19 @@ import { NextRequest, NextResponse } from "next/server";
 import { type Product } from "@/lib/domain/product";
 import { loadCatalog } from "@/lib/server/catalog";
 
+const categorySearchTerms: Record<Product["category"], string[]> = {
+  technology: [
+    "tecnologia",
+    "tecnología",
+    "technology",
+    "celulares",
+    "gadgets",
+  ],
+  clothing: ["ropa", "clothing", "prendas"],
+  bikes: ["bicicletas", "bicicleta", "bikes", "bike"],
+  sincategoria: ["sin categoria", "sin categoría", "sincategoria"],
+};
+
 function normalize(value: string) {
   return value
     .toLowerCase()
@@ -11,7 +24,15 @@ function normalize(value: string) {
 }
 
 function getSearchTerms(product: Product) {
-  return [product.name, product.description, product.slug]
+  return [
+    product.name,
+    product.description,
+    product.slug,
+    product.category,
+    ...categorySearchTerms[product.category],
+    product.subcategory,
+    product.brand,
+  ]
     .filter((value): value is string => Boolean(value && value.trim()))
     .map((value) => normalize(value));
 }
