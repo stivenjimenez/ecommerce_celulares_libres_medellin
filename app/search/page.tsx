@@ -1,30 +1,20 @@
 "use client";
 
 import { Manrope, Sora } from "next/font/google";
-import { ArrowUpDown } from "lucide-react";
-import { useSearchParams } from "next/navigation";
+import { ArrowUpDown, Search } from "lucide-react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 
-import { type Product, type ProductCategory } from "@/lib/domain/product";
-import { useProducts } from "@/lib/services/products";
+import { type Product } from "@/lib/domain/product";
 import { ProductCard } from "@/app/components/product-card";
+import { useProductSearch } from "@/lib/services/product-search";
 
-import styles from "./productos.module.css";
+import styles from "./search.module.css";
 
 const sora = Sora({ subsets: ["latin"], variable: "--font-display" });
 const manrope = Manrope({ subsets: ["latin"], variable: "--font-body" });
 
-const categoryFilters: Record<string, ProductCategory[]> = {
-  tecnologia: ["technology"],
-  ropa: ["clothing"],
-  bicicletas: ["bikes"],
-};
-
-const categoryTitles: Record<string, string> = {
-  tecnologia: "Tecnología",
-  ropa: "Ropa",
-  bicicletas: "Bicicletas",
-};
+const DEBOUNCE_MS = 700;
 
 type SortOption =
   | "default"
@@ -137,16 +127,56 @@ function getRevealDelay(index: number, columns: number) {
   return row * 90 + col * 42;
 }
 
-function ProductosPageContent() {
-  const { data: products = [], isLoading, error } = useProducts();
+function SearchPageContent() {
+  const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
+  const urlQuery = searchParams.get("q") ?? "";
+  const [inputValue, setInputValue] = useState(urlQuery);
+  const [debouncedQuery, setDebouncedQuery] = useState(urlQuery);
   const [columns, setColumns] = useState(4);
-  const [activeSubcategory, setActiveSubcategory] = useState("");
   const [sortBy, setSortBy] = useState<SortOption>("default");
+  const lastSyncedQueryRef = useRef(urlQuery);
 
-  const categoryParam = searchParams.get("categoria")?.toLowerCase() ?? "";
-  const activeCategories = categoryFilters[categoryParam] ?? null;
-  const sectionTitle = categoryTitles[categoryParam] ?? "Catálogo completo";
+  const {
+    data: products = [],
+    isLoading,
+    error,
+  } = useProductSearch(debouncedQuery);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setDebouncedQuery(inputValue);
+    }, DEBOUNCE_MS);
+
+    return () => window.clearTimeout(timer);
+  }, [inputValue]);
+
+  useEffect(() => {
+    if (debouncedQuery === lastSyncedQueryRef.current) return;
+
+    const nextParams = new URLSearchParams(searchParams.toString());
+
+    if (debouncedQuery) {
+      nextParams.set("q", debouncedQuery);
+    } else {
+      nextParams.delete("q");
+    }
+
+    const nextQuery = nextParams.toString();
+    const nextUrl = nextQuery ? `${pathname}?${nextQuery}` : pathname;
+
+    lastSyncedQueryRef.current = debouncedQuery;
+    router.replace(nextUrl, { scroll: false });
+  }, [debouncedQuery, pathname, router, searchParams]);
+
+  useEffect(() => {
+    if (urlQuery === lastSyncedQueryRef.current) return;
+
+    lastSyncedQueryRef.current = urlQuery;
+    setInputValue(urlQuery);
+    setDebouncedQuery(urlQuery);
+  }, [urlQuery]);
 
   useEffect(() => {
     const syncColumns = () =>
@@ -156,53 +186,15 @@ function ProductosPageContent() {
     return () => window.removeEventListener("resize", syncColumns);
   }, []);
 
-  useEffect(() => {
-    setActiveSubcategory("");
-    setSortBy("default");
-  }, [categoryParam]);
-
-  const categoryProducts = useMemo(() => {
-    return products.filter((product) => {
-      return !activeCategories || activeCategories.includes(product.category);
-    });
-  }, [activeCategories, products]);
-
-  const visibleSubcategories = useMemo(() => {
-    if (!activeCategories) return [];
-    const items = new Set(
-      categoryProducts
-        .map((product) => product.subcategory?.trim())
-        .filter((subcategory): subcategory is string => Boolean(subcategory)),
-    );
-    return [...items].sort((a, b) => a.localeCompare(b, "es"));
-  }, [activeCategories, categoryProducts]);
-
   const filteredProducts = useMemo(() => {
-    const subFiltered = activeSubcategory
-      ? categoryProducts.filter(
-          (product) => product.subcategory === activeSubcategory,
-        )
-      : categoryProducts;
+    return applySorting(products, sortBy);
+  }, [products, sortBy]);
 
-    return applySorting(subFiltered, sortBy);
-  }, [categoryProducts, activeSubcategory, sortBy]);
-
-  const groupedSections = useMemo(() => {
-    if (activeCategories || sortBy !== "default") return [];
-
-    const keys = ["tecnologia", "ropa", "bicicletas"] as const;
-    return keys
-      .map((key) => ({
-        key,
-        title: categoryTitles[key],
-        products: filteredProducts.filter((product) =>
-          categoryFilters[key].includes(product.category),
-        ),
-      }))
-      .filter((section) => section.products.length > 0);
-  }, [activeCategories, filteredProducts, sortBy]);
-
-  const showFlatList = activeCategories !== null || sortBy !== "default";
+  const isWaitingForDebounce = inputValue !== debouncedQuery;
+  const displayQuery = debouncedQuery.trim();
+  const resultLabel = displayQuery
+    ? `${filteredProducts.length} resultado${filteredProducts.length === 1 ? "" : "s"} para “${displayQuery}”`
+    : `${filteredProducts.length} producto${filteredProducts.length === 1 ? "" : "s"} disponibles`;
 
   function ProductGrid({ items }: { items: Product[] }) {
     const { ref, isVisible } = useRevealOnView<HTMLDivElement>();
@@ -221,11 +213,44 @@ function ProductosPageContent() {
     );
   }
 
+  function SkeletonGrid() {
+    return (
+      <div className={styles.grid} aria-hidden="true">
+        {Array.from({ length: columns }).map((_, index) => (
+          <div key={index} className={styles.skeletonCard}>
+            <div className={styles.skeletonImage} />
+            <div className={styles.skeletonBody}>
+              <div
+                className={`${styles.skeletonLine} ${styles.skeletonTitle}`}
+              />
+              <div
+                className={`${styles.skeletonLine} ${styles.skeletonPrice}`}
+              />
+              <div className={styles.skeletonButton} />
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
   return (
     <main className={`${styles.page} ${sora.variable} ${manrope.variable}`}>
       <section className={styles.catalog}>
-        <div className={styles.catalogTop}>
-          <h1>{sectionTitle.toUpperCase()}</h1>
+        <div className={styles.searchBox}>
+          <Search className={styles.searchIcon} />
+          <input
+            type="text"
+            value={inputValue}
+            onChange={(event) => setInputValue(event.target.value)}
+            placeholder="Buscar por nombre, descripción o slug..."
+            aria-label="Buscar productos"
+            autoFocus
+          />
+        </div>
+
+        <div className={styles.catalogToolbar}>
+          <p className={styles.resultLabel}>{resultLabel}</p>
           <div className={styles.catalogTopActions}>
             <div className={styles.sortSelect}>
               <ArrowUpDown size={15} className={styles.sortIcon} />
@@ -234,7 +259,7 @@ function ProductosPageContent() {
                 onChange={(e) =>
                   setSortBy((e.target.value as SortOption) || "default")
                 }
-                aria-label="Ordenar por"
+                aria-label="Ordenar resultados"
               >
                 <option value="">Ordenar por</option>
                 {sortOptions.map((opt) => (
@@ -247,70 +272,28 @@ function ProductosPageContent() {
           </div>
         </div>
 
-        {activeCategories && visibleSubcategories.length > 0 && (
-          <section
-            className={styles.subcategoriesBar}
-            aria-label="Subcategorías disponibles"
-          >
-            <p>Subcategorías</p>
-            <div className={styles.subcategoriesList}>
-              <button
-                type="button"
-                className={`${styles.subcategoryChip} ${
-                  !activeSubcategory ? styles.subcategoryChipActive : ""
-                }`}
-                onClick={() => setActiveSubcategory("")}
-              >
-                Todas
-              </button>
-              {visibleSubcategories.map((subcategory) => (
-                <button
-                  key={subcategory}
-                  type="button"
-                  className={`${styles.subcategoryChip} ${
-                    activeSubcategory === subcategory
-                      ? styles.subcategoryChipActive
-                      : ""
-                  }`}
-                  onClick={() => setActiveSubcategory(subcategory)}
-                >
-                  {subcategory}
-                </button>
-              ))}
-            </div>
-          </section>
-        )}
-
         {error && (
           <p className={styles.state}>No se pudieron cargar los productos.</p>
         )}
-        {isLoading && <p className={styles.state}>Cargando catálogo...</p>}
-        {!isLoading && !error && filteredProducts.length === 0 && (
-          <p className={styles.state}>
-            No hay productos disponibles en esta categoría.
-          </p>
-        )}
-
-        {!error && filteredProducts.length > 0 && showFlatList && (
+        {!error && isWaitingForDebounce && <SkeletonGrid />}
+        {!error && !isWaitingForDebounce && isLoading && <SkeletonGrid />}
+        {!isWaitingForDebounce &&
+          !isLoading &&
+          !error &&
+          filteredProducts.length === 0 && (
+            <p className={styles.state}>
+              No encontramos productos relacionados con tu búsqueda.
+            </p>
+          )}
+        {!error && !isWaitingForDebounce && filteredProducts.length > 0 && (
           <ProductGrid items={filteredProducts} />
-        )}
-
-        {!error && filteredProducts.length > 0 && !showFlatList && (
-          <div className={styles.categorySections}>
-            {groupedSections.map((section) => (
-              <div key={section.key} className={styles.categorySection}>
-                <h2 className={styles.categoryTitle}>{section.title}</h2>
-                <ProductGrid items={section.products} />
-              </div>
-            ))}
-          </div>
         )}
       </section>
     </main>
   );
 }
 
-export default function ProductosPage() {
+export default function SearchPage() {
   return (
     <Suspense
       fallback={
@@ -319,7 +302,7 @@ export default function ProductosPage() {
         />
       }
     >
-      <ProductosPageContent />
+      <SearchPageContent />
     </Suspense>
   );
 }

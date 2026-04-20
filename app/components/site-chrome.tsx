@@ -8,7 +8,7 @@ import { usePathname } from "next/navigation";
 import homeStyles from "@/app/home.module.css";
 
 import { CartLink } from "./cart-link";
-import { SearchModal } from "./search-modal";
+import { SearchTrigger } from "./search-trigger";
 
 const navLinks = [
   { label: "Tecnología", href: "/productos?categoria=tecnologia" },
@@ -53,7 +53,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
           </nav>
 
           <div className={homeStyles.headerRight}>
-            <SearchModal />
+            <SearchTrigger />
             <CartLink className={homeStyles.iconButton} />
           </div>
         </div>

@@ -39,9 +39,12 @@ export function ProductGallery({ images, alt }: Props) {
     activeIndex === 0 ? galleryImages.length - 1 : activeIndex - 1;
   const nextIndex =
     activeIndex === galleryImages.length - 1 ? 0 : activeIndex + 1;
+  const galleryClassName = hasMultiple
+    ? detailStyles.galleryLayout
+    : `${detailStyles.galleryLayout} ${detailStyles.galleryLayoutSingle}`;
 
   return (
-    <div className={detailStyles.galleryLayout}>
+    <div className={galleryClassName}>
       {hasMultiple && (
         <div className={detailStyles.thumbsColumn}>
           {galleryImages.map((image, index) => {
