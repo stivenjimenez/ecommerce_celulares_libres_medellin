@@ -19,8 +19,9 @@ const navLinks = [
 export function SiteChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isAdminRoute = pathname.startsWith("/admin");
+  const isLinksRoute = pathname === "/links";
 
-  if (isAdminRoute) {
+  if (isAdminRoute || isLinksRoute) {
     return <>{children}</>;
   }
 

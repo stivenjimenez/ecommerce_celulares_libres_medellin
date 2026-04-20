@@ -2,16 +2,22 @@
 
 import Link from "next/link";
 import { ShoppingCart } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 import { useCartStore } from "@/lib/store/cart-store";
 
 import styles from "./whatsapp-float.module.css";
 
 export function WhatsAppFloat() {
+  const pathname = usePathname();
   const contactUrl = "https://wa.me/573004569938";
   const totalItems = useCartStore((state) =>
     state.items.reduce((acc, item) => acc + item.quantity, 0),
   );
+
+  if (pathname.startsWith("/admin") || pathname === "/links") {
+    return null;
+  }
 
   return (
     <div className={styles.stack}>
