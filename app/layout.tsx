@@ -5,17 +5,16 @@ import { Toaster } from "sonner";
 import { SiteChrome } from "./components/site-chrome";
 import { WhatsAppFloat } from "./components/whatsapp-float";
 import "./globals.css";
+import {
+  defaultSocialImageUrl,
+  siteDescription,
+  siteName,
+  siteTitle,
+  siteUrl,
+} from "@/lib/site-metadata";
 
 const sora = Sora({ subsets: ["latin"], variable: "--font-display" });
 const manrope = Manrope({ subsets: ["latin"], variable: "--font-body" });
-
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://celulareslibresmedellin.co";
-
-const siteTitle = "Celulares Libres Medellin";
-const siteDescription =
-  "En celulares libres medellin encuentras celulares libres, ropa original y lo último en tecnología.";
-const socialImageUrl = new URL("/og-whatsapp.png", siteUrl).toString();
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -33,16 +32,16 @@ export const metadata: Metadata = {
     type: "website",
     locale: "es_CO",
     url: siteUrl,
-    siteName: "Celulares Libres Medellin",
+    siteName,
     title: siteTitle,
     description: siteDescription,
     images: [
       {
-        url: socialImageUrl,
+        url: defaultSocialImageUrl,
         width: 1200,
         height: 630,
         type: "image/png",
-        alt: "Celulares Libres Medellin",
+        alt: siteName,
       },
     ],
   },
@@ -50,7 +49,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: siteTitle,
     description: siteDescription,
-    images: [socialImageUrl],
+    images: [defaultSocialImageUrl],
   },
 };
 

@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 
 import { type Product } from "@/lib/domain/product";
 import { loadCatalog } from "@/lib/server/catalog";
+import { defaultSocialImageUrl, siteName, siteUrl } from "@/lib/site-metadata";
 import { formatCOP } from "@/lib/utils/format";
 
 import detailStyles from "../product-detail.module.css";
@@ -22,9 +23,7 @@ const categoryLabel = {
   sincategoria: "",
 };
 
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://celulareslibresmedellin.co";
-const fallbackSocialImage = new URL("/og-whatsapp.png", siteUrl).toString();
+const fallbackSocialImage = defaultSocialImageUrl;
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -49,6 +48,19 @@ function getAbsoluteUrl(value: string) {
 
   const normalizedValue = value.startsWith("/") ? value : `/${value}`;
   return new URL(normalizedValue, siteUrl).toString();
+}
+
+function getSocialImageUrl(value: string) {
+  const absoluteUrl = getAbsoluteUrl(value);
+
+  if (!absoluteUrl.includes("res.cloudinary.com")) {
+    return absoluteUrl;
+  }
+
+  return absoluteUrl.replace(
+    "/image/upload/",
+    "/image/upload/c_fill,g_auto,w_1200,h_630,q_auto,f_jpg/",
+  );
 }
 
 function buildProductDescription(product: Product) {
@@ -79,12 +91,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const productUrl = new URL(`/productos/${product.slug}`, siteUrl).toString();
   const socialImage = product.images[0]
-    ? getAbsoluteUrl(product.images[0])
+    ? getSocialImageUrl(product.images[0])
     : fallbackSocialImage;
   const description = buildProductDescription(product);
+  const imageType =
+    socialImage === fallbackSocialImage ? "image/png" : "image/jpeg";
 
   return {
-    title: product.name,
+    title: {
+      absolute: `${product.name} | ${siteName}`,
+    },
     description,
     alternates: {
       canonical: productUrl,
@@ -93,11 +109,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: "website",
       locale: "es_CO",
       url: productUrl,
+      siteName,
       title: product.name,
       description,
       images: [
         {
           url: socialImage,
+          width: 1200,
+          height: 630,
+          type: imageType,
           alt: product.name,
         },
       ],
