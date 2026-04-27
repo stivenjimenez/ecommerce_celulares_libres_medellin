@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -15,6 +14,7 @@ import {
 } from "lucide-react";
 
 import styles from "./links.module.css";
+import { createPageMetadata } from "@/lib/site-metadata";
 
 const whatsappUrl =
   "https://wa.me/573004569938?text=Hola%2C%20vengo%20desde%20el%20QR%20de%20Celulares%20Libres%20Medellin%20y%20quiero%20mas%20informacion.";
@@ -70,14 +70,12 @@ const quickLinks = [
   { label: "Bicicletas", href: "/productos?categoria=bicicletas", icon: Bike },
 ];
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: "Links",
   description:
     "Links oficiales de Celulares Libres Medellin: WhatsApp, Instagram, Facebook y tienda online.",
-  alternates: {
-    canonical: "/links",
-  },
-};
+  path: "/links",
+});
 
 export default function LinksPage() {
   return (

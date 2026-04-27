@@ -1,16 +1,17 @@
 import Link from "next/link";
-import type { Metadata } from "next";
 import { Manrope, Sora } from "next/font/google";
 
+import { createPageMetadata } from "@/lib/site-metadata";
 import styles from "../legal.module.css";
 
 const sora = Sora({ subsets: ["latin"], variable: "--font-display" });
 const manrope = Manrope({ subsets: ["latin"], variable: "--font-body" });
 
-export const metadata: Metadata = {
-  title: "Política de Privacidad | Celulares Libres Medellin",
+export const metadata = createPageMetadata({
+  title: "Política de Privacidad",
   description: "Política de tratamiento de datos personales para Colombia.",
-};
+  path: "/privacidad",
+});
 
 export default function PrivacidadPage() {
   return (
