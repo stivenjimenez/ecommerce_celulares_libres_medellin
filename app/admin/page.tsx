@@ -1356,6 +1356,7 @@ export default function AdminPage() {
             <label>
               Correo
               <input
+                aria-label="Correo electrónico"
                 type="email"
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
@@ -1367,6 +1368,7 @@ export default function AdminPage() {
             <label>
               Contraseña
               <input
+                aria-label="Contraseña"
                 type="password"
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
@@ -1604,6 +1606,7 @@ export default function AdminPage() {
                       <td>
                         <label className={styles.tableCheckboxLabel}>
                           <input
+                            aria-label={`Marcar ${product.name} como destacado`}
                             type="checkbox"
                             checked={product.featured}
                             disabled={updatingFeaturedId === product.id}
@@ -1872,6 +1875,7 @@ export default function AdminPage() {
                 <label>
                   ID
                   <input
+                    aria-label="ID del producto"
                     value={form.id}
                     readOnly
                     placeholder="Se genera automáticamente"
@@ -1979,6 +1983,7 @@ export default function AdminPage() {
                   <label className={styles.uploadButton}>
                     Seleccionar imágenes
                     <input
+                      aria-label="Seleccionar imágenes de producto"
                       type="file"
                       accept="image/*"
                       multiple
@@ -2135,6 +2140,7 @@ export default function AdminPage() {
                 <label>
                   ID
                   <input
+                    aria-label="ID de la subcategoría"
                     value={subcatForm.id}
                     readOnly
                     placeholder="Se genera automáticamente"
@@ -2229,6 +2235,7 @@ export default function AdminPage() {
                 <label>
                   ID
                   <input
+                    aria-label="ID de la marca"
                     value={brandForm.id}
                     readOnly
                     placeholder="Se genera automáticamente"
