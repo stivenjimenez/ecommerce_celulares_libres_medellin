@@ -3,9 +3,7 @@ import Link from "next/link";
 import {
   ArrowUpRight,
   Bike,
-  Facebook,
   Home,
-  Instagram,
   MessageCircle,
   Shirt,
   ShoppingBag,
@@ -14,6 +12,7 @@ import {
 } from "lucide-react";
 
 import styles from "./links.module.css";
+import { FacebookIcon, InstagramIcon } from "@/app/components/social-icons";
 import { createPageMetadata } from "@/lib/site-metadata";
 
 const whatsappUrl =
@@ -32,7 +31,7 @@ const links = [
     label: "Instagram",
     description: "Novedades, historias y productos recientes.",
     href: "https://www.instagram.com/celulares_libres_medellin_/?hl=en",
-    icon: Instagram,
+    icon: InstagramIcon,
     tone: "instagram",
     external: true,
   },
@@ -40,7 +39,7 @@ const links = [
     label: "Facebook Marketplace",
     description: "Publicaciones activas y ofertas del momento.",
     href: "https://www.facebook.com/marketplace/profile/678380352/?ref=permalink&mibextid=dXMIcH",
-    icon: Facebook,
+    icon: FacebookIcon,
     tone: "facebook",
     external: true,
   },
