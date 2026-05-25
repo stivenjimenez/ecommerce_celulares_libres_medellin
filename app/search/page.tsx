@@ -127,6 +127,46 @@ function getRevealDelay(index: number, columns: number) {
   return row * 90 + col * 42;
 }
 
+function ProductGrid({
+  items,
+  columns,
+}: {
+  items: Product[];
+  columns: number;
+}) {
+  const { ref, isVisible } = useRevealOnView<HTMLDivElement>();
+
+  return (
+    <div ref={ref} className={styles.grid}>
+      {items.map((product, index) => (
+        <ProductCard
+          key={product.id}
+          product={product}
+          delayMs={getRevealDelay(index, columns)}
+          isVisible={isVisible}
+        />
+      ))}
+    </div>
+  );
+}
+
+function SkeletonGrid({ columns }: { columns: number }) {
+  return (
+    <div className={styles.grid} aria-hidden="true">
+      {Array.from({ length: columns }).map((_, index) => (
+        <div key={index} className={styles.skeletonCard}>
+          <div className={styles.skeletonImage} />
+          <div className={styles.skeletonBody}>
+            <div className={`${styles.skeletonLine} ${styles.skeletonTitle}`} />
+            <div className={`${styles.skeletonLine} ${styles.skeletonPrice}`} />
+            <div className={styles.skeletonButton} />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function SearchPageContent() {
   const router = useRouter();
   const pathname = usePathname();
@@ -174,8 +214,10 @@ function SearchPageContent() {
     if (urlQuery === lastSyncedQueryRef.current) return;
 
     lastSyncedQueryRef.current = urlQuery;
-    setInputValue(urlQuery);
-    setDebouncedQuery(urlQuery);
+    window.queueMicrotask(() => {
+      setInputValue(urlQuery);
+      setDebouncedQuery(urlQuery);
+    });
   }, [urlQuery]);
 
   useEffect(() => {
@@ -195,44 +237,6 @@ function SearchPageContent() {
   const resultLabel = displayQuery
     ? `${filteredProducts.length} resultado${filteredProducts.length === 1 ? "" : "s"} para “${displayQuery}”`
     : `${filteredProducts.length} producto${filteredProducts.length === 1 ? "" : "s"} disponibles`;
-
-  function ProductGrid({ items }: { items: Product[] }) {
-    const { ref, isVisible } = useRevealOnView<HTMLDivElement>();
-
-    return (
-      <div ref={ref} className={styles.grid}>
-        {items.map((product, index) => (
-          <ProductCard
-            key={product.id}
-            product={product}
-            delayMs={getRevealDelay(index, columns)}
-            isVisible={isVisible}
-          />
-        ))}
-      </div>
-    );
-  }
-
-  function SkeletonGrid() {
-    return (
-      <div className={styles.grid} aria-hidden="true">
-        {Array.from({ length: columns }).map((_, index) => (
-          <div key={index} className={styles.skeletonCard}>
-            <div className={styles.skeletonImage} />
-            <div className={styles.skeletonBody}>
-              <div
-                className={`${styles.skeletonLine} ${styles.skeletonTitle}`}
-              />
-              <div
-                className={`${styles.skeletonLine} ${styles.skeletonPrice}`}
-              />
-              <div className={styles.skeletonButton} />
-            </div>
-          </div>
-        ))}
-      </div>
-    );
-  }
 
   return (
     <main className={`${styles.page} ${sora.variable} ${manrope.variable}`}>
@@ -275,8 +279,10 @@ function SearchPageContent() {
         {error && (
           <p className={styles.state}>No se pudieron cargar los productos.</p>
         )}
-        {!error && isWaitingForDebounce && <SkeletonGrid />}
-        {!error && !isWaitingForDebounce && isLoading && <SkeletonGrid />}
+        {!error && isWaitingForDebounce && <SkeletonGrid columns={columns} />}
+        {!error && !isWaitingForDebounce && isLoading && (
+          <SkeletonGrid columns={columns} />
+        )}
         {!isWaitingForDebounce &&
           !isLoading &&
           !error &&
@@ -286,7 +292,7 @@ function SearchPageContent() {
             </p>
           )}
         {!error && !isWaitingForDebounce && filteredProducts.length > 0 && (
-          <ProductGrid items={filteredProducts} />
+          <ProductGrid items={filteredProducts} columns={columns} />
         )}
       </section>
     </main>

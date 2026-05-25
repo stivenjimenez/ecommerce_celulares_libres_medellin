@@ -137,6 +137,29 @@ function getRevealDelay(index: number, columns: number) {
   return row * 90 + col * 42;
 }
 
+function ProductGrid({
+  items,
+  columns,
+}: {
+  items: Product[];
+  columns: number;
+}) {
+  const { ref, isVisible } = useRevealOnView<HTMLDivElement>();
+
+  return (
+    <div ref={ref} className={styles.grid}>
+      {items.map((product, index) => (
+        <ProductCard
+          key={product.id}
+          product={product}
+          delayMs={getRevealDelay(index, columns)}
+          isVisible={isVisible}
+        />
+      ))}
+    </div>
+  );
+}
+
 function ProductosPageContent() {
   const { data: products = [], isLoading, error } = useProducts();
   const searchParams = useSearchParams();
@@ -157,8 +180,10 @@ function ProductosPageContent() {
   }, []);
 
   useEffect(() => {
-    setActiveSubcategory("");
-    setSortBy("default");
+    window.queueMicrotask(() => {
+      setActiveSubcategory("");
+      setSortBy("default");
+    });
   }, [categoryParam]);
 
   const categoryProducts = useMemo(() => {
@@ -203,23 +228,6 @@ function ProductosPageContent() {
   }, [activeCategories, filteredProducts, sortBy]);
 
   const showFlatList = activeCategories !== null || sortBy !== "default";
-
-  function ProductGrid({ items }: { items: Product[] }) {
-    const { ref, isVisible } = useRevealOnView<HTMLDivElement>();
-
-    return (
-      <div ref={ref} className={styles.grid}>
-        {items.map((product, index) => (
-          <ProductCard
-            key={product.id}
-            product={product}
-            delayMs={getRevealDelay(index, columns)}
-            isVisible={isVisible}
-          />
-        ))}
-      </div>
-    );
-  }
 
   return (
     <main className={`${styles.page} ${sora.variable} ${manrope.variable}`}>
@@ -292,7 +300,7 @@ function ProductosPageContent() {
         )}
 
         {!error && filteredProducts.length > 0 && showFlatList && (
-          <ProductGrid items={filteredProducts} />
+          <ProductGrid items={filteredProducts} columns={columns} />
         )}
 
         {!error && filteredProducts.length > 0 && !showFlatList && (
@@ -300,7 +308,7 @@ function ProductosPageContent() {
             {groupedSections.map((section) => (
               <div key={section.key} className={styles.categorySection}>
                 <h2 className={styles.categoryTitle}>{section.title}</h2>
-                <ProductGrid items={section.products} />
+                <ProductGrid items={section.products} columns={columns} />
               </div>
             ))}
           </div>
