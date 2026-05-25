@@ -263,32 +263,46 @@ async function optimizeImageForUpload(file: File): Promise<File> {
 
   context.drawImage(image, 0, 0, targetWidth, targetHeight);
 
-  let bestBlob: Blob | null = null;
+  const candidateSettings = ["image/webp", "image/jpeg"].flatMap((type) =>
+    OUTPUT_IMAGE_QUALITIES.map((quality) => ({ type, quality })),
+  );
+  const candidates = await Promise.all(
+    candidateSettings.map(async ({ type, quality }) => ({
+      type,
+      blob: await canvasToBlob(canvas, type, quality),
+    })),
+  );
 
-  for (const type of ["image/webp", "image/jpeg"]) {
-    for (const quality of OUTPUT_IMAGE_QUALITIES) {
-      const blob = await canvasToBlob(canvas, type, quality);
+  const selectedCandidate =
+    candidates.find(({ blob }) => blob.size <= MAX_UPLOAD_IMAGE_BYTES) ??
+    candidates.reduce<{ type: string; blob: Blob } | null>(
+      (smallest, candidate) => {
+        if (!smallest || candidate.blob.size < smallest.blob.size)
+          return candidate;
+        return smallest;
+      },
+      null,
+    );
 
-      if (!bestBlob || blob.size < bestBlob.size) {
-        bestBlob = blob;
-      }
-
-      if (blob.size <= MAX_UPLOAD_IMAGE_BYTES) {
-        const extension = type === "image/webp" ? ".webp" : ".jpg";
-        return new File([blob], renameFileExtension(file.name, extension), {
-          type,
-          lastModified: Date.now(),
-        });
-      }
-    }
-  }
-
-  if (!bestBlob) {
+  if (!selectedCandidate) {
     throw new Error(`No se pudo optimizar la imagen "${file.name}".`);
   }
 
-  throw new Error(
-    `La imagen "${file.name}" supera el límite permitido de ${formatFileSize(MAX_UPLOAD_IMAGE_BYTES)} incluso después de optimizarla.`,
+  const { type, blob } = selectedCandidate;
+
+  if (blob.size > MAX_UPLOAD_IMAGE_BYTES) {
+    throw new Error(
+      `La imagen "${file.name}" supera el límite permitido de ${formatFileSize(MAX_UPLOAD_IMAGE_BYTES)} incluso después de optimizarla.`,
+    );
+  }
+
+  return new File(
+    [blob],
+    renameFileExtension(file.name, type === "image/webp" ? ".webp" : ".jpg"),
+    {
+      type: blob.type || type,
+      lastModified: Date.now(),
+    },
   );
 }
 
@@ -802,45 +816,44 @@ export default function AdminPage() {
 
   async function uploadFilesToCloudinary(files: File[]): Promise<string[]> {
     const config = await getCloudinaryUploadConfig();
-    const urls: string[] = [];
 
-    for (const file of files) {
-      const payload = new FormData();
-      payload.append("file", file);
-      payload.append("folder", config.folder);
+    return Promise.all(
+      files.map(async (file) => {
+        const payload = new FormData();
+        payload.append("file", file);
+        payload.append("folder", config.folder);
 
-      if (config.mode === "signed") {
-        payload.append("timestamp", config.timestamp);
-        payload.append("api_key", config.apiKey);
-        payload.append("signature", config.signature);
-      } else {
-        payload.append("upload_preset", config.uploadPreset);
-      }
+        if (config.mode === "signed") {
+          payload.append("timestamp", config.timestamp);
+          payload.append("api_key", config.apiKey);
+          payload.append("signature", config.signature);
+        } else {
+          payload.append("upload_preset", config.uploadPreset);
+        }
 
-      const response = await fetch(
-        `https://api.cloudinary.com/v1_1/${config.cloudName}/image/upload`,
-        {
-          method: "POST",
-          body: payload,
-        },
-      );
-
-      const body = (await response.json().catch(() => null)) as {
-        secure_url?: string;
-        error?: { message?: string };
-      } | null;
-
-      if (!response.ok || !body?.secure_url) {
-        throw new Error(
-          body?.error?.message ||
-            `No se pudo subir la imagen "${file.name}" a Cloudinary.`,
+        const response = await fetch(
+          `https://api.cloudinary.com/v1_1/${config.cloudName}/image/upload`,
+          {
+            method: "POST",
+            body: payload,
+          },
         );
-      }
 
-      urls.push(body.secure_url);
-    }
+        const body = (await response.json().catch(() => null)) as {
+          secure_url?: string;
+          error?: { message?: string };
+        } | null;
 
-    return urls;
+        if (!response.ok || !body?.secure_url) {
+          throw new Error(
+            body?.error?.message ||
+              `No se pudo subir la imagen "${file.name}" a Cloudinary.`,
+          );
+        }
+
+        return body.secure_url;
+      }),
+    );
   }
 
   async function queuePendingFiles(files: File[]) {
@@ -849,26 +862,29 @@ export default function AdminPage() {
     setIsPreparingImages(true);
     setError("");
 
-    const pendingToAdd: PendingUpload[] = [];
-    const processingErrors: string[] = [];
-
     try {
-      for (const file of files) {
-        try {
+      const results = await Promise.allSettled(
+        files.map(async (file) => {
           const optimizedFile = await optimizeImageForUpload(file);
-          pendingToAdd.push({
+          return {
             tempUrl: URL.createObjectURL(optimizedFile),
             file: optimizedFile,
             name: file.name,
-          });
-        } catch (error) {
-          processingErrors.push(
-            error instanceof Error
-              ? error.message
-              : `No se pudo procesar la imagen "${file.name}".`,
-          );
-        }
-      }
+          } satisfies PendingUpload;
+        }),
+      );
+      const pendingToAdd = results.flatMap((result) =>
+        result.status === "fulfilled" ? [result.value] : [],
+      );
+      const processingErrors = results.flatMap((result, index) =>
+        result.status === "rejected"
+          ? [
+              result.reason instanceof Error
+                ? result.reason.message
+                : `No se pudo procesar la imagen "${files[index].name}".`,
+            ]
+          : [],
+      );
 
       if (pendingToAdd.length > 0) {
         setPendingUploads((prev) => [...prev, ...pendingToAdd]);

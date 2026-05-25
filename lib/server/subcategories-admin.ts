@@ -106,32 +106,33 @@ export async function createSubcategory(
   const subcategory = normalizeSubcategory(input);
   const categoryId = await getCategoryIdBySlugForAdmin(subcategory.category);
 
-  const [slugConflict] = await database()
-    .select({ id: subcategories.id })
-    .from(subcategories)
-    .where(
-      and(
-        eq(subcategories.slug, subcategory.slug),
-        isNull(subcategories.deletedAt),
-      ),
-    )
-    .limit(1);
+  const [[slugConflict], [nameConflict]] = await Promise.all([
+    database()
+      .select({ id: subcategories.id })
+      .from(subcategories)
+      .where(
+        and(
+          eq(subcategories.slug, subcategory.slug),
+          isNull(subcategories.deletedAt),
+        ),
+      )
+      .limit(1),
+    database()
+      .select({ id: subcategories.id })
+      .from(subcategories)
+      .where(
+        and(
+          eq(subcategories.name, subcategory.name),
+          eq(subcategories.categoryId, categoryId),
+          isNull(subcategories.deletedAt),
+        ),
+      )
+      .limit(1),
+  ]);
 
   if (slugConflict) {
     throw new Error("Ya existe una subcategoría con ese slug.");
   }
-
-  const [nameConflict] = await database()
-    .select({ id: subcategories.id })
-    .from(subcategories)
-    .where(
-      and(
-        eq(subcategories.name, subcategory.name),
-        eq(subcategories.categoryId, categoryId),
-        isNull(subcategories.deletedAt),
-      ),
-    )
-    .limit(1);
 
   if (nameConflict) {
     throw new Error(
@@ -166,34 +167,35 @@ export async function updateSubcategory(
   const updated = normalizeSubcategory({ ...current, ...input }, current);
   const categoryId = await getCategoryIdBySlugForAdmin(updated.category);
 
-  const [slugConflict] = await database()
-    .select({ id: subcategories.id })
-    .from(subcategories)
-    .where(
-      and(
-        eq(subcategories.slug, updated.slug),
-        isNull(subcategories.deletedAt),
-        sql`${subcategories.id} <> ${id}`,
-      ),
-    )
-    .limit(1);
+  const [[slugConflict], [nameConflict]] = await Promise.all([
+    database()
+      .select({ id: subcategories.id })
+      .from(subcategories)
+      .where(
+        and(
+          eq(subcategories.slug, updated.slug),
+          isNull(subcategories.deletedAt),
+          sql`${subcategories.id} <> ${id}`,
+        ),
+      )
+      .limit(1),
+    database()
+      .select({ id: subcategories.id })
+      .from(subcategories)
+      .where(
+        and(
+          eq(subcategories.name, updated.name),
+          eq(subcategories.categoryId, categoryId),
+          isNull(subcategories.deletedAt),
+          sql`${subcategories.id} <> ${id}`,
+        ),
+      )
+      .limit(1),
+  ]);
 
   if (slugConflict) {
     throw new Error("Ya existe una subcategoría con ese slug.");
   }
-
-  const [nameConflict] = await database()
-    .select({ id: subcategories.id })
-    .from(subcategories)
-    .where(
-      and(
-        eq(subcategories.name, updated.name),
-        eq(subcategories.categoryId, categoryId),
-        isNull(subcategories.deletedAt),
-        sql`${subcategories.id} <> ${id}`,
-      ),
-    )
-    .limit(1);
 
   if (nameConflict) {
     throw new Error(

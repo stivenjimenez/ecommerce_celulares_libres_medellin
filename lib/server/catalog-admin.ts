@@ -299,16 +299,16 @@ export async function createProduct(input: ProductInput): Promise<Product> {
   if (slugConflict) throw new SlugConflictError();
 
   const categoryId = await resolveCategoryId(product.category);
-  const subcategoryId = await resolveSubcategoryId(
-    product.subcategory,
-    categoryId,
-  );
-  const brandId = await resolveBrandId(product.brand, categoryId);
-
-  const [sort] = await database()
-    .select({ maxSort: sql<number>`coalesce(max(${products.sortOrder}), -1)` })
-    .from(products)
-    .where(isNull(products.deletedAt));
+  const [subcategoryId, brandId, [sort]] = await Promise.all([
+    resolveSubcategoryId(product.subcategory, categoryId),
+    resolveBrandId(product.brand, categoryId),
+    database()
+      .select({
+        maxSort: sql<number>`coalesce(max(${products.sortOrder}), -1)`,
+      })
+      .from(products)
+      .where(isNull(products.deletedAt)),
+  ]);
 
   const [inserted] = await database()
     .insert(products)
@@ -361,11 +361,10 @@ export async function updateProduct(
   }
 
   const categoryId = await resolveCategoryId(updated.category);
-  const subcategoryId = await resolveSubcategoryId(
-    updated.subcategory,
-    categoryId,
-  );
-  const brandId = await resolveBrandId(updated.brand, categoryId);
+  const [subcategoryId, brandId] = await Promise.all([
+    resolveSubcategoryId(updated.subcategory, categoryId),
+    resolveBrandId(updated.brand, categoryId),
+  ]);
   const removedImages = current.images.filter(
     (image) => !updated.images.includes(image),
   );
@@ -426,13 +425,14 @@ export async function reorderProducts(
   }
 
   await database().transaction(async (tx) => {
-    for (let index = 0; index < cleaned.length; index += 1) {
-      const id = cleaned[index];
-      await tx
-        .update(products)
-        .set({ sortOrder: index })
-        .where(and(eq(products.id, id), isNull(products.deletedAt)));
-    }
+    await Promise.all(
+      cleaned.map((id, index) =>
+        tx
+          .update(products)
+          .set({ sortOrder: index })
+          .where(and(eq(products.id, id), isNull(products.deletedAt))),
+      ),
+    );
   });
 
   const { products: reordered } = await getEditableCatalog();
