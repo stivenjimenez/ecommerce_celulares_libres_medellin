@@ -4,10 +4,18 @@ import { Manrope, Sora } from "next/font/google";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import styles from "./home.module.css";
 import { FeaturedProductsGrid } from "./components/featured-products-grid";
+import { createPageMetadata } from "@/lib/site-metadata";
 import { loadCatalog } from "@/lib/server/catalog";
 
 const sora = Sora({ subsets: ["latin"], variable: "--font-display" });
 const manrope = Manrope({ subsets: ["latin"], variable: "--font-body" });
+
+export const metadata = createPageMetadata({
+  title: "Celulares Libres Medellin",
+  description:
+    "Compra celulares libres, ropa original, tecnología y accesorios bike en Medellin.",
+  path: "/",
+});
 
 const categories = [
   {
