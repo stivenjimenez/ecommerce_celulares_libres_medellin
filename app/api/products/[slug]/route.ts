@@ -7,8 +7,10 @@ type Context = {
 };
 
 export async function GET(_request: Request, context: Context) {
-  const { slug } = await context.params;
-  const catalog = await loadCatalog();
+  const [{ slug }, catalog] = await Promise.all([
+    context.params,
+    loadCatalog(),
+  ]);
   const product = catalog.find((item) => item.slug === slug);
 
   if (!product) {

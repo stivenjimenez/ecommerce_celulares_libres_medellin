@@ -101,27 +101,28 @@ export async function createBrand(input: BrandInput): Promise<Brand> {
   const brand = normalizeBrand(input);
   const categoryId = await getCategoryIdBySlugForAdmin(brand.category);
 
-  const [slugConflict] = await database()
-    .select({ id: brands.id })
-    .from(brands)
-    .where(and(eq(brands.slug, brand.slug), isNull(brands.deletedAt)))
-    .limit(1);
+  const [[slugConflict], [nameConflict]] = await Promise.all([
+    database()
+      .select({ id: brands.id })
+      .from(brands)
+      .where(and(eq(brands.slug, brand.slug), isNull(brands.deletedAt)))
+      .limit(1),
+    database()
+      .select({ id: brands.id })
+      .from(brands)
+      .where(
+        and(
+          eq(brands.name, brand.name),
+          eq(brands.categoryId, categoryId),
+          isNull(brands.deletedAt),
+        ),
+      )
+      .limit(1),
+  ]);
 
   if (slugConflict) {
     throw new Error("Ya existe una marca con ese slug.");
   }
-
-  const [nameConflict] = await database()
-    .select({ id: brands.id })
-    .from(brands)
-    .where(
-      and(
-        eq(brands.name, brand.name),
-        eq(brands.categoryId, categoryId),
-        isNull(brands.deletedAt),
-      ),
-    )
-    .limit(1);
 
   if (nameConflict) {
     throw new Error("Ya existe una marca con ese nombre en la categoría.");
@@ -152,34 +153,35 @@ export async function updateBrand(input: BrandInput): Promise<Brand | null> {
   const updated = normalizeBrand({ ...current, ...input }, current);
   const categoryId = await getCategoryIdBySlugForAdmin(updated.category);
 
-  const [slugConflict] = await database()
-    .select({ id: brands.id })
-    .from(brands)
-    .where(
-      and(
-        eq(brands.slug, updated.slug),
-        isNull(brands.deletedAt),
-        sql`${brands.id} <> ${id}`,
-      ),
-    )
-    .limit(1);
+  const [[slugConflict], [nameConflict]] = await Promise.all([
+    database()
+      .select({ id: brands.id })
+      .from(brands)
+      .where(
+        and(
+          eq(brands.slug, updated.slug),
+          isNull(brands.deletedAt),
+          sql`${brands.id} <> ${id}`,
+        ),
+      )
+      .limit(1),
+    database()
+      .select({ id: brands.id })
+      .from(brands)
+      .where(
+        and(
+          eq(brands.name, updated.name),
+          eq(brands.categoryId, categoryId),
+          isNull(brands.deletedAt),
+          sql`${brands.id} <> ${id}`,
+        ),
+      )
+      .limit(1),
+  ]);
 
   if (slugConflict) {
     throw new Error("Ya existe una marca con ese slug.");
   }
-
-  const [nameConflict] = await database()
-    .select({ id: brands.id })
-    .from(brands)
-    .where(
-      and(
-        eq(brands.name, updated.name),
-        eq(brands.categoryId, categoryId),
-        isNull(brands.deletedAt),
-        sql`${brands.id} <> ${id}`,
-      ),
-    )
-    .limit(1);
 
   if (nameConflict) {
     throw new Error("Ya existe una marca con ese nombre en la categoría.");

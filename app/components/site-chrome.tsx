@@ -2,10 +2,10 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Facebook, Instagram } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 import homeStyles from "@/app/home.module.css";
+import { FacebookIcon, InstagramIcon } from "@/app/components/social-icons";
 
 import { CartLink } from "./cart-link";
 import { SearchTrigger } from "./search-trigger";
@@ -103,7 +103,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
                   title="Facebook"
                   className={homeStyles.socialLink}
                 >
-                  <Facebook size={18} />
+                  <FacebookIcon size={18} />
                 </a>
                 <a
                   href="https://www.instagram.com/celulares_libres_medellin_/?hl=en"
@@ -113,7 +113,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
                   title="Instagram"
                   className={homeStyles.socialLink}
                 >
-                  <Instagram size={18} />
+                  <InstagramIcon size={18} />
                 </a>
               </div>
             </div>
