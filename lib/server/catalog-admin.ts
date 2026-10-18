@@ -160,8 +160,10 @@ function normalizeProduct(input: ProductInput, existing?: Product): Product {
     category,
     subcategory,
     brand,
-    featured: safeBoolean(input.featured ?? existing?.featured),
     draft: safeBoolean(input.draft ?? existing?.draft),
+    featured:
+      !safeBoolean(input.draft ?? existing?.draft) &&
+      safeBoolean(input.featured ?? existing?.featured),
     variants: safeVariants(input.variants ?? existing?.variants),
     attributes: safeObject(input.attributes ?? existing?.attributes),
   };
@@ -402,7 +404,7 @@ export async function deleteProduct(id: string): Promise<boolean> {
 
   const [deleted] = await database()
     .update(products)
-    .set({ deletedAt: new Date(), images: [] })
+    .set({ deletedAt: new Date(), images: [], featured: false })
     .where(and(eq(products.id, cleanId), isNull(products.deletedAt)))
     .returning({ id: products.id });
 
