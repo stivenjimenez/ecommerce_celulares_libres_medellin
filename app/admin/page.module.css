@@ -149,6 +149,37 @@
   font-weight: 700;
 }
 
+.authActions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.authSecondaryButton {
+  border: 0;
+  background: transparent;
+  color: #1d6b0a;
+  padding: 3px 0;
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-align: left;
+}
+
+.authSecondaryButton:disabled {
+  cursor: wait;
+  opacity: 0.6;
+}
+
+.authCard .authNotice {
+  border-radius: 8px;
+  background: #ecfdf3;
+  color: #027a48;
+  padding: 10px 12px;
+  font-size: 0.9rem;
+}
+
 .headerRow {
   display: flex;
   align-items: center;

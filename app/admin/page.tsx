@@ -385,7 +385,17 @@ export default function AdminPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState("");
+  const [authNotice, setAuthNotice] = useState("");
   const [isLoginSubmitting, setIsLoginSubmitting] = useState(false);
+  const [emailLinkSubmitting, setEmailLinkSubmitting] = useState<
+    "magic" | "recovery" | null
+  >(null);
+  const [isPasswordRecovery, setIsPasswordRecovery] = useState(false);
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState("");
+  const [passwordRecoveryError, setPasswordRecoveryError] = useState("");
+  const [isPasswordUpdateSubmitting, setIsPasswordUpdateSubmitting] =
+    useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [currentUserEmail, setCurrentUserEmail] = useState("");
   const [adminSection, setAdminSection] = useState<
@@ -616,6 +626,18 @@ export default function AdminPage() {
 
   useEffect(() => {
     let isMounted = true;
+    const searchParams = new URLSearchParams(window.location.search);
+    const hashParams = new URLSearchParams(window.location.hash.slice(1));
+    const requestedRecovery =
+      searchParams.get("flow") === "recovery" ||
+      hashParams.get("type") === "recovery";
+
+    if (requestedRecovery) setIsPasswordRecovery(true);
+    if (searchParams.get("auth_error") === "link") {
+      setLoginError(
+        "El enlace no es válido o ya venció. Solicita uno nuevo e inténtalo otra vez.",
+      );
+    }
 
     async function bootstrapAuth() {
       const { data, error } = await supabase.auth.getUser();
@@ -624,6 +646,11 @@ export default function AdminPage() {
       if (error || !data.user) {
         setIsAuthenticated(false);
         setCurrentUserEmail("");
+        if (requestedRecovery) {
+          setLoginError(
+            "No se pudo validar el enlace de recuperación. Solicita uno nuevo.",
+          );
+        }
       } else {
         setIsAuthenticated(true);
         setCurrentUserEmail(data.user.email ?? "");
@@ -638,6 +665,7 @@ export default function AdminPage() {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
       if (!isMounted) return;
+      if (_event === "PASSWORD_RECOVERY") setIsPasswordRecovery(true);
       const user = session?.user ?? null;
       setIsAuthenticated(Boolean(user));
       setCurrentUserEmail(user?.email ?? "");
@@ -651,11 +679,11 @@ export default function AdminPage() {
   }, [supabase]);
 
   useEffect(() => {
-    if (isAuthLoading || !isAuthenticated) return;
+    if (isAuthLoading || !isAuthenticated || isPasswordRecovery) return;
     loadProducts();
     loadSubcategories();
     loadBrands();
-  }, [isAuthenticated, isAuthLoading]);
+  }, [isAuthenticated, isAuthLoading, isPasswordRecovery]);
 
   useEffect(() => {
     if (!form.subcategory) return;
@@ -1316,6 +1344,7 @@ export default function AdminPage() {
 
     setIsLoginSubmitting(true);
     setLoginError("");
+    setAuthNotice("");
 
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
@@ -1337,6 +1366,92 @@ export default function AdminPage() {
     }
   }
 
+  async function handleSendAuthLink(flow: "magic" | "recovery") {
+    const normalizedEmail = email.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)) {
+      setLoginError("Ingresa un correo válido para recibir el enlace.");
+      setAuthNotice("");
+      return;
+    }
+
+    setEmailLinkSubmitting(flow);
+    setLoginError("");
+    setAuthNotice("");
+
+    try {
+      const redirectTo = new URL(
+        `/admin?flow=${flow}`,
+        window.location.origin,
+      ).toString();
+
+      if (flow === "magic") {
+        const { error } = await supabase.auth.signInWithOtp({
+          email: normalizedEmail,
+          options: {
+            emailRedirectTo: redirectTo,
+            shouldCreateUser: false,
+          },
+        });
+        if (error) throw error;
+      } else {
+        const { error } = await supabase.auth.resetPasswordForEmail(
+          normalizedEmail,
+          { redirectTo },
+        );
+        if (error) throw error;
+      }
+
+      setAuthNotice(
+        "Si el correo corresponde a una cuenta admin, recibirás un enlace en tu email.",
+      );
+    } catch {
+      setLoginError(
+        "No se pudo enviar el enlace. Inténtalo de nuevo en unos minutos.",
+      );
+    } finally {
+      setEmailLinkSubmitting(null);
+    }
+  }
+
+  async function handlePasswordRecovery(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setPasswordRecoveryError("");
+
+    if (newPassword.length < 8) {
+      setPasswordRecoveryError(
+        "La contraseña debe tener al menos 8 caracteres.",
+      );
+      return;
+    }
+    if (newPassword !== confirmNewPassword) {
+      setPasswordRecoveryError("Las contraseñas no coinciden.");
+      return;
+    }
+
+    setIsPasswordUpdateSubmitting(true);
+    try {
+      const { error } = await supabase.auth.updateUser({
+        password: newPassword,
+      });
+      if (error) {
+        setPasswordRecoveryError(error.message);
+        return;
+      }
+
+      setIsPasswordRecovery(false);
+      setNewPassword("");
+      setConfirmNewPassword("");
+      window.history.replaceState(window.history.state, "", "/admin");
+      toast.success("Contraseña actualizada.");
+    } catch {
+      setPasswordRecoveryError(
+        "No se pudo actualizar la contraseña. Verifica tu conexión e inténtalo otra vez.",
+      );
+    } finally {
+      setIsPasswordUpdateSubmitting(false);
+    }
+  }
+
   async function handleLogout() {
     await supabase.auth.signOut();
     clearPendingUploads();
@@ -1352,12 +1467,60 @@ export default function AdminPage() {
     setProfileOpen(false);
     setCurrentUserEmail("");
     setIsAuthenticated(false);
+    setIsPasswordRecovery(false);
   }
 
   if (isAuthLoading) {
     return (
       <main className={`${styles.page} ${sora.variable} ${manrope.variable}`}>
         <p className={styles.muted}>Cargando...</p>
+      </main>
+    );
+  }
+
+  if (isPasswordRecovery && isAuthenticated) {
+    return (
+      <main className={`${styles.page} ${sora.variable} ${manrope.variable}`}>
+        <section className={styles.authCard}>
+          <h1>Restablecer contraseña</h1>
+          <p>Elige una nueva contraseña para tu cuenta admin.</p>
+          <form className={styles.authForm} onSubmit={handlePasswordRecovery}>
+            <label>
+              Nueva contraseña
+              <input
+                type="password"
+                value={newPassword}
+                onChange={(event) => setNewPassword(event.target.value)}
+                autoComplete="new-password"
+                minLength={8}
+                required
+              />
+            </label>
+            <label>
+              Confirmar contraseña
+              <input
+                type="password"
+                value={confirmNewPassword}
+                onChange={(event) => setConfirmNewPassword(event.target.value)}
+                autoComplete="new-password"
+                minLength={8}
+                required
+              />
+            </label>
+            {passwordRecoveryError && (
+              <p className={styles.error}>{passwordRecoveryError}</p>
+            )}
+            <button
+              type="submit"
+              className={styles.authButton}
+              disabled={isPasswordUpdateSubmitting}
+            >
+              {isPasswordUpdateSubmitting
+                ? "Guardando..."
+                : "Guardar contraseña"}
+            </button>
+          </form>
+        </section>
       </main>
     );
   }
@@ -1393,7 +1556,6 @@ export default function AdminPage() {
                 required
               />
             </label>
-            {loginError && <p className={styles.error}>{loginError}</p>}
             <button
               type="submit"
               className={styles.authButton}
@@ -1402,6 +1564,30 @@ export default function AdminPage() {
               Entrar
             </button>
           </form>
+          <div className={styles.authActions}>
+            <button
+              type="button"
+              className={styles.authSecondaryButton}
+              onClick={() => void handleSendAuthLink("magic")}
+              disabled={emailLinkSubmitting !== null}
+            >
+              {emailLinkSubmitting === "magic"
+                ? "Enviando enlace..."
+                : "Ingresar con magic link"}
+            </button>
+            <button
+              type="button"
+              className={styles.authSecondaryButton}
+              onClick={() => void handleSendAuthLink("recovery")}
+              disabled={emailLinkSubmitting !== null}
+            >
+              {emailLinkSubmitting === "recovery"
+                ? "Enviando enlace..."
+                : "Olvidé mi contraseña"}
+            </button>
+          </div>
+          {authNotice && <p className={styles.authNotice}>{authNotice}</p>}
+          {loginError && <p className={styles.error}>{loginError}</p>}
         </section>
       </main>
     );
