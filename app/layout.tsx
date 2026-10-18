@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Manrope, Sora } from "next/font/google";
 import { Toaster } from "sonner";
 
+import { AuthLinkHandler } from "./components/auth-link-handler";
 import { SiteChrome } from "./components/site-chrome";
 import { WhatsAppFloat } from "./components/whatsapp-float";
 import "./globals.css";
@@ -61,6 +62,7 @@ export default function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning>
       <body className={`${sora.variable} ${manrope.variable}`}>
+        <AuthLinkHandler />
         <SiteChrome>{children}</SiteChrome>
         <WhatsAppFloat />
         <Toaster position="top-center" richColors closeButton />
