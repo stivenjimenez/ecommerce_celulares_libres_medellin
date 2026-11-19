@@ -40,6 +40,7 @@ import {
 } from "@/lib/domain/product";
 import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 
+import { OrdersSection } from "./orders-section";
 import styles from "./page.module.css";
 
 const sora = Sora({ subsets: ["latin"], variable: "--font-display" });
@@ -51,6 +52,7 @@ type ProductForm = {
   name: string;
   description: string;
   price: string;
+  stock: string;
   previousPrice: string;
   category: ProductCategory;
   subcategory: string;
@@ -109,6 +111,7 @@ const initialForm: ProductForm = {
   name: "",
   description: "",
   price: "",
+  stock: "0",
   previousPrice: "",
   category: "technology",
   subcategory: "",
@@ -155,6 +158,7 @@ function toForm(product: Product): ProductForm {
     name: product.name,
     description: product.description,
     price: String(product.price),
+    stock: String(product.stock),
     previousPrice: product.previousPrice ? String(product.previousPrice) : "",
     category: product.category,
     subcategory: product.subcategory ?? "",
@@ -399,12 +403,13 @@ export default function AdminPage() {
   const [profileOpen, setProfileOpen] = useState(false);
   const [currentUserEmail, setCurrentUserEmail] = useState("");
   const [adminSection, setAdminSection] = useState<
-    "products" | "subcategories" | "brands"
+    "products" | "subcategories" | "brands" | "orders"
   >("products");
   const [products, setProducts] = useState<Product[]>([]);
   const [subcategories, setSubcategories] = useState<Subcategory[]>([]);
   const [brands, setBrands] = useState<Brand[]>([]);
   const [selectedId, setSelectedId] = useState<string>("");
+  const [stockAtEdit, setStockAtEdit] = useState<number | undefined>();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [subcatSelectedId, setSubcatSelectedId] = useState<string>("");
   const [subcatDrawerOpen, setSubcatDrawerOpen] = useState(false);
@@ -736,6 +741,7 @@ export default function AdminPage() {
   function openDrawerForEdit(product: Product) {
     clearPendingUploads();
     setSelectedId(product.id);
+    setStockAtEdit(product.stock);
     reset(toForm(product));
     setError("");
     setDrawerOpen(true);
@@ -1070,6 +1076,8 @@ export default function AdminPage() {
         name: values.name,
         description: values.description,
         price: Number(values.price),
+        stock: Number(values.stock),
+        expectedStock: stockAtEdit,
         previousPrice: values.previousPrice
           ? Number(values.previousPrice)
           : undefined,
@@ -1618,6 +1626,13 @@ export default function AdminPage() {
           >
             Marcas
           </button>
+          <button
+            type="button"
+            className={`${styles.adminNavButton} ${adminSection === "orders" ? styles.adminNavButtonActive : ""}`}
+            onClick={() => setAdminSection("orders")}
+          >
+            Pedidos
+          </button>
         </nav>
         <div className={styles.profileWrap}>
           <button
@@ -1643,6 +1658,8 @@ export default function AdminPage() {
           )}
         </div>
       </div>
+
+      {adminSection === "orders" && <OrdersSection />}
 
       {adminSection === "products" && (
         <section className={styles.tableSection}>
@@ -2125,6 +2142,17 @@ export default function AdminPage() {
                     min="0"
                     {...register("previousPrice")}
                     placeholder="Opcional"
+                  />
+                </label>
+
+                <label>
+                  Existencias disponibles
+                  <input
+                    type="number"
+                    min="0"
+                    step="1"
+                    required
+                    {...register("stock", { required: true, min: 0 })}
                   />
                 </label>
 

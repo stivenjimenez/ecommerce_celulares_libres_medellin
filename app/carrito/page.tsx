@@ -6,6 +6,7 @@ import { Manrope, Sora } from "next/font/google";
 import { Minus, Plus, Trash2 } from "lucide-react";
 
 import { useCartStore } from "@/lib/store/cart-store";
+import { useProducts } from "@/lib/services/products";
 import { formatCOP } from "@/lib/utils/format";
 
 import styles from "./page.module.css";
@@ -17,6 +18,13 @@ export default function CarritoPage() {
   const updateItemQuantity = useCartStore((state) => state.updateItemQuantity);
   const removeItem = useCartStore((state) => state.removeItem);
   const clearCart = useCartStore((state) => state.clearCart);
+  const { data: catalog, error: catalogError } = useProducts();
+  const invalidItems = items.filter((item) => {
+    const product = catalog?.find((entry) => entry.id === item.productId);
+    return (
+      !product || product.stock < item.quantity || product.price !== item.price
+    );
+  });
 
   const totalItems = items.reduce((acc, item) => acc + item.quantity, 0);
   const subtotal = items.reduce(
@@ -89,6 +97,12 @@ export default function CarritoPage() {
                       {item.name}
                     </Link>
                     <p className={styles.itemPrice}>{formatCOP(item.price)}</p>
+                    {catalog && invalidItems.includes(item) && (
+                      <p>
+                        Las existencias o el precio cambiaron. Ajusta la
+                        cantidad o elimina y agrega el producto nuevamente.
+                      </p>
+                    )}
 
                     <div className={styles.itemActions}>
                       <div className={styles.qtyBox}>
@@ -108,6 +122,13 @@ export default function CarritoPage() {
                         <span>{item.quantity}</span>
                         <button
                           type="button"
+                          disabled={
+                            !catalog ||
+                            item.quantity >=
+                              (catalog.find(
+                                (product) => product.id === item.productId,
+                              )?.stock ?? 0)
+                          }
                           onClick={() =>
                             updateItemQuantity(
                               item.productId,
@@ -154,13 +175,26 @@ export default function CarritoPage() {
                 <strong>{formatCOP(subtotal)}</strong>
               </div>
 
+              {catalogError && (
+                <p>No se pudo verificar el inventario. Inténtalo de nuevo.</p>
+              )}
+              {catalog && !catalogError && invalidItems.length === 0 ? (
+                <Link href="/checkout" className={styles.primaryButton}>
+                  Finalizar compra
+                </Link>
+              ) : (
+                <button type="button" className={styles.primaryButton} disabled>
+                  Finalizar compra
+                </button>
+              )}
+
               <Link
                 href={whatsappOrderUrl}
                 target="_blank"
                 rel="noreferrer"
-                className={styles.primaryButton}
+                className={styles.secondaryButton}
               >
-                Finalizar por WhatsApp
+                Consultar carrito por WhatsApp
               </Link>
               <Link href="/productos" className={styles.secondaryButton}>
                 Seguir comprando

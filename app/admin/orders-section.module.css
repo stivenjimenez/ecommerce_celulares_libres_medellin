@@ -1,0 +1,108 @@
+dialog.drawer {
+  inset: 0 0 0 auto;
+  margin: 0;
+  max-width: 100%;
+  max-height: none;
+  border: 0;
+  border-left: 1px solid #d6dde8;
+  padding: 0;
+}
+
+.drawer::backdrop {
+  background: rgb(15 23 42 / 52%);
+}
+
+.drawerContent {
+  padding: 20px;
+  overflow-wrap: anywhere;
+}
+
+.statuses {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.reference {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.detailSection {
+  padding: 14px;
+  border: 1px solid #d6dde8;
+  border-radius: 10px;
+}
+
+.detailSection h3 {
+  margin: 0 0 8px;
+  font-size: 0.9rem;
+}
+
+.detailSection p,
+.muted {
+  margin: 4px 0;
+  font-size: 0.9rem;
+}
+
+.muted {
+  color: #667085;
+}
+
+.confirmed,
+.cancelled,
+.payment {
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.confirmed {
+  color: #1d6b0a;
+  background: #f0fff3;
+}
+
+.cancelled {
+  color: #a12626;
+  background: #fff0f0;
+}
+
+.payment {
+  color: #475467;
+  background: #f5f7fa;
+}
+
+.items {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.9rem;
+}
+
+.items li,
+.total {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.productLink {
+  color: #1570ef;
+  font-weight: 700;
+  text-underline-offset: 2px;
+}
+
+.items strong,
+.total strong:last-child {
+  flex-shrink: 0;
+}
+
+.detailSection .total {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #d6dde8;
+}

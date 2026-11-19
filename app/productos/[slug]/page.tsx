@@ -14,6 +14,8 @@ import { AddToCartButton } from "../components/add-to-cart-button";
 import { ProductGallery } from "../components/product-gallery";
 import { BackButton } from "./back-button";
 
+export const dynamic = "force-dynamic";
+
 const sora = Sora({ subsets: ["latin"], variable: "--font-display" });
 const manrope = Manrope({ subsets: ["latin"], variable: "--font-body" });
 const categoryLabel = {

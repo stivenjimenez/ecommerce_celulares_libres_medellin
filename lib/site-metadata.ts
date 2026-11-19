@@ -1,7 +1,14 @@
 import type { Metadata } from "next";
 
-export const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://celulareslibresmedellin.co";
+const publicStoreUrl = "https://www.celulareslibresmedellin.co";
+export const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? publicStoreUrl;
+
+export function getPublicProductUrl(slug: string) {
+  return new URL(
+    `/productos/${encodeURIComponent(slug)}`,
+    publicStoreUrl,
+  ).toString();
+}
 export const siteTitle = "Celulares Libres Medellin";
 export const siteName = "Celulares Libres Medellin";
 export const siteDescription =
