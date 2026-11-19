@@ -1,13 +1,19 @@
 "use client";
 
 import Image from "next/image";
-import { ChevronLeft, ChevronRight, ShoppingCart } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  MessageCircle,
+  ShoppingCart,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useMemo, useRef, useState, type CSSProperties } from "react";
 
 import { type Product } from "@/lib/domain/product";
 import { useCartStore } from "@/lib/store/cart-store";
 import { formatCOP } from "@/lib/utils/format";
+import { productAvailabilityUrl } from "@/lib/utils/whatsapp";
 
 import styles from "./product-card.module.css";
 
@@ -153,7 +159,7 @@ export function ProductCard({
       tabIndex={interactive ? 0 : -1}
       onClick={openProduct}
       onKeyDown={(event) => {
-        if (!interactive) return;
+        if (!interactive || event.target !== event.currentTarget) return;
         if (event.key === "Enter" || event.key === " ") {
           event.preventDefault();
           openProduct();
@@ -237,17 +243,32 @@ export function ProductCard({
               {hasPreviousPrice ? formatCOP(product.previousPrice!) : "\u00a0"}
             </span>
           </div>
-          <button
-            type="button"
-            aria-label={`Agregar ${product.name} al carrito`}
-            onClick={(event) => {
-              event.stopPropagation();
-              addItem(product);
-            }}
-          >
-            <ShoppingCart />
-            Agregar al carrito
-          </button>
+          {product.stock > 0 ? (
+            <button
+              type="button"
+              className={styles.cardAction}
+              aria-label={`Agregar ${product.name} al carrito`}
+              onClick={(event) => {
+                event.stopPropagation();
+                addItem(product);
+              }}
+            >
+              <ShoppingCart aria-hidden="true" />
+              Agregar al carrito
+            </button>
+          ) : (
+            <a
+              className={styles.cardAction}
+              href={productAvailabilityUrl(product.name, product.slug)}
+              target="_blank"
+              rel="noreferrer"
+              onClick={(event) => event.stopPropagation()}
+              aria-label={`Enviar mensaje al vendedor por ${product.name}`}
+            >
+              <MessageCircle aria-hidden="true" />
+              Enviar mensaje al vendedor
+            </a>
+          )}
         </div>
       </div>
     </article>

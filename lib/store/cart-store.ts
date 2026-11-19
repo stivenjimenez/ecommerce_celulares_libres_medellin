@@ -22,6 +22,13 @@ export const useCartStore = create<CartState>()(
     (set, get) => ({
       items: [],
       addItem: (product, quantity = 1) => {
+        const existingQuantity =
+          get().items.find((item) => item.productId === product.id)?.quantity ??
+          0;
+        if (product.stock < existingQuantity + quantity) {
+          toast.error("No hay suficientes existencias disponibles.");
+          return;
+        }
         set((state) => {
           const existing = state.items.find(
             (item) => item.productId === product.id,

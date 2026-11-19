@@ -465,3 +465,19 @@
     width: 100%;
   }
 }
+
+.stockNotice {
+  grid-area: qty;
+  margin: 0;
+  color: #4d5e78;
+  font-weight: 700;
+}
+
+.primaryButton.whatsappAction {
+  white-space: normal;
+  text-align: center;
+}
+
+.whatsappAction svg {
+  flex-shrink: 0;
+}

@@ -92,6 +92,7 @@ export const products = pgTable(
     name: text("name").notNull(),
     description: text("description").notNull().default(""),
     price: integer("price").notNull().default(0),
+    stock: integer("stock").notNull().default(0),
     previousPrice: integer("previous_price"),
     categoryId: uuid("category_id")
       .notNull()
@@ -123,3 +124,28 @@ export const products = pgTable(
     index("products_deleted_at_idx").on(table.deletedAt),
   ],
 );
+
+export const orders = pgTable("orders", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  status: text("status").notNull().default("pending"),
+  paymentStatus: text("payment_status").notNull().default("pending"),
+  paymentProvider: text("payment_provider"),
+  customer: jsonb("customer").notNull(),
+  total: integer("total").notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .defaultNow()
+    .notNull(),
+});
+
+export const orderItems = pgTable("order_items", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  orderId: uuid("order_id")
+    .notNull()
+    .references(() => orders.id),
+  productId: uuid("product_id")
+    .notNull()
+    .references(() => products.id),
+  name: text("name").notNull(),
+  price: integer("price").notNull(),
+  quantity: integer("quantity").notNull(),
+});

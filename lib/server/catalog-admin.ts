@@ -17,7 +17,7 @@ function database() {
   return getDb();
 }
 
-type ProductInput = Partial<Product>;
+type ProductInput = Partial<Product> & { expectedStock?: number };
 
 export class SlugConflictError extends Error {
   constructor(message = "Ya existe un producto con ese slug.") {
@@ -155,6 +155,7 @@ function normalizeProduct(input: ProductInput, existing?: Product): Product {
     name,
     description,
     price,
+    stock: safeNumber(input.stock ?? existing?.stock),
     previousPrice,
     images: normalizedImages,
     category,
@@ -181,6 +182,7 @@ function mapProductRow(row: {
     name: row.product.name,
     description: row.product.description,
     price: row.product.price,
+    stock: row.product.stock,
     previousPrice: row.product.previousPrice ?? undefined,
     images: row.product.images,
     category: (row.category?.slug as ProductCategory) ?? FALLBACK_CATEGORY,
@@ -291,6 +293,13 @@ export async function getEditableCatalog(): Promise<{
 }
 
 export async function createProduct(input: ProductInput): Promise<Product> {
+  if (
+    input.stock !== undefined &&
+    (!Number.isInteger(input.stock) ||
+      input.stock < 0 ||
+      input.stock > 2147483647)
+  )
+    throw new Error("Las existencias deben ser un número entero válido.");
   const product = normalizeProduct(input);
 
   const slugConflict = await database().query.products.findFirst({
@@ -320,6 +329,7 @@ export async function createProduct(input: ProductInput): Promise<Product> {
       name: product.name,
       description: product.description,
       price: product.price,
+      stock: product.stock,
       previousPrice: product.previousPrice,
       categoryId,
       subcategoryId,
@@ -341,6 +351,13 @@ export async function createProduct(input: ProductInput): Promise<Product> {
 export async function updateProduct(
   input: ProductInput,
 ): Promise<Product | null> {
+  if (
+    input.stock !== undefined &&
+    (!Number.isInteger(input.stock) ||
+      input.stock < 0 ||
+      input.stock > 2147483647)
+  )
+    throw new Error("Las existencias deben ser un número entero válido.");
   const id = safeString(input.id);
   if (!id) return null;
 
@@ -371,13 +388,14 @@ export async function updateProduct(
     (image) => !updated.images.includes(image),
   );
 
-  await database()
+  const [saved] = await database()
     .update(products)
     .set({
       slug: updated.slug,
       name: updated.name,
       description: updated.description,
       price: updated.price,
+      ...(input.stock !== undefined ? { stock: updated.stock } : {}),
       previousPrice: updated.previousPrice,
       categoryId,
       subcategoryId,
@@ -388,7 +406,21 @@ export async function updateProduct(
       variants: updated.variants,
       attributes: updated.attributes,
     })
-    .where(and(eq(products.id, id), isNull(products.deletedAt)));
+    .where(
+      and(
+        eq(products.id, id),
+        isNull(products.deletedAt),
+        input.stock !== undefined
+          ? eq(products.stock, input.expectedStock ?? -1)
+          : undefined,
+      ),
+    )
+    .returning({ id: products.id });
+
+  if (!saved)
+    throw new Error(
+      "Las existencias cambiaron. Recarga el producto antes de guardarlo.",
+    );
 
   await deleteUnusedCloudinaryImages(removedImages, id);
 

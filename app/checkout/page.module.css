@@ -1,0 +1,163 @@
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  color: #32435d;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.backLink:hover {
+  text-decoration: underline;
+}
+
+.form {
+  position: static;
+}
+
+.fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  min-width: 0;
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.fields label {
+  display: grid;
+  gap: 6px;
+  color: #23324d;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.requiredMark {
+  color: #b53b3b;
+}
+
+.fields input,
+.fields select {
+  width: 100%;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid #dce3ee;
+  border-radius: 10px;
+  background: #fff;
+  color: #0f172a;
+  font: inherit;
+  font-weight: 400;
+}
+
+.fields input:focus-visible,
+.fields select:focus-visible {
+  outline: 2px solid #43df14;
+  outline-offset: 2px;
+}
+
+.fields select:disabled {
+  background: #f2f3f5;
+  color: #556581;
+}
+
+.fullWidth {
+  grid-column: 1 / -1;
+}
+
+.notice,
+.error {
+  margin: 16px 0 0;
+  color: #556581;
+  font-size: 14px;
+}
+
+.error {
+  color: #b53b3b;
+}
+
+.orderItems {
+  display: grid;
+  gap: 14px;
+  margin: 0 0 14px;
+  padding: 4px 0 0;
+  list-style: none;
+}
+
+.line {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.thumbnail {
+  position: relative;
+  display: block;
+  width: 52px;
+  height: 52px;
+  border: 1px solid #dce3ee;
+  border-radius: 10px;
+  background: #f4f7fa;
+}
+
+.productImage {
+  border-radius: inherit;
+  object-fit: cover;
+}
+
+.thumbnail .quantity {
+  position: absolute;
+  top: -6px;
+  right: -5px;
+  display: grid;
+  place-items: center;
+  min-width: 19px;
+  height: 19px;
+  padding-inline: 4px;
+  border: 1px solid #fff;
+  border-radius: 999px;
+  background: #12203b;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.line .productName {
+  color: #12203b;
+  overflow-wrap: anywhere;
+}
+
+.line strong {
+  white-space: nowrap;
+}
+
+.confirmation {
+  overflow-wrap: anywhere;
+}
+
+.confirmation svg {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 8px;
+  color: #168619;
+}
+
+.confirmation a {
+  max-width: 280px;
+}
+
+@media (max-width: 560px) {
+  .fields {
+    grid-template-columns: 1fr;
+  }
+
+  .form button {
+    height: auto;
+    min-height: 44px;
+    padding: 8px 12px;
+  }
+}
