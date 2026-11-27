@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 
 import homeStyles from "@/app/home.module.css";
 import { FacebookIcon, InstagramIcon } from "@/app/components/social-icons";
+import { getSiteLogoUrl } from "@/lib/media/public-assets";
 
 import { CartLink } from "./cart-link";
 import { SearchTrigger } from "./search-trigger";
@@ -31,7 +32,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
         <div className={homeStyles.headerInner}>
           <Link href="/" className={homeStyles.brand}>
             <Image
-              src="https://res.cloudinary.com/dwqyypb8q/image/upload/v1771952540/clm-logo_fyqsex.png"
+              src={getSiteLogoUrl()}
               alt="Celulares Libres Medellin"
               width={220}
               height={92}
@@ -67,7 +68,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
             <div>
               <Link href="/" aria-label="Ir al inicio">
                 <Image
-                  src="https://res.cloudinary.com/dwqyypb8q/image/upload/v1771952540/clm-logo_fyqsex.png"
+                  src={getSiteLogoUrl()}
                   alt="Celulares Libres Medellin"
                   width={200}
                   height={84}

@@ -9,6 +9,7 @@ import {
   type ProductCategory,
 } from "@/lib/domain/product";
 import { deleteUnusedCloudinaryImages } from "@/lib/server/cloudinary-admin";
+import { deleteUnusedR2Images } from "@/lib/server/r2-admin";
 import { getDb } from "@/lib/db/client";
 
 const FALLBACK_CATEGORY: ProductCategory = "sincategoria";
@@ -390,7 +391,10 @@ export async function updateProduct(
     })
     .where(and(eq(products.id, id), isNull(products.deletedAt)));
 
-  await deleteUnusedCloudinaryImages(removedImages, id);
+  await Promise.all([
+    deleteUnusedCloudinaryImages(removedImages, id),
+    deleteUnusedR2Images(removedImages, id),
+  ]);
 
   return getProductById(id);
 }
@@ -409,7 +413,10 @@ export async function deleteProduct(id: string): Promise<boolean> {
     .returning({ id: products.id });
 
   if (deleted) {
-    await deleteUnusedCloudinaryImages(current.images, cleanId);
+    await Promise.all([
+      deleteUnusedCloudinaryImages(current.images, cleanId),
+      deleteUnusedR2Images(current.images, cleanId),
+    ]);
   }
 
   return Boolean(deleted);

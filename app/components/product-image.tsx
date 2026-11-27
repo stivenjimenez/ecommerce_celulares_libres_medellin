@@ -3,6 +3,8 @@
 import { useState } from "react";
 import Image, { type ImageProps } from "next/image";
 
+import { getSiteLogoUrl } from "@/lib/media/public-assets";
+
 type Props = Omit<ImageProps, "src"> & {
   src: string;
   fallbackSrc?: string;
@@ -12,7 +14,7 @@ type Props = Omit<ImageProps, "src"> & {
 
 export function ProductImage({
   src,
-  fallbackSrc = "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771952540/clm-logo_fyqsex.png",
+  fallbackSrc = getSiteLogoUrl(),
   fallbackText = "Imagen no disponible",
   fallbackClassName,
   alt,

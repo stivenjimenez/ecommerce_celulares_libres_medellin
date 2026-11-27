@@ -33,6 +33,11 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!/.env.example
+
+# R2 migration backups and audit maps
+/scripts/backups/
+/scripts/**/*.backup.json
 
 # vercel
 .vercel

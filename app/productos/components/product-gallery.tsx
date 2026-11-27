@@ -3,6 +3,7 @@
 import { useState } from "react";
 
 import { ProductImage } from "@/app/components/product-image";
+import { getSiteLogoUrl } from "@/lib/media/public-assets";
 
 import detailStyles from "../product-detail.module.css";
 
@@ -11,8 +12,7 @@ type Props = {
   alt: string;
 };
 
-const fallbackImage =
-  "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771952540/clm-logo_fyqsex.png";
+const fallbackImage = getSiteLogoUrl();
 
 function normalizeImages(images: string[]) {
   const seen = new Set<string>();
