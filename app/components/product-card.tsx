@@ -6,13 +6,13 @@ import { useRouter } from "next/navigation";
 import { useMemo, useRef, useState, type CSSProperties } from "react";
 
 import { type Product } from "@/lib/domain/product";
+import { getSiteLogoUrl } from "@/lib/media/public-assets";
 import { useCartStore } from "@/lib/store/cart-store";
 import { formatCOP } from "@/lib/utils/format";
 
 import styles from "./product-card.module.css";
 
-const fallbackImage =
-  "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771952540/clm-logo_fyqsex.png";
+const fallbackImage = getSiteLogoUrl();
 const MAX_DOTS = 5;
 const MOBILE_BREAKPOINT = 760;
 const SWIPE_THRESHOLD_PX = 42;

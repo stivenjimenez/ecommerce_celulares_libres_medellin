@@ -82,7 +82,14 @@ type PendingUpload = {
   name: string;
 };
 
-type CloudinaryUploadConfig =
+type UploadConfig =
+  | {
+      mode: "r2";
+      method: "PUT";
+      uploadUrl: string;
+      publicUrl: string;
+      headers: Record<string, string>;
+    }
   | {
       mode: "signed";
       cloudName: string;
@@ -826,12 +833,16 @@ export default function AdminPage() {
     });
   }
 
-  async function getCloudinaryUploadConfig(): Promise<CloudinaryUploadConfig> {
-    const response = await fetch("/api/admin/uploads/sign");
+  async function getUploadConfig(file: File): Promise<UploadConfig> {
+    const query = new URLSearchParams({
+      filename: file.name,
+      contentType: file.type,
+    });
+    const response = await fetch(`/api/admin/uploads/sign?${query}`, {
+      cache: "no-store",
+    });
     const body = (await response.json().catch(() => null)) as
-      | (CloudinaryUploadConfig & { message?: string })
-      | { message?: string }
-      | null;
+      (UploadConfig & { message?: string }) | { message?: string } | null;
 
     if (!response.ok || !body || !("mode" in body)) {
       throw new Error(
@@ -842,11 +853,29 @@ export default function AdminPage() {
     return body;
   }
 
-  async function uploadFilesToCloudinary(files: File[]): Promise<string[]> {
-    const config = await getCloudinaryUploadConfig();
+  async function uploadFiles(files: File[]): Promise<string[]> {
+    const [firstFile] = files;
+    if (!firstFile) return [];
+    const firstConfig = await getUploadConfig(firstFile);
 
     return Promise.all(
-      files.map(async (file) => {
+      files.map(async (file, index) => {
+        const config =
+          firstConfig.mode === "r2" && index > 0
+            ? await getUploadConfig(file)
+            : firstConfig;
+        if (config.mode === "r2") {
+          const response = await fetch(config.uploadUrl, {
+            method: config.method,
+            headers: config.headers,
+            body: file,
+          }).catch(() => null);
+          if (!response?.ok) {
+            throw new Error(`No se pudo subir la imagen "${file.name}" a R2.`);
+          }
+          return config.publicUrl;
+        }
+
         const payload = new FormData();
         payload.append("file", file);
         payload.append("folder", config.folder);
@@ -1050,7 +1079,7 @@ export default function AdminPage() {
 
       let finalImages = imageOrder;
       if (pendingInOrder.length > 0) {
-        const uploadedUrls = await uploadFilesToCloudinary(pendingInOrder);
+        const uploadedUrls = await uploadFiles(pendingInOrder);
         let uploadIndex = 0;
         finalImages = imageOrder.map((image) => {
           if (pendingByTempUrl.has(image)) {

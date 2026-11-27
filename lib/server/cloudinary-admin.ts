@@ -4,6 +4,7 @@ import { and, isNull, sql } from "drizzle-orm";
 
 import { products } from "@/db/schema";
 import { getDb } from "@/lib/db/client";
+import { CLOUDINARY_LOGO_URL } from "@/lib/media/public-assets";
 
 type CloudinaryDestroyResponse = {
   result?: string;
@@ -36,22 +37,26 @@ function isTransformationSegment(segment: string): boolean {
   return /^[a-z]{1,3}_/.test(segment);
 }
 
-function extractPublicIdFromCloudinaryUrl(url: string): string | null {
+export function extractPublicIdFromCloudinaryUrl(
+  url: string,
+  expectedCloudName?: string,
+): string | null {
   try {
     const parsed = new URL(url);
     if (parsed.hostname !== "res.cloudinary.com") return null;
 
     const pathSegments = parsed.pathname.split("/").filter(Boolean);
-    if (pathSegments[0] !== cloudName) return null;
+    if (expectedCloudName && pathSegments[0] !== expectedCloudName) return null;
 
-    const uploadIndex = pathSegments.findIndex(
-      (segment, index) =>
-        segment === "upload" && pathSegments[index - 1] === "image",
-    );
-    if (uploadIndex === -1) return null;
+    if (pathSegments[1] !== "image" || pathSegments[2] !== "upload") {
+      return null;
+    }
 
-    let assetSegments = pathSegments.slice(uploadIndex + 1);
-    while (assetSegments[0] && isTransformationSegment(assetSegments[0])) {
+    let assetSegments = pathSegments.slice(3);
+    while (
+      assetSegments.length > 1 &&
+      isTransformationSegment(assetSegments[0])
+    ) {
       assetSegments = assetSegments.slice(1);
     }
 
@@ -60,6 +65,18 @@ function extractPublicIdFromCloudinaryUrl(url: string): string | null {
     }
 
     if (assetSegments.length === 0) return null;
+
+    assetSegments = assetSegments.map(decodeURIComponent);
+    if (
+      assetSegments.some(
+        (segment) =>
+          !segment ||
+          segment === "." ||
+          segment === ".." ||
+          segment.includes("/"),
+      )
+    )
+      return null;
 
     const lastSegment = assetSegments[assetSegments.length - 1] ?? "";
     const extensionIndex = lastSegment.lastIndexOf(".");
@@ -161,7 +178,16 @@ export async function deleteUnusedCloudinaryImages(
   imageUrls: string[],
   excludingProductId?: string,
 ): Promise<void> {
-  const uniqueUrls = [...new Set(imageUrls.filter(Boolean))];
+  const logoId = extractPublicIdFromCloudinaryUrl(
+    CLOUDINARY_LOGO_URL,
+    cloudName,
+  );
+  const publicIdsByUrl = new Map<string, string>();
+  for (const url of imageUrls) {
+    const publicId = extractPublicIdFromCloudinaryUrl(url, cloudName);
+    if (publicId && publicId !== logoId) publicIdsByUrl.set(url, publicId);
+  }
+  const uniqueUrls = [...publicIdsByUrl.keys()];
   if (uniqueUrls.length === 0) return;
 
   const stillReferenced = await getStillReferencedUrls(
@@ -170,7 +196,7 @@ export async function deleteUnusedCloudinaryImages(
   );
   const publicIdsToDelete = uniqueUrls
     .filter((url) => !stillReferenced.has(url))
-    .map(extractPublicIdFromCloudinaryUrl)
+    .map((url) => publicIdsByUrl.get(url))
     .filter((publicId): publicId is string => Boolean(publicId));
 
   if (publicIdsToDelete.length === 0) return;

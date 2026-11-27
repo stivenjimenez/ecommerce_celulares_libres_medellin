@@ -3,6 +3,8 @@ import { createHash } from "node:crypto";
 import { NextResponse } from "next/server";
 
 import { requireAdminAuth } from "@/lib/server/admin-auth";
+import { InvalidR2ImageTypeError, uploadFileToR2 } from "@/lib/server/r2-admin";
+import { isR2Configured } from "@/lib/server/r2-client";
 
 export const runtime = "nodejs";
 
@@ -87,15 +89,17 @@ export async function POST(request: Request) {
       );
     }
 
-    const urls = await Promise.all(
-      files.map((file) => uploadToCloudinary(file)),
-    );
+    const upload = isR2Configured() ? uploadFileToR2 : uploadToCloudinary;
+    const urls = await Promise.all(files.map(upload));
     return NextResponse.json({ urls }, { status: 201 });
   } catch (error) {
     const message =
       error instanceof Error
         ? error.message
         : "No se pudieron subir las imágenes.";
-    return NextResponse.json({ message }, { status: 500 });
+    return NextResponse.json(
+      { message },
+      { status: error instanceof InvalidR2ImageTypeError ? 400 : 500 },
+    );
   }
 }
