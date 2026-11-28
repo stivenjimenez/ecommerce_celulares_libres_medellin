@@ -14,7 +14,7 @@ type Props = Omit<ImageProps, "src"> & {
 
 export function ProductImage({
   src,
-  fallbackSrc = "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771952540/clm-logo_fyqsex.png",
+  fallbackSrc = "/clm-logo_fyqsex.png",
   fallbackText = "Imagen no disponible",
   fallbackClassName,
   alt,

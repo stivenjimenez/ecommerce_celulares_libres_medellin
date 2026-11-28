@@ -5,6 +5,8 @@ import { Manrope, Sora } from "next/font/google";
 import { Minus, Plus, Trash2 } from "lucide-react";
 
 import { CatalogImage } from "@/app/components/catalog-image";
+import { PRODUCT_IMAGE_FALLBACK } from "@/lib/domain/product-images";
+import { useProducts } from "@/lib/services/products";
 import { useCartStore } from "@/lib/store/cart-store";
 import { formatCOP } from "@/lib/utils/format";
 
@@ -14,6 +16,7 @@ const sora = Sora({ subsets: ["latin"], variable: "--font-display" });
 const manrope = Manrope({ subsets: ["latin"], variable: "--font-body" });
 export default function CarritoPage() {
   const items = useCartStore((state) => state.items);
+  const { data: catalog } = useProducts();
   const updateItemQuantity = useCartStore((state) => state.updateItemQuantity);
   const removeItem = useCartStore((state) => state.removeItem);
   const clearCart = useCartStore((state) => state.clearCart);
@@ -73,7 +76,11 @@ export default function CarritoPage() {
                     className={styles.itemImage}
                   >
                     <CatalogImage
-                      src={item.image}
+                      src={
+                        catalog?.find(
+                          (product) => product.id === item.productId,
+                        )?.images[0] ?? PRODUCT_IMAGE_FALLBACK
+                      }
                       alt={item.name}
                       fill
                       sizes="140px"

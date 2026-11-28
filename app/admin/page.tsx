@@ -38,6 +38,10 @@ import {
   type ProductCategory,
   type Subcategory,
 } from "@/lib/domain/product";
+import {
+  MAX_PRODUCT_IMAGE_BYTES,
+  PRODUCT_IMAGES_BUCKET,
+} from "@/lib/domain/product-images";
 import { getSupabaseBrowserClient } from "@/lib/supabase/client";
 
 import styles from "./page.module.css";
@@ -82,26 +86,16 @@ type PendingUpload = {
   name: string;
 };
 
-type CloudinaryUploadConfig =
-  | {
-      mode: "signed";
-      cloudName: string;
-      folder: string;
-      apiKey: string;
-      timestamp: string;
-      signature: string;
-    }
-  | {
-      mode: "unsigned";
-      cloudName: string;
-      folder: string;
-      uploadPreset: string;
-    };
+type SignedProductImage = {
+  path: string;
+  token: string;
+  publicUrl: string;
+  message?: string;
+};
 
 const MAX_SOURCE_IMAGE_BYTES = 25 * 1024 * 1024;
-const MAX_UPLOAD_IMAGE_BYTES = 10 * 1024 * 1024;
-const MAX_IMAGE_DIMENSION = 2000;
-const OUTPUT_IMAGE_QUALITIES = [0.82, 0.76, 0.7, 0.64, 0.58];
+const MAX_IMAGE_DIMENSION = 1600;
+const OUTPUT_IMAGE_QUALITIES = [0.8, 0.72, 0.64, 0.56];
 
 const initialForm: ProductForm = {
   id: "",
@@ -263,46 +257,20 @@ async function optimizeImageForUpload(file: File): Promise<File> {
 
   context.drawImage(image, 0, 0, targetWidth, targetHeight);
 
-  const candidateSettings = ["image/webp", "image/jpeg"].flatMap((type) =>
-    OUTPUT_IMAGE_QUALITIES.map((quality) => ({ type, quality })),
-  );
-  const candidates = await Promise.all(
-    candidateSettings.map(async ({ type, quality }) => ({
-      type,
-      blob: await canvasToBlob(canvas, type, quality),
-    })),
-  );
-
-  const selectedCandidate =
-    candidates.find(({ blob }) => blob.size <= MAX_UPLOAD_IMAGE_BYTES) ??
-    candidates.reduce<{ type: string; blob: Blob } | null>(
-      (smallest, candidate) => {
-        if (!smallest || candidate.blob.size < smallest.blob.size)
-          return candidate;
-        return smallest;
-      },
-      null,
-    );
-
-  if (!selectedCandidate) {
-    throw new Error(`No se pudo optimizar la imagen "${file.name}".`);
+  for (const quality of OUTPUT_IMAGE_QUALITIES) {
+    const blob = await canvasToBlob(canvas, "image/webp", quality);
+    if (blob.type !== "image/webp") {
+      throw new Error("Este navegador no puede preparar imágenes WebP.");
+    }
+    if (blob.size <= MAX_PRODUCT_IMAGE_BYTES) {
+      return new File([blob], renameFileExtension(file.name, ".webp"), {
+        type: blob.type,
+      });
+    }
   }
 
-  const { type, blob } = selectedCandidate;
-
-  if (blob.size > MAX_UPLOAD_IMAGE_BYTES) {
-    throw new Error(
-      `La imagen "${file.name}" supera el límite permitido de ${formatFileSize(MAX_UPLOAD_IMAGE_BYTES)} incluso después de optimizarla.`,
-    );
-  }
-
-  return new File(
-    [blob],
-    renameFileExtension(file.name, type === "image/webp" ? ".webp" : ".jpg"),
-    {
-      type: blob.type || type,
-      lastModified: Date.now(),
-    },
+  throw new Error(
+    `La imagen "${file.name}" supera ${formatFileSize(MAX_PRODUCT_IMAGE_BYTES)} después de optimizarla.`,
   );
 }
 
@@ -826,60 +794,39 @@ export default function AdminPage() {
     });
   }
 
-  async function getCloudinaryUploadConfig(): Promise<CloudinaryUploadConfig> {
-    const response = await fetch("/api/admin/uploads/sign");
-    const body = (await response.json().catch(() => null)) as
-      | (CloudinaryUploadConfig & { message?: string })
-      | { message?: string }
-      | null;
-
-    if (!response.ok || !body || !("mode" in body)) {
-      throw new Error(
-        body?.message || "No se pudo preparar la subida de imágenes.",
-      );
-    }
-
-    return body;
-  }
-
-  async function uploadFilesToCloudinary(files: File[]): Promise<string[]> {
-    const config = await getCloudinaryUploadConfig();
-
+  async function uploadProductImages(files: File[]): Promise<string[]> {
+    const bucket = getSupabaseBrowserClient().storage.from(
+      PRODUCT_IMAGES_BUCKET,
+    );
     return Promise.all(
       files.map(async (file) => {
-        const payload = new FormData();
-        payload.append("file", file);
-        payload.append("folder", config.folder);
+        const response = await fetch("/api/admin/uploads/sign", {
+          method: "POST",
+        });
+        const body = (await response
+          .json()
+          .catch(() => null)) as SignedProductImage | null;
 
-        if (config.mode === "signed") {
-          payload.append("timestamp", config.timestamp);
-          payload.append("api_key", config.apiKey);
-          payload.append("signature", config.signature);
-        } else {
-          payload.append("upload_preset", config.uploadPreset);
-        }
-
-        const response = await fetch(
-          `https://api.cloudinary.com/v1_1/${config.cloudName}/image/upload`,
-          {
-            method: "POST",
-            body: payload,
-          },
-        );
-
-        const body = (await response.json().catch(() => null)) as {
-          secure_url?: string;
-          error?: { message?: string };
-        } | null;
-
-        if (!response.ok || !body?.secure_url) {
+        if (!response.ok || !body?.token) {
           throw new Error(
-            body?.error?.message ||
-              `No se pudo subir la imagen "${file.name}" a Cloudinary.`,
+            body?.message || `No se pudo preparar la subida de "${file.name}".`,
           );
         }
 
-        return body.secure_url;
+        const { error } = await bucket.uploadToSignedUrl(
+          body.path,
+          body.token,
+          file,
+          {
+            contentType: file.type,
+            cacheControl: "31536000",
+          },
+        );
+
+        if (error) {
+          throw new Error(`No se pudo subir la imagen "${file.name}".`);
+        }
+        return body.publicUrl;
       }),
     );
   }
@@ -1050,7 +997,7 @@ export default function AdminPage() {
 
       let finalImages = imageOrder;
       if (pendingInOrder.length > 0) {
-        const uploadedUrls = await uploadFilesToCloudinary(pendingInOrder);
+        const uploadedUrls = await uploadProductImages(pendingInOrder);
         let uploadIndex = 0;
         finalImages = imageOrder.map((image) => {
           if (pendingByTempUrl.has(image)) {
@@ -2203,7 +2150,7 @@ export default function AdminPage() {
                 >
                   <strong>Arrastra una o varias imágenes aquí</strong>
                   <span>
-                    Se optimizan y se subirán directo a Cloudinary cuando
+                    Se convierten a WebP y se subirán a Supabase Storage cuando
                     presiones Guardar.
                   </span>
                 </div>

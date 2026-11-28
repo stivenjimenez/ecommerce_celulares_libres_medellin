@@ -11,8 +11,7 @@ import { formatCOP } from "@/lib/utils/format";
 import { CatalogImage } from "./catalog-image";
 import styles from "./product-card.module.css";
 
-const fallbackImage =
-  "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771952540/clm-logo_fyqsex.png";
+const fallbackImage = "/clm-logo_fyqsex.png";
 const MAX_DOTS = 5;
 const MOBILE_BREAKPOINT = 760;
 const SWIPE_THRESHOLD_PX = 42;
