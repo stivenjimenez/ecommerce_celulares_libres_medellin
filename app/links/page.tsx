@@ -90,6 +90,7 @@ export default function LinksPage() {
               width={220}
               height={92}
               priority
+              unoptimized
               className={styles.logo}
             />
           </div>

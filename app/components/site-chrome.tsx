@@ -37,6 +37,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
               height={92}
               className={homeStyles.brandLogo}
               priority
+              unoptimized
             />
           </Link>
 
@@ -71,6 +72,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
                   alt="Celulares Libres Medellin"
                   width={200}
                   height={84}
+                  unoptimized
                 />
               </Link>
               <p>
