@@ -8,7 +8,7 @@ import {
   type Product,
   type ProductCategory,
 } from "@/lib/domain/product";
-import { deleteUnusedCloudinaryImages } from "@/lib/server/cloudinary-admin";
+import { deleteUnusedProductImages } from "@/lib/server/product-image-storage";
 import { getDb } from "@/lib/db/client";
 
 const FALLBACK_CATEGORY: ProductCategory = "sincategoria";
@@ -340,6 +340,7 @@ export async function createProduct(input: ProductInput): Promise<Product> {
 
 export async function updateProduct(
   input: ProductInput,
+  cleanUpImages: boolean,
 ): Promise<Product | null> {
   const id = safeString(input.id);
   if (!id) return null;
@@ -390,12 +391,24 @@ export async function updateProduct(
     })
     .where(and(eq(products.id, id), isNull(products.deletedAt)));
 
-  await deleteUnusedCloudinaryImages(removedImages, id);
+  if (cleanUpImages) {
+    await deleteUnusedProductImages(removedImages).catch(logImageCleanupError);
+  }
 
   return getProductById(id);
 }
 
-export async function deleteProduct(id: string): Promise<boolean> {
+function logImageCleanupError(error: unknown) {
+  console.error(
+    "No se pudieron limpiar los archivos de producto sin referencias.",
+    error,
+  );
+}
+
+export async function deleteProduct(
+  id: string,
+  cleanUpImages: boolean,
+): Promise<boolean> {
   const cleanId = safeString(id);
   if (!cleanId) return false;
 
@@ -408,8 +421,8 @@ export async function deleteProduct(id: string): Promise<boolean> {
     .where(and(eq(products.id, cleanId), isNull(products.deletedAt)))
     .returning({ id: products.id });
 
-  if (deleted) {
-    await deleteUnusedCloudinaryImages(current.images, cleanId);
+  if (deleted && cleanUpImages) {
+    await deleteUnusedProductImages(current.images).catch(logImageCleanupError);
   }
 
   return Boolean(deleted);

@@ -11,8 +11,7 @@ type Props = {
   alt: string;
 };
 
-const fallbackImage =
-  "https://res.cloudinary.com/dwqyypb8q/image/upload/v1771952540/clm-logo_fyqsex.png";
+const fallbackImage = "/clm-logo_fyqsex.png";
 
 function normalizeImages(images: string[]) {
   const seen = new Set<string>();

@@ -50,19 +50,6 @@ function getAbsoluteUrl(value: string) {
   return new URL(normalizedValue, siteUrl).toString();
 }
 
-function getSocialImageUrl(value: string) {
-  const absoluteUrl = getAbsoluteUrl(value);
-
-  if (!absoluteUrl.includes("res.cloudinary.com")) {
-    return absoluteUrl;
-  }
-
-  return absoluteUrl.replace(
-    "/image/upload/",
-    "/image/upload/c_fill,g_auto,w_1200,h_630,q_auto,f_jpg/",
-  );
-}
-
 function buildProductDescription(product: Product) {
   const priceLabel = formatCOP(product.price);
   const description = normalizeDescription(product);
@@ -91,11 +78,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const productUrl = new URL(`/productos/${product.slug}`, siteUrl).toString();
   const socialImage = product.images[0]
-    ? getSocialImageUrl(product.images[0])
+    ? getAbsoluteUrl(product.images[0])
     : fallbackSocialImage;
   const description = buildProductDescription(product);
-  const imageType =
-    socialImage === fallbackSocialImage ? "image/png" : "image/jpeg";
 
   return {
     title: {
@@ -115,9 +100,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       images: [
         {
           url: socialImage,
-          width: 1200,
-          height: 630,
-          type: imageType,
           alt: product.name,
         },
       ],

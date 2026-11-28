@@ -8,6 +8,7 @@ import {
   updateProduct,
 } from "@/lib/server/catalog-admin";
 import { requireAdminAuth } from "@/lib/server/admin-auth";
+import { canManageProductImages } from "@/lib/server/product-image-storage";
 
 export async function GET() {
   const auth = await requireAdminAuth();
@@ -43,7 +44,10 @@ export async function PUT(request: Request) {
 
   try {
     const body = (await request.json()) as Record<string, unknown>;
-    const product = await updateProduct(body);
+    const product = await updateProduct(
+      body,
+      canManageProductImages(auth.user.id),
+    );
 
     if (!product) {
       return NextResponse.json(
@@ -81,7 +85,10 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ message: "Falta el id." }, { status: 400 });
     }
 
-    const deleted = await deleteProduct(body.id);
+    const deleted = await deleteProduct(
+      body.id,
+      canManageProductImages(auth.user.id),
+    );
 
     if (!deleted) {
       return NextResponse.json(

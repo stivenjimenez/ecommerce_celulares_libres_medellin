@@ -41,7 +41,6 @@ export const useCartStore = create<CartState>()(
             slug: product.slug,
             name: product.name,
             price: product.price,
-            image: product.images[0] ?? "/file.svg",
             quantity,
           };
 
