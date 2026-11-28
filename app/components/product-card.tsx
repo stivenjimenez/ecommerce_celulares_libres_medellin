@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { ChevronLeft, ChevronRight, ShoppingCart } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useMemo, useRef, useState, type CSSProperties } from "react";
@@ -9,6 +8,7 @@ import { type Product } from "@/lib/domain/product";
 import { useCartStore } from "@/lib/store/cart-store";
 import { formatCOP } from "@/lib/utils/format";
 
+import { CatalogImage } from "./catalog-image";
 import styles from "./product-card.module.css";
 
 const fallbackImage =
@@ -173,7 +173,7 @@ export function ProductCard({
         >
           {images.map((image, index) => (
             <div key={`${product.id}-${index}`} className={styles.slide}>
-              <Image
+              <CatalogImage
                 src={image}
                 alt={index === 0 ? product.name : ""}
                 fill
