@@ -1,10 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { Manrope, Sora } from "next/font/google";
 import { Minus, Plus, Trash2 } from "lucide-react";
 
+import { CatalogImage } from "@/app/components/catalog-image";
 import { useCartStore } from "@/lib/store/cart-store";
 import { formatCOP } from "@/lib/utils/format";
 
@@ -72,7 +72,7 @@ export default function CarritoPage() {
                     href={`/productos/${item.slug}`}
                     className={styles.itemImage}
                   >
-                    <Image
+                    <CatalogImage
                       src={item.image}
                       alt={item.name}
                       fill
