@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import Image, { type ImageProps } from "next/image";
+import type { ImageProps } from "next/image";
+
+import { CatalogImage } from "./catalog-image";
 
 type Props = Omit<ImageProps, "src"> & {
   src: string;
@@ -36,5 +38,7 @@ export function ProductImage({
     return <div className={fallbackClassName}>{fallbackText}</div>;
   }
 
-  return <Image {...props} src={currentSrc} alt={alt} onError={handleError} />;
+  return (
+    <CatalogImage {...props} src={currentSrc} alt={alt} onError={handleError} />
+  );
 }
